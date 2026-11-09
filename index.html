@@ -372,6 +372,20 @@ function installBundledMaps(){
  }
  if(changed)persist();
 }
+
+/* Preparar solo una vez los temarios incluidos para estudiar bloque a bloque.
+   No se borran conceptos, notas, ejemplos ni enlaces. */
+function prepareBundledReadability(){
+ let changed=false;
+ for(const d of state.docs){
+  if(!d.presetKey||d.readabilityPrepared)continue;
+  nodesAll(d.root,(n,parent,depth)=>{
+   if(depth===1&&n.children.length&&!n.collapsed){n.collapsed=true;changed=true}
+  });
+  d.readabilityPrepared=true;changed=true;
+ }
+ if(changed)persist();
+}
 function bundledForDoc(d){return BUNDLED_MAPS.find(x=>x.key===d.presetKey)||null}
 function renderSidebar(){
  const included=$('courseTreeList'),personal=$('personalTreeList');
@@ -409,6 +423,7 @@ function renderSidebar(){
  for(const d of presets)addChoice(d,included);
  for(const d of custom)addChoice(d,personal);
  if(!custom.length){const empty=document.createElement('div');empty.className='sidebar-empty';empty.textContent='Aquí aparecerán tus árboles nuevos o importados.';personal.appendChild(empty)}
+ if($('conceptSearch').value.trim())renderSearchResults();
 }
 function removeDoc(docId){
  const index=state.docs.findIndex(d=>d.id===docId);
@@ -440,11 +455,87 @@ function restoreHiddenPresets(){
  if(!state.hiddenPresets.length)return;
  const count=state.hiddenPresets.length,previous=state.activeId;
  state.hiddenPresets=[];
- installBundledMaps();
+ installBundledMaps();prepareBundledReadability();
  if(state.activeId!==previous){resetScene();render();frameCurrentTree()}
  else renderSidebar();
  if($('libraryDialog').open)libraryRender();
  toast(count===1?'Temario restaurado':count+' temarios restaurados');
+}
+
+/* Búsqueda transversal: título, definición, ejemplo y notas, sin distinción de tildes. */
+const searchNormalize=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+function findKnowledgeMatches(raw){
+ const terms=searchNormalize(raw).trim().split(/\s+/).filter(Boolean);
+ if(!terms.length)return [];
+ const matches=[];
+ for(const d of state.docs){
+  const trails=new Map();
+  nodesAll(d.root,(n,parent)=>{
+   const parentTrail=parent?trails.get(parent.id)||[]:[];
+   const trail=[...parentTrail,n.title];
+   trails.set(n.id,trail);
+   const body=searchNormalize([n.title,n.description,n.example,n.notes].join(' '));
+   if(terms.every(t=>body.includes(t))){
+    matches.push({docId:d.id,nodeId:n.id,title:n.title,trail:trail.slice(-4),docName:d.name,
+     description:n.description||n.example||n.notes||'',titleMatch:terms.every(t=>searchNormalize(n.title).includes(t)),
+     current:d.id===state.activeId});
+   }
+  });
+ }
+ matches.sort((a,b)=>Number(b.titleMatch)-Number(a.titleMatch)||Number(b.current)-Number(a.current)||a.title.localeCompare(b.title,'es'));
+ return matches;
+}
+function openSearchMatch(match){
+ if(state.activeId!==match.docId)switchDoc(match.docId);
+ const chain=ancestors(match.nodeId);
+ for(const nodeId of chain.slice(0,-1)){
+  const n=locate(nodeId)?.n;
+  if(n)n.collapsed=false;
+ }
+ selectedId=match.nodeId;
+ focusMode=false;focusId=null;
+ persist();render();
+ if(isCompact())scale=Math.max(.8,Math.min(1,(stage.clientWidth-32)/(W+80)));
+ centerOn(match.nodeId,true);
+ if(isMobileSidebar()){sidebarMobileOpen=false;syncSidebar()}
+ toast('Concepto localizado · '+match.title);
+}
+function renderSearchResults(){
+ const input=$('conceptSearch'),results=$('searchResults'),browse=$('sidebarBrowse'),raw=input.value.trim(),hint=$('searchHint');
+ $('clearSearchBtn').hidden=!raw;
+ if(!raw){
+  results.hidden=true;browse.hidden=false;results.replaceChildren();
+  hint.textContent='Busca en los ocho temarios y tus árboles.';
+  return;
+ }
+ const matches=findKnowledgeMatches(raw);
+ browse.hidden=true;results.hidden=false;results.replaceChildren();
+ hint.textContent=matches.length+' '+(matches.length===1?'coincidencia':'coincidencias')+' en la biblioteca.';
+ if(!matches.length){
+  const empty=document.createElement('div');empty.className='search-no-results';
+  empty.textContent='No hay resultados. Prueba otro término o una palabra más corta.';
+  results.appendChild(empty);return;
+ }
+ const summary=document.createElement('div');summary.className='search-summary';
+ summary.textContent=matches.length>40?'Mostrando 40 de '+matches.length+' resultados':matches.length+' resultados';
+ results.appendChild(summary);
+ for(const match of matches.slice(0,40)){
+  const btn=document.createElement('button');btn.className='search-result';btn.type='button';
+  btn.title='Ir a '+match.title+' en '+match.docName;
+  const symbol=document.createElement('span');symbol.className='search-result-mark';symbol.textContent='↳';
+  const body=document.createElement('span');body.className='search-result-content';
+  const title=document.createElement('span');title.className='search-result-title';title.textContent=match.title;
+  const where=document.createElement('span');where.className='search-result-where';
+  where.textContent=match.docName+' · '+match.trail.slice(0,-1).join(' › ');
+  body.append(title,where);
+  if(match.description.trim()){
+   const desc=document.createElement('span');desc.className='search-result-desc';
+   desc.textContent=match.description.trim();body.appendChild(desc);
+  }
+  btn.append(symbol,body);
+  btn.addEventListener('click',()=>openSearchMatch(match));
+  results.appendChild(btn);
+ }
 }
 function isMobileSidebar(){return window.matchMedia('(max-width:850px)').matches}
 function syncSidebar(){
@@ -721,6 +812,8 @@ $('treesToggle').addEventListener('click',toggleSidebar);
 $('closeSidebarBtn').addEventListener('click',closeSidebar);
 $('sidebarScrim').addEventListener('click',closeSidebar);
 $('sidebarManageBtn').addEventListener('click',()=>{libraryRender();openDialog('libraryDialog')});
+$('conceptSearch').addEventListener('input',renderSearchResults);
+$('clearSearchBtn').addEventListener('click',()=>{$('conceptSearch').value='';renderSearchResults();$('conceptSearch').focus()});
 $('restorePresetsBtn').addEventListener('click',restoreHiddenPresets);
 $('sidebarNewBtn').addEventListener('click',()=>{sidebarMobileOpen=false;syncSidebar();createNewDoc()});
 $('quickImportBtn').addEventListener('click',()=>$('fileInput').click());
@@ -739,10 +832,10 @@ $('layoutBtn').addEventListener('click',()=>{state.settings.treeLayout=isCompact
 stage.addEventListener('wheel',e=>{e.preventDefault();const rect=stage.getBoundingClientRect();if(isCompact()&&!e.ctrlKey&&!e.metaKey){if(e.shiftKey)tx-=e.deltaY*.82;else{ty-=e.deltaY*.82;tx-=e.deltaX*.82}move();return}zoom(e.deltaY<0?1.06:1/1.06,e.clientX-rect.left,e.clientY-rect.top)},{passive:false});
 stage.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;if(e.target.closest('.node,.zoom-controls,.hint-banner,.stage-tools'))return;scene.classList.remove('camera-smooth');drag={id:e.pointerId,x:e.clientX,y:e.clientY,tx,ty};stage.setPointerCapture(e.pointerId);stage.classList.add('dragging')});
 stage.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;tx=drag.tx+e.clientX-drag.x;ty=drag.ty+e.clientY-drag.y;move()});const stopDrag=e=>{if(!drag||drag.id!==e.pointerId)return;drag=null;stage.classList.remove('dragging');if(stage.hasPointerCapture(e.pointerId))stage.releasePointerCapture(e.pointerId)};stage.addEventListener('pointerup',stopDrag);stage.addEventListener('pointercancel',stopDrag);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&linkSource){linkSource=null;$('hintBanner').hidden=true;render();return}if(e.target.closest('input,textarea,[contenteditable="true"]')||document.querySelector('dialog[open]'))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();historyMove(e.shiftKey?'redo':'undo')}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();historyMove('redo')}});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSidebar();$('conceptSearch').focus();$('conceptSearch').select();return}if(e.key==='Escape'&&e.target===$('conceptSearch')&&$('conceptSearch').value){$('conceptSearch').value='';renderSearchResults();return}if(e.key==='Escape'&&linkSource){linkSource=null;$('hintBanner').hidden=true;render();return}if(e.target.closest('input,textarea,[contenteditable="true"]')||document.querySelector('dialog[open]'))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();historyMove(e.shiftKey?'redo':'undo')}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();historyMove('redo')}});
 window.addEventListener('resize',()=>{syncSidebar();render();frameCurrentTree()});
-window.BIFURCA_DEBUG={presets:()=>BUNDLED_MAPS.map(x=>({key:x.key,label:x.label,root:x.tree.title})),state:()=>clone(state),tree:()=>clone(doc().root),links:()=>clone(doc().links),coords:()=>[...layout.entries()].map(([id,p])=>({id,...p})),view:()=>({scale,tx,ty}),currentDoc:()=>doc().name,audio:()=>({enabled:audioPrefs.enabled,volume:audioPrefs.volume,context:audioCtx?.state||'uninitialized',scheduled:{...soundCounts}})};
-loadSound();readState();installBundledMaps();themeRender();syncSidebar();render();requestAnimationFrame(()=>frameCurrentTree());
+window.BIFURCA_DEBUG={search:(q)=>findKnowledgeMatches(q).map(m=>({tree:m.docName,title:m.title,path:m.trail})),presets:()=>BUNDLED_MAPS.map(x=>({key:x.key,label:x.label,root:x.tree.title})),state:()=>clone(state),tree:()=>clone(doc().root),links:()=>clone(doc().links),coords:()=>[...layout.entries()].map(([id,p])=>({id,...p})),view:()=>({scale,tx,ty}),currentDoc:()=>doc().name,audio:()=>({enabled:audioPrefs.enabled,volume:audioPrefs.volume,context:audioCtx?.state||'uninitialized',scheduled:{...soundCounts}})};
+loadSound();readState();installBundledMaps();prepareBundledReadability();themeRender();syncSidebar();render();requestAnimationFrame(()=>frameCurrentTree());
 })();
 </script>
 </body>
