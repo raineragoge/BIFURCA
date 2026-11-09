@@ -13,7 +13,10 @@ La **v0.7 muestra automáticamente ocho mapas de conocimiento**, sin importar ar
 - En ordenador, la biblioteca queda abierta a la izquierda. El botón **Árboles** permite plegarla y volver a abrirla.
 - En móvil, toca **Árboles** para abrirla como panel lateral y selecciona un temario.
 - El botón **Importar JSON** está destacado en la barra superior y repetido al pie del panel. Sirve para **añadir otros mapas tuyos**; no es necesario para los ocho incluidos.
-- **Organizar biblioteca** permite renombrar, duplicar y eliminar tus árboles.
+- Cada árbol tiene un **icono de papelera** a la derecha en la biblioteca, tanto en ordenador como en móvil. Se pide confirmación antes de borrarlo.
+- Si eliminas un **temario incluido**, se oculta y no reaparece al recargar. Puedes recuperarlo con **Restaurar temarios ocultos** (recupera la versión original, no sus modificaciones anteriores).
+- Si eliminas un **árbol personal**, se elimina de este navegador. **Exporta primero un JSON** si quieres guardar una copia; no existe papelera para estos árboles.
+- **Organizar biblioteca** también permite renombrar, duplicar y eliminar tus árboles.
 
 Los temarios forman parte del archivo `index.html` y no necesitan conexión de red adicional para cargarse. Los ficheros de `temarios/` siguen disponibles como copias independientes y para compartir.
 
@@ -44,7 +47,7 @@ La primera línea será el nodo raíz. Cada nivel de sangría crea subramas. Tam
 
 La sangría representa una relación jerárquica. Para relaciones transversales, usa el botón de **conectar nodos**; no es necesario forzar una clasificación incorrecta.
 
-## Funcionalidades (v0.7)
+## Funcionalidades (v0.8)
 
 - Árboles de decisiones con notas y estados semánticos: positivo, negativo, incierto y neutral.
 - Mapas de conocimientos con título, **explicación**, **ejemplo práctico** y **notas personales** por concepto.
@@ -64,10 +67,10 @@ Los datos se guardan automáticamente en el almacenamiento local del navegador (
 
 ## Verificación
 
-Se ha comprobado la sintaxis JavaScript y la incorporación de los ocho mapas, su apertura inicial, la lectura de datos anteriores, la prevención de duplicados, la conservación de preferencias y la persistencia al recargar. No se ha realizado una prueba completa de interfaz en navegador ni un despliegue web validado.
+Se ha comprobado la sintaxis JavaScript y, mediante pruebas automatizadas de lógica, la confirmación y cancelación del borrado, la eliminación de árboles activos e inactivos, el caso del último árbol, la conservación de datos personales, la restauración de temarios y la persistencia tras recargar. No se ha realizado una prueba visual completa del flujo en navegador.
 
 ## Despliegue
 
 Puede publicarse desde la rama `main` y la carpeta raíz mediante GitHub Pages, tras activar Pages en la configuración del repositorio, o mediante Cloudflare Pages. El punto de entrada es `index.html`.
 
-**Estado:** v0.7 · biblioteca visible y temarios integrados · sin backend.
+**Estado:** v0.8 · biblioteca visible, eliminación de árboles y restauración de temarios · sin backend.
