@@ -568,7 +568,7 @@ function frameCurrentTree(){
  if(isCompact()){
   const root=layout.get(doc().root.id);if(!root)return;
   scale=Math.max(.76,Math.min(1,(stage.clientWidth-42)/(W+110)));
-  tx=stage.clientWidth/2-root.x*scale;
+  tx=stage.clientWidth*(stage.clientWidth<650?.43:.36)-root.x*scale;
   ty=Math.max(25,Math.min(88,stage.clientHeight*.12))-root.y*scale;
   move(false);return;
  }
@@ -636,7 +636,7 @@ function springBirth(parentId,newNodes,{onFinish}={}){
  }else grow();
  return true;
 }
-function historyMove(direction){const d=doc(),h=getHistory(),from=direction==='undo'?h.past:h.future,to=direction==='undo'?h.future:h.past;if(!from.length)return;to.push(JSON.stringify({root:d.root,links:d.links}));const snapshot=JSON.parse(from.pop());d.root=snapshot.root;d.links=snapshot.links;d.updatedAt=Date.now();selectedId=null;if(focusMode)focusId=d.root.id;linkSource=null;persist();render();fit(true);sound(direction);toast(direction==='undo'?'Cambio deshecho':'Cambio rehecho')}
+function historyMove(direction){const d=doc(),h=getHistory(),from=direction==='undo'?h.past:h.future,to=direction==='undo'?h.future:h.past;if(!from.length)return;to.push(JSON.stringify({root:d.root,links:d.links}));const snapshot=JSON.parse(from.pop());d.root=snapshot.root;d.links=snapshot.links;d.updatedAt=Date.now();selectedId=null;if(focusMode)focusId=d.root.id;linkSource=null;persist();render();frameCurrentTree();sound(direction);toast(direction==='undo'?'Cambio deshecho':'Cambio rehecho')}
 function locate(nodeId,n=doc().root,parent=null){if(n.id===nodeId)return {n,parent};for(const c of n.children){const f=locate(nodeId,c,n);if(f)return f}return null}
 function ancestors(nodeId){let path=[];function walk(n){path.push(n.id);if(n.id===nodeId)return true;for(const c of n.children)if(walk(c))return true;path.pop();return false}walk(doc().root);return path}
 function descendants(nodeId){const n=locate(nodeId)?.n,ids=new Set();if(n)nodesAll(n,x=>ids.add(x.id));return ids}
@@ -649,7 +649,7 @@ function compute(){
  layout.clear();
  if(isCompact()){
   const mobile=window.matchMedia('(max-width:750px)').matches;
-  const step=mobile?55:88,start=mobile?210:294,limit=mobile?5:6,gap=mobile?24:31;
+  const step=mobile?44:88,start=mobile?210:294,limit=mobile?5:6,gap=mobile?24:31;
   let yy=TOP;
   function place(n,depth){
    const h=heightOf(n);
@@ -748,7 +748,7 @@ function createDocumentFromForm(){
  if(state.docs.length>=149){alert('La biblioteca tiene demasiados árboles. Exporta y elimina alguno antes de crear otro.');return}
  const d=newDoc(name,kind);if(parsed)d.root=parsed;
  state.docs.unshift(d);state.activeId=d.id;selectedId=null;focusMode=false;focusId=null;linkSource=null;
- $('hintBanner').hidden=true;resetScene();persist();closeDialog('newDocDialog');render();fit(true);
+ $('hintBanner').hidden=true;resetScene();persist();closeDialog('newDocDialog');render();frameCurrentTree();
  if(!parsed)openEdit(d.root.id);else toast('Mapa de conocimiento creado');
 }
 function resetScene(){cards.forEach(el=>el.remove());cards.clear();treePaths.forEach(el=>el.remove());treePaths.clear();crossPaths.forEach(el=>el.remove());crossPaths.clear();oldLayout=new Map()}
@@ -772,7 +772,7 @@ const learningTemplates=[
  t=>'¿Qué debería comprender antes de estudiar "'+t+'"?'
 ];
 function quickIdeas(){const node=aiScope(),already=new Set(node.children.map(c=>c.title.toLowerCase().trim()));const templates=doc().kind==='knowledge'?learningTemplates:questionTemplates;return templates.map(fn=>fn(node.title)).filter(t=>!already.has(t.toLowerCase())).slice(0,5)}
-function aiRender(){if(!locate(aiNodeId))aiNodeId=doc().root.id;const n=aiScope();$('aiHeading').textContent=doc().kind==='knowledge'?'Ampliar conocimientos':'Explorar posibilidades';$('aiContext').textContent=(doc().kind==='knowledge'?'Concepto seleccionado: ':'Rama seleccionada: ')+n.title;const container=$('quickSuggestions');container.replaceChildren();for(const suggestion of quickIdeas()){const item=document.createElement('div');item.className='suggestion';const s=document.createElement('span');s.textContent=suggestion;const b=document.createElement('button');b.textContent='+ Rama';b.addEventListener('click',()=>{const parentId=aiNodeId;closeDialog('aiDialog');springBirth(parentId,[makeNode(suggestion)],{onFinish:()=>{fit(true);toast('Nueva posibilidad añadida')}})});item.append(s,b);container.appendChild(item)}}
+function aiRender(){if(!locate(aiNodeId))aiNodeId=doc().root.id;const n=aiScope();$('aiHeading').textContent=doc().kind==='knowledge'?'Ampliar conocimientos':'Explorar posibilidades';$('aiContext').textContent=(doc().kind==='knowledge'?'Concepto seleccionado: ':'Rama seleccionada: ')+n.title;const container=$('quickSuggestions');container.replaceChildren();for(const suggestion of quickIdeas()){const item=document.createElement('div');item.className='suggestion';const s=document.createElement('span');s.textContent=suggestion;const b=document.createElement('button');b.textContent='+ Rama';b.addEventListener('click',()=>{const parentId=aiNodeId;closeDialog('aiDialog');springBirth(parentId,[makeNode(suggestion)],{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast('Nueva posibilidad añadida')}})});item.append(s,b);container.appendChild(item)}}
 function promptText(){
  const path=ancestors(aiNodeId).map(x=>locate(x)?.n.title).filter(Boolean).join(' → '),n=aiScope();
  if(doc().kind==='knowledge'){
@@ -781,7 +781,7 @@ function promptText(){
  return 'Estoy construyendo un árbol de posibilidades llamado "'+doc().name+'". Quiero explorar las consecuencias de una rama, sin predicciones inventadas ni porcentajes.\n\nCamino actual: '+path+'\nIdea: '+n.title+'\nNotas: '+(n.notes||'(sin notas)')+'\nRamas existentes: '+(n.children.map(c=>c.title).join('; ')||'(ninguna)')+'\n\nPropón entre 4 y 7 nuevas alternativas, consecuencias o preguntas relevantes, diversas y específicas. Una por línea, sin explicaciones adicionales ni introducción. No repitas ramas ya existentes.';
 }
 async function copyPrompt(){const value=promptText();try{await navigator.clipboard.writeText(value);toast('Prompt copiado')}catch(e){const area=document.createElement('textarea');area.value=value;document.body.appendChild(area);area.select();const okay=document.execCommand('copy');area.remove();toast(okay?'Prompt copiado':'No se pudo copiar: selecciona el texto manualmente')}}
-function pasteIdeas(){const raw=$('aiResponse').value.trim();const lines=raw.split(/\r?\n/).map(s=>s.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,'').trim()).filter(s=>s.length>=3).slice(0,15),existing=new Set(aiScope().children.map(c=>c.title.toLowerCase()));const clean=[...new Set(lines)].filter(s=>!existing.has(s.toLowerCase())).map(s=>s.slice(0,220));if(!clean.length){toast('Pega al menos una idea nueva por línea');return}const parentId=aiNodeId;const added=clean.map(t=>makeNode(t));$('aiResponse').value='';closeDialog('aiDialog');springBirth(parentId,added,{onFinish:()=>{fit(true);toast(clean.length+' ramas añadidas')}})}
+function pasteIdeas(){const raw=$('aiResponse').value.trim();const lines=raw.split(/\r?\n/).map(s=>s.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,'').trim()).filter(s=>s.length>=3).slice(0,15),existing=new Set(aiScope().children.map(c=>c.title.toLowerCase()));const clean=[...new Set(lines)].filter(s=>!existing.has(s.toLowerCase())).map(s=>s.slice(0,220));if(!clean.length){toast('Pega al menos una idea nueva por línea');return}const parentId=aiNodeId;const added=clean.map(t=>makeNode(t));$('aiResponse').value='';closeDialog('aiDialog');springBirth(parentId,added,{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast(clean.length+' ramas añadidas')}})}
 $('editForm').addEventListener('submit',e=>{
  e.preventDefault();
  const title=$('editTitle').value.trim(),notes=$('editNote').value.trim(),description=$('editDescription').value.trim(),example=$('editExample').value.trim();
@@ -794,7 +794,7 @@ $('editForm').addEventListener('submit',e=>{
    editDraft=null;
    closeDialog('editDialog');
    springBirth(parentId,[added],{onFinish:()=>{
-     if(layout.size<9)fit(true);else centerOn(added.id,true);
+     if(isCompact()||layout.size>=9)centerOn(added.id,true);else fit(true);
      toast('Nueva rama creada');
    }});
  }else{
