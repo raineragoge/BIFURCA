@@ -1,0 +1,79 @@
+Python, SQL y herramientas de datos
+
+Herramientas de programación y datos
+  Explicación: Lenguajes y bibliotecas utilizados en ejercicios y notebooks.
+  ↳ Python
+    Explicación: Lenguaje para automatizar, analizar y crear modelos.
+    ↳ Variables y tipos de datos
+      Explicación: Guardan valores numéricos, texto, booleanos y estructuras.
+    ↳ Listas y diccionarios
+      Explicación: Organizan datos secuenciales y por clave.
+      Ejemplo: Documento con título y año.
+    ↳ Condicionales y bucles
+      Explicación: Controlan decisiones y repeticiones en programas.
+    ↳ Funciones
+      Explicación: Agrupan lógica que puede reutilizarse.
+    ↳ Módulos y paquetes
+      Explicación: Permiten usar bibliotecas de terceros.
+    ↳ random y randint
+      Explicación: Generan valores pseudoaleatorios.
+      Ejemplo: Simular una tirada de dado.
+    ↳ Semilla aleatoria
+      Explicación: Facilita repetir resultados de una simulación.
+      Ejemplo: random.seed(42).
+  ↳ Análisis con Python
+    Explicación: Manipulación y exploración de datos.
+    ↳ NumPy
+      Explicación: Trabajar con arrays y operaciones numéricas.
+    ↳ Pandas
+      Explicación: DataFrames, limpieza y análisis tabular.
+      ↳ DataFrame
+        Explicación: Tabla en memoria con filas y columnas.
+      ↳ Duplicados y ausentes
+        Explicación: Identificar y corregir registros problemáticos.
+      ↳ Estadísticos descriptivos
+        Explicación: Media, mediana y resúmenes.
+    ↳ Matplotlib
+      Explicación: Generar gráficos para explorar resultados.
+    ↳ Scikit-learn
+      Explicación: Algoritmos, preprocesado y evaluación de ML.
+  ↳ SQL
+    Explicación: Consultas estructuradas sobre bases de datos relacionales.
+    ↳ SELECT y FROM
+      Explicación: Escoger columnas desde una tabla.
+    ↳ WHERE
+      Explicación: Filtrar registros según condiciones.
+    ↳ ORDER BY y LIMIT
+      Explicación: Ordenar y acotar resultados.
+    ↳ GROUP BY
+      Explicación: Resumir datos en grupos con agregaciones.
+    ↳ JOIN
+      Explicación: Combinar tablas por una relación.
+    ↳ INSERT, UPDATE y DELETE
+      Explicación: Crear, modificar y eliminar registros.
+  ↳ Entornos de trabajo
+    Explicación: Lugares donde ejecutar código y análisis.
+    ↳ Jupyter y Google Colab
+      Explicación: Ejecutar y documentar notebooks por celdas.
+    ↳ Celdas de explicación
+      Explicación: Documentar el objetivo, los pasos y la interpretación.
+    ↳ Archivo .py
+      Explicación: Script Python ejecutable fuera del notebook.
+    ↳ Linux y Bash
+      Explicación: Comandos y scripts para archivos y automatización.
+    ↳ VS Code y terminal
+      Explicación: Entorno de edición y ejecución.
+  ↳ Llevar modelos fuera del notebook
+    Explicación: Distinción entre código e información aprendida.
+    ↳ Código de inferencia
+      Explicación: Script que carga datos y ejecuta predicciones.
+    ↳ Modelo entrenado
+      Explicación: Parámetros ajustados que deben guardarse si se reutilizan.
+    ↳ MLflow · introducción
+      Explicación: Experimentos, métricas y artefactos de modelos; nociones generales.
+
+Conexiones entre ramas:
+• Pandas ↔ DataFrame
+• Scikit-learn ↔ Modelo entrenado
+• Semilla aleatoria ↔ random y randint
+• MLflow · introducción ↔ Modelo entrenado

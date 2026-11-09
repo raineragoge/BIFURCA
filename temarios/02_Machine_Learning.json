@@ -1,0 +1,706 @@
+{
+  "format": "bifurca-v4",
+  "kind": "knowledge",
+  "name": "Machine Learning · Temario",
+  "tree": {
+    "id": "n1c6eb1acc27a4e62a0a7",
+    "title": "Machine Learning",
+    "notes": "",
+    "description": "Modelos que aprenden patrones de datos para predecir o explorar estructuras.",
+    "example": "",
+    "status": "neutral",
+    "collapsed": false,
+    "expanded": false,
+    "children": [
+      {
+        "id": "na43b79f6aaf94d2bb6c0",
+        "title": "Tipos de aprendizaje",
+        "notes": "",
+        "description": "Se diferencian por la información disponible y el objetivo.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "na34da848e8844147a177",
+            "title": "Supervisado",
+            "notes": "",
+            "description": "Se entrena con entradas y respuestas conocidas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "n899caa328a7045b08dd3",
+                "title": "Clasificación",
+                "notes": "",
+                "description": "Predice una clase o etiqueta.",
+                "example": "Spam frente a correo legítimo.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": [
+                  {
+                    "id": "nc4e773756b4b45fbb3fc",
+                    "title": "Binaria",
+                    "notes": "",
+                    "description": "Dos clases de salida.",
+                    "example": "Abandona o no abandona.",
+                    "status": "neutral",
+                    "collapsed": false,
+                    "expanded": false,
+                    "children": []
+                  },
+                  {
+                    "id": "n081a4a48bbad461792e8",
+                    "title": "Multiclase",
+                    "notes": "",
+                    "description": "Una clase entre varias.",
+                    "example": "Clasificar un texto por idioma.",
+                    "status": "neutral",
+                    "collapsed": false,
+                    "expanded": false,
+                    "children": []
+                  },
+                  {
+                    "id": "n48d72db4da414a0391b7",
+                    "title": "Multietiqueta",
+                    "notes": "",
+                    "description": "Varias etiquetas para un mismo ejemplo.",
+                    "example": "Foto con coche y persona.",
+                    "status": "neutral",
+                    "collapsed": false,
+                    "expanded": false,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "n5b0f45e3106d43c699ca",
+                "title": "Regresión",
+                "notes": "",
+                "description": "Predice un número continuo.",
+                "example": "Estimar el consumo eléctrico.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "ncb62f33995934ab9ac6e",
+            "title": "No supervisado",
+            "notes": "",
+            "description": "Descubre estructura sin etiquetas objetivo.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "na926e4a6956a4bb190cc",
+                "title": "Clustering",
+                "notes": "",
+                "description": "Agrupa observaciones parecidas.",
+                "example": "Segmentar clientes por comportamiento.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "ndc9d7ab062674fad869a",
+                "title": "Detección de anomalías",
+                "notes": "",
+                "description": "Identifica observaciones poco habituales.",
+                "example": "Detectar operaciones sospechosas.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n10c2efcbdcfc41c4a339",
+                "title": "Reducción de dimensionalidad",
+                "notes": "",
+                "description": "Resume variables preservando información relevante.",
+                "example": "Visualizar muchos atributos en 2 dimensiones.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "n6870e425e66842f1ba73",
+        "title": "Modelos supervisados",
+        "notes": "",
+        "description": "Algoritmos para clasificación o regresión.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n84e5047fd21c4927a701",
+            "title": "Regresión lineal",
+            "notes": "",
+            "description": "Ajusta una relación lineal para predecir una cantidad.",
+            "example": "Estimar precio a partir de metros cuadrados.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nc2a6d5f8850e41809529",
+            "title": "Regresión logística",
+            "notes": "",
+            "description": "Usa una función logística para clasificar probabilísticamente.",
+            "example": "Probabilidad de aprobar un examen.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n20423aade20b428998d1",
+            "title": "KNN",
+            "notes": "",
+            "description": "Predice usando ejemplos cercanos según una distancia.",
+            "example": "Clasificar una flor por sus vecinos.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n8f37a4779dd943fb8a83",
+            "title": "Árbol de decisión",
+            "notes": "",
+            "description": "Aplica divisiones sucesivas mediante reglas.",
+            "example": "Decidir a partir de condiciones.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne7516be451184184b7a0",
+            "title": "Random Forest",
+            "notes": "",
+            "description": "Combina muchos árboles para reducir la variabilidad.",
+            "example": "Clasificar clientes con un conjunto de árboles.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n91b23859879e4388b30f",
+            "title": "SVM",
+            "notes": "",
+            "description": "Busca un hiperplano separador con margen amplio.",
+            "example": "Separar dos clases de datos.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "n5837c4f5d2f24fa883ca",
+                "title": "Vectores de soporte",
+                "notes": "",
+                "description": "Observaciones que determinan la frontera.",
+                "example": "Puntos próximos al margen.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n1c26baf9967d44f28763",
+                "title": "Margen e hiperplano",
+                "notes": "",
+                "description": "Frontera de decisión y separación respecto a datos cercanos.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "nd943492e859945cf939a",
+                "title": "Parámetro C",
+                "notes": "",
+                "description": "Ajusta penalización por errores frente a margen.",
+                "example": "C alto penaliza más ciertas violaciones.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n4e16fe48751e490b9fc0",
+                "title": "Kernel trick",
+                "notes": "",
+                "description": "Permite separaciones no lineales sin transformar explícitamente todas las variables.",
+                "example": "Kernel RBF.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "n67abfc8f6fd847e1bd07",
+        "title": "Modelos no supervisados",
+        "notes": "",
+        "description": "Métodos para descubrir grupos, estructura o rarezas.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n5cfcb72f522b40c7aa13",
+            "title": "K-Means",
+            "notes": "",
+            "description": "Forma K grupos alrededor de centroides.",
+            "example": "Crear tres segmentos de clientes.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n8472e8ed9551467fb545",
+            "title": "DBSCAN",
+            "notes": "",
+            "description": "Agrupa zonas densas y puede marcar puntos como ruido.",
+            "example": "Encontrar grupos de ubicaciones.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nfab1afa306cc4572ac18",
+            "title": "Isolation Forest",
+            "notes": "",
+            "description": "Detecta anomalías aislándolas con árboles aleatorios.",
+            "example": "Señalar transacciones atípicas.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n2746f21155334c8da4c8",
+            "title": "PCA",
+            "notes": "",
+            "description": "Proyecta datos en componentes que explican varianza.",
+            "example": "Reducir 15 variables a 2 componentes.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n6a8c0a7c9e7f4a1f8be2",
+        "title": "Flujo de trabajo ML",
+        "notes": "",
+        "description": "Pasos para obtener resultados evaluables y utilizables.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n1e3da8eee35543cf831b",
+            "title": "Definir problema",
+            "notes": "",
+            "description": "Concretar objetivo, variable objetivo y criterio de éxito.",
+            "example": "Predecir abandono de clientes.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ncdcbba38ebfa433e970c",
+            "title": "EDA · exploración",
+            "notes": "",
+            "description": "Inspeccionar distribuciones, nulos y patrones.",
+            "example": "Histograma de edades.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n2bd7242f64da4ecc8ac8",
+            "title": "Limpieza de datos",
+            "notes": "",
+            "description": "Corregir ausentes, duplicados y valores anómalos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "n972e03146ded4fd094c7",
+                "title": "Imputación por mediana",
+                "notes": "",
+                "description": "Sustituye ausentes con una estadística robusta.",
+                "example": "Completar edades con la mediana.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n090a35a827ae4bd39875",
+                "title": "Valores atípicos",
+                "notes": "",
+                "description": "Observaciones alejadas que requieren revisión.",
+                "example": "Edad imposible en un registro.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "na6a6a05accdb4f29b361",
+            "title": "Preprocesamiento",
+            "notes": "",
+            "description": "Transformar variables según necesidades del modelo.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "nc17aaa05a3f54a6cb775",
+                "title": "StandardScaler",
+                "notes": "",
+                "description": "Centra y escala variables numéricas.",
+                "example": "Escalar metros y salarios para KNN.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "nc3be21880c15414a846e",
+                "title": "Sensibilidad a la escala",
+                "notes": "",
+                "description": "KNN, SVM y K-Means suelen depender de distancias; árboles no tanto.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "nddd4333d2a8c4e989d2e",
+            "title": "División train/test",
+            "notes": "",
+            "description": "Reservar datos sin utilizar para evaluar generalización.",
+            "example": "Separación 80/20.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "n70fef8f114ef438285f2",
+                "title": "Estratificación",
+                "notes": "",
+                "description": "Mantiene proporciones de clases entre subconjuntos.",
+                "example": "Conservar frecuencia de abandonos.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n93a87b9d693247e2a52f",
+                "title": "Data leakage",
+                "notes": "",
+                "description": "Información indebida del test llega al entrenamiento.",
+                "example": "Escalar antes de separar los datos.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "ncf165fb0b9d3487f83f3",
+            "title": "Entrenar modelo",
+            "notes": "",
+            "description": "Ajustar parámetros con datos de entrenamiento.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nec1e62fac3f2489eb20b",
+            "title": "Evaluar y ajustar",
+            "notes": "",
+            "description": "Medir el resultado y comparar alternativas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "ncdf48dec87af4e7f91d0",
+                "title": "Validación cruzada · K-Fold",
+                "notes": "",
+                "description": "Repite entrenamiento y validación en distintos pliegues.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n2c78cb2f429e4d209747",
+                "title": "GridSearchCV",
+                "notes": "",
+                "description": "Prueba una cuadrícula de hiperparámetros.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n2e4f307504b445828dea",
+                "title": "RandomizedSearchCV",
+                "notes": "",
+                "description": "Prueba combinaciones aleatorias de hiperparámetros.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n79bfe7f4b9134dcca23d",
+                "title": "Sobreajuste · overfitting",
+                "notes": "",
+                "description": "Aprende demasiado el entrenamiento y generaliza peor.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "ne804df2c08484b1eba06",
+                "title": "Infraajuste · underfitting",
+                "notes": "",
+                "description": "Modelo incapaz de captar patrones útiles.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n6a2ff12280c6477c965f",
+            "title": "Despliegue y seguimiento",
+            "notes": "",
+            "description": "Usar el modelo fuera del notebook y monitorizar cambios.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "ndca308759ef14bd6a43b",
+        "title": "Métricas",
+        "notes": "",
+        "description": "Permiten evaluar resultados según la tarea.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "ncafd1e8a8c3142b2bf02",
+            "title": "Matriz de confusión",
+            "notes": "",
+            "description": "Resume aciertos y errores por clase.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n03657f6a1c5d4f7fb93f",
+            "title": "Accuracy",
+            "notes": "",
+            "description": "Proporción de predicciones correctas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n9c3b97a6c31c493ca341",
+            "title": "Precision",
+            "notes": "",
+            "description": "De los positivos predichos, cuántos son correctos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nf3d53ce781764078a133",
+            "title": "Recall",
+            "notes": "",
+            "description": "De los positivos reales, cuántos se detectan.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n1449beed007c44839dda",
+            "title": "F1",
+            "notes": "",
+            "description": "Media armónica de precision y recall.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n93c36123cd0b41088ab1",
+            "title": "ROC AUC",
+            "notes": "",
+            "description": "Evalúa la capacidad de ordenación de un clasificador binario.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n9aa6a8f30f6f4fa6a577",
+            "title": "MAE y RMSE",
+            "notes": "",
+            "description": "Errores de predicción de regresión, en unidades del objetivo.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n19e1e4930d204f4eaa80",
+        "title": "Clases desbalanceadas",
+        "notes": "",
+        "description": "Cuando una clase aparece mucho menos que otra.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n0c4fe768d9d24f5f8c8d",
+            "title": "SMOTE",
+            "notes": "",
+            "description": "Sintetiza ejemplos de clases minoritarias sobre entrenamiento.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n7d754969ca934290ba5d",
+            "title": "Tomek Links",
+            "notes": "",
+            "description": "Identifica pares cercanos de clases opuestas para limpiar datos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne44496780a6240d78fad",
+            "title": "SMOTEENN y SMOTETomek",
+            "notes": "",
+            "description": "Combinan sobremuestreo y métodos de limpieza.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "nc17aaa05a3f54a6cb775",
+      "to": "n20423aade20b428998d1"
+    },
+    {
+      "from": "nc17aaa05a3f54a6cb775",
+      "to": "n91b23859879e4388b30f"
+    },
+    {
+      "from": "n93a87b9d693247e2a52f",
+      "to": "nddd4333d2a8c4e989d2e"
+    },
+    {
+      "from": "n19e1e4930d204f4eaa80",
+      "to": "nf3d53ce781764078a133"
+    },
+    {
+      "from": "na926e4a6956a4bb190cc",
+      "to": "n8472e8ed9551467fb545"
+    },
+    {
+      "from": "ndc9d7ab062674fad869a",
+      "to": "nfab1afa306cc4572ac18"
+    }
+  ]
+}

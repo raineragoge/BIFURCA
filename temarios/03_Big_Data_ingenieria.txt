@@ -1,0 +1,93 @@
+Big Data · Ingeniería y análisis
+
+Big Data
+  Explicación: Trabajo con datos por volumen, variedad y velocidad, entre otros retos.
+  ↳ Panorama de datos
+    Explicación: Diferencia las tareas principales.
+    ↳ Ingeniería de datos
+      Explicación: Diseña captación, transformación, almacenamiento y distribución.
+    ↳ Analítica de datos
+      Explicación: Interpreta información para responder preguntas.
+    ↳ Ciencia de datos
+      Explicación: Usa métodos estadísticos y modelos para analizar o predecir.
+  ↳ Arquitectura y procesos
+    Explicación: Movimiento y preparación de los datos.
+    ↳ ETL
+      Explicación: Extraer, transformar y cargar.
+      Ejemplo: Limpiar CSV antes de cargar al almacén.
+    ↳ ELT
+      Explicación: Extraer, cargar y transformar en el destino.
+      Ejemplo: Transformaciones sobre tablas de BigQuery.
+    ↳ Procesamiento batch
+      Explicación: Ejecuta trabajos sobre lotes acumulados.
+      Ejemplo: Carga nocturna de datos.
+    ↳ Procesamiento en streaming
+      Explicación: Procesa eventos que llegan continuamente.
+      Ejemplo: Flujo de sensores.
+    ↳ CDC · captura de cambios
+      Explicación: Replica inserciones, actualizaciones y eliminaciones.
+      Ejemplo: Leer cambios desde WAL o binlog.
+      ↳ INSERT · UPDATE · DELETE
+        Explicación: Operaciones cuyas modificaciones pueden propagarse.
+      ↳ WAL y binlog
+        Explicación: Registros transaccionales que pueden alimentar CDC.
+  ↳ Ecosistema de almacenamiento
+    Explicación: Tecnologías introducidas y practicadas.
+    ↳ HDFS
+      Explicación: Sistema distribuido de archivos del ecosistema Hadoop.
+      Ejemplo: Almacenar un CSV en HDFS.
+    ↳ Hadoop
+      Explicación: Ecosistema para almacenamiento y procesamiento distribuido.
+    ↳ Hive
+      Explicación: Consulta datos con lenguaje similar a SQL sobre almacenamiento distribuido.
+    ↳ Parquet
+      Explicación: Formato columnar útil para análisis.
+      Ejemplo: Guardar una tabla procesada.
+    ↳ BigQuery
+      Explicación: Almacén analítico gestionado para consultas SQL.
+    ↳ DuckDB
+      Explicación: Motor analítico embebido con consultas SQL.
+  ↳ Práctica de flujo de datos
+    Explicación: Trabajo con archivo y automatización.
+    ↳ CSV a HDFS
+      Explicación: Subir datos de partida al almacenamiento distribuido.
+    ↳ HDFS a Hive
+      Explicación: Definir y consultar tablas sobre datos en HDFS.
+    ↳ Hive a Parquet
+      Explicación: Producir datos estructurados en formato columnar.
+    ↳ Bash
+      Explicación: Automatizar pasos de la tubería desde terminal.
+    ↳ Cron
+      Explicación: Programar la ejecución periódica de un script.
+  ↳ Tecnologías del ecosistema · introducción
+    Explicación: Herramientas mencionadas como parte del panorama profesional, no prácticas completas verificadas.
+    ↳ Apache Spark y PySpark
+      Explicación: Procesamiento distribuido en Spark con Python.
+    ↳ Apache Airflow
+      Explicación: Orquestación de flujos de trabajo programados.
+    ↳ Apache Kafka
+      Explicación: Plataforma de eventos y mensajería distribuida.
+    ↳ Apache Flink
+      Explicación: Procesamiento de datos en flujo.
+  ↳ Visualización y análisis
+    Explicación: Presentar resultados e indicadores.
+    ↳ Looker Studio
+      Explicación: Construir cuadros de mando sobre fuentes de datos.
+    ↳ Power BI
+      Explicación: Analizar y visualizar datos empresariales.
+    ↳ Streamlit
+      Explicación: Crear interfaces Python para explorar y mostrar datos.
+  ↳ Calidad y gobierno
+    Explicación: Conservar fiabilidad, trazabilidad y uso responsable.
+    ↳ Calidad de datos
+      Explicación: Comprobar integridad, consistencia y validez.
+    ↳ Trazabilidad
+      Explicación: Identificar el origen y transformaciones del dato.
+    ↳ Privacidad
+      Explicación: Evitar exponer información personal innecesaria.
+
+Conexiones entre ramas:
+• CDC · captura de cambios ↔ Procesamiento en streaming
+• Bash ↔ Cron
+• Hive ↔ Parquet
+• Apache Spark y PySpark ↔ Ingeniería de datos

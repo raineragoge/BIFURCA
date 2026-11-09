@@ -1,0 +1,345 @@
+{
+  "format": "bifurca-v4",
+  "kind": "knowledge",
+  "name": "Proyectos y prácticas realizadas",
+  "tree": {
+    "id": "ne72bc57e91414d479d22",
+    "title": "Proyectos prácticos",
+    "notes": "",
+    "description": "Conectar contenidos estudiados con trabajos concretos; incluye proyectos en distinta fase.",
+    "example": "",
+    "status": "neutral",
+    "collapsed": false,
+    "expanded": false,
+    "children": [
+      {
+        "id": "n3925d765bbe44bee98b1",
+        "title": "Sistema experto ViviendaSeg",
+        "notes": "",
+        "description": "Evaluación del riesgo de viviendas de propietarios mediante reglas.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n84bd8f50958b4762b863",
+            "title": "Conocimiento del dominio",
+            "notes": "",
+            "description": "Requisitos y preguntas de la vivienda.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n086ff669ff7c4368877b",
+            "title": "Hechos y reglas",
+            "notes": "",
+            "description": "Base de conocimientos con condiciones de riesgo.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n9271d8847ac04b72a197",
+            "title": "Motor de inferencia",
+            "notes": "",
+            "description": "Aplica reglas y produce nivel bajo, medio o alto.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n49d75f297f3c403f80d8",
+            "title": "Datos faltantes",
+            "notes": "",
+            "description": "Un dato relevante desconocido puede exigir aviso o revisión.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n9fd222a9d6314f6f83b2",
+            "title": "Prolog y Python académicos",
+            "notes": "",
+            "description": "Arquitectura inicial del ejercicio de clase.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n292ba01cfc7146f5a7b2",
+            "title": "Demo web con Node.js",
+            "notes": "",
+            "description": "Implementación demostrativa diferenciada del trabajo académico.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n00b25dfe41b64e1bb10e",
+        "title": "Experimento RAUDO A/B",
+        "notes": "",
+        "description": "Comparación de dos versiones de una tienda visual.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nffee39e140e644d4a791",
+            "title": "Hipótesis",
+            "notes": "",
+            "description": "Evaluar diferencias entre dos experiencias de usuario.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n34e531b37cf84df1adc5",
+            "title": "Variantes A y B",
+            "notes": "",
+            "description": "Dos diseños para comparar.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nd9cebde9ec63423cb073",
+            "title": "Formulario de evaluación",
+            "notes": "",
+            "description": "Recoger respuestas de estudiantes sobre ambas versiones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n6727e9f4d1c64f9fbda8",
+            "title": "Interpretación de respuestas",
+            "notes": "",
+            "description": "Analizar tendencias sin atribuir causalidad injustificada.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nb951da6068ea4522b3e8",
+        "title": "Laboratorio de Machine Learning",
+        "notes": "",
+        "description": "Ejercicios y modelos de clasificación y regresión.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n4ee03f9365614d818f41",
+            "title": "Pipeline de modelado",
+            "notes": "",
+            "description": "EDA, limpieza, train/test, entrenamiento y evaluación.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n3c5f5018e3fb40599501",
+            "title": "Problema de abandono",
+            "notes": "",
+            "description": "Ejercicio de limpieza de datos, división e imputación.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nbbacc66826d54afa9575",
+            "title": "Regresión logística en Colab",
+            "notes": "",
+            "description": "Clasificación binaria con celdas de explicación.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n4d0f11a2b5894fb2ad18",
+            "title": "Regresión lineal en Colab",
+            "notes": "",
+            "description": "Predicción de un valor continuo.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n7bcd99a6d9cc4cfcb615",
+        "title": "Laboratorio de MongoDB",
+        "notes": "",
+        "description": "Ejercicios con MongoDB Atlas.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n223633f86a8b4dbb8870",
+            "title": "Colecciones de películas y series",
+            "notes": "",
+            "description": "Análisis de documentos y atributos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n2a51583479e040c495b3",
+            "title": "Pipelines de agregación",
+            "notes": "",
+            "description": "Combinación de etapas en Data Explorer.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n861105f6b75a4913a04c",
+            "title": "Documentación de resultados",
+            "notes": "",
+            "description": "Captura de resultados y descripción de dos líneas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n4855e0c746b8428aa5bf",
+        "title": "Simulación Monte Carlo",
+        "notes": "",
+        "description": "Trabajo con ensayos repetidos en hojas de cálculo.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n0b6018e79c804d939c2a",
+            "title": "Dados y medias",
+            "notes": "",
+            "description": "Ensayar, calcular y representar resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n712a90b036054f90b00c",
+            "title": "Trayectos y cafetería",
+            "notes": "",
+            "description": "Modelar variabilidad de tiempos o actividad comercial.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nbc5ee768b1314ac9a710",
+        "title": "AI Lab · predicción de esports",
+        "notes": "",
+        "description": "Experimento personal de Machine Learning, separado de la asignatura.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n8665ff021dba486685a0",
+            "title": "Variables de entrenamiento",
+            "notes": "",
+            "description": "Elo y estadísticas recientes de partidas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n160a0b0584954291a729",
+            "title": "Separación temporal",
+            "notes": "",
+            "description": "Probar con partidas posteriores para evitar filtraciones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nfbce18f964ae428aae84",
+            "title": "Cambio de distribución",
+            "notes": "",
+            "description": "El parche y el metajuego pueden cambiar los patrones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "n086ff669ff7c4368877b",
+      "to": "n9271d8847ac04b72a197"
+    },
+    {
+      "from": "n4ee03f9365614d818f41",
+      "to": "n160a0b0584954291a729"
+    },
+    {
+      "from": "n00b25dfe41b64e1bb10e",
+      "to": "nffee39e140e644d4a791"
+    }
+  ]
+}

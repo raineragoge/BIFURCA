@@ -1,0 +1,94 @@
+Mi aprendizaje · IA y Big Data
+
+Mi aprendizaje en IA y Big Data
+  Explicación: Vista general de lo trabajado hasta noviembre de 2026; cada bloque tiene su propio mapa detallado.
+  ↳ Inteligencia Artificial
+    Explicación: Conocer las distintas formas de razonar y aprender.
+    ↳ IA simbólica
+      Explicación: Reglas y conocimiento explícito.
+    ↳ Sistemas expertos
+      Explicación: Base de conocimientos y motor de inferencia.
+    ↳ Búsqueda
+      Explicación: BFS, DFS, UCS y A estrella.
+    ↳ Aprendizaje por refuerzo
+      Explicación: Agentes, recompensas y Q-Learning.
+    ↳ Redes neuronales
+      Explicación: Introducción a redes y capas.
+  ↳ Machine Learning
+    Explicación: Aprender patrones y evaluar la generalización.
+    ↳ Supervisado
+      Explicación: Clasificación y regresión.
+      ↳ Clasificación
+        Explicación: KNN, regresión logística, árboles, Random Forest y SVM.
+      ↳ Regresión
+        Explicación: Regresión lineal y errores de predicción.
+    ↳ No supervisado
+      Explicación: Clustering, anomalías y reducción de dimensiones.
+      ↳ Agrupación
+        Explicación: K-Means y DBSCAN.
+      ↳ Anomalías y componentes
+        Explicación: Isolation Forest y PCA.
+    ↳ Preparación de datos
+      Explicación: Nulos, duplicados, escalado, train/test y filtración.
+    ↳ Validación y métricas
+      Explicación: Validación cruzada, búsqueda de hiperparámetros y F1, AUC, MAE.
+    ↳ Modelos fuera de Colab
+      Explicación: Scripts, persistencia y nociones de MLflow.
+  ↳ Big Data e ingeniería
+    Explicación: Procesar, almacenar y mover datos.
+    ↳ Arquitectura
+      Explicación: ETL, ELT, batch, streaming y CDC.
+    ↳ Hadoop y almacenamiento
+      Explicación: HDFS, Hive, Parquet y práctica CSV.
+    ↳ Automatización
+      Explicación: Bash, Cron y pipelines.
+    ↳ Ecosistema
+      Explicación: BigQuery, DuckDB, Spark, Airflow, Kafka y Flink; diferentes niveles de estudio.
+    ↳ Visualización
+      Explicación: Looker Studio, Power BI y Streamlit.
+  ↳ MongoDB
+    Explicación: Consultar y transformar documentos.
+    ↳ Atlas y datos
+      Explicación: Clúster, base, colección, documento, BSON.
+    ↳ Consultas CRUD
+      Explicación: insertOne, find, updateOne, deleteOne, filtros.
+    ↳ Agregaciones
+      Explicación: $match, $project, $group, $sort, $limit y $lookup.
+    ↳ SQL comparado
+      Explicación: Colecciones/tablas y $lookup/JOIN.
+    ↳ Prácticas
+      Explicación: Películas, series y pipelines.
+  ↳ Python y SQL
+    Explicación: Herramientas para programar y analizar.
+    ↳ Python
+      Explicación: Estructuras, funciones, random y semilla.
+    ↳ NumPy y Pandas
+      Explicación: Arrays, DataFrames y limpieza.
+    ↳ SQL
+      Explicación: SELECT, WHERE, JOIN, GROUP BY y operaciones DML.
+    ↳ Notebooks
+      Explicación: Google Colab, explicación por celdas y scripts .py.
+    ↳ Scikit-learn
+      Explicación: Preprocesar, entrenar y evaluar modelos.
+  ↳ Matemáticas y probabilidad
+    Explicación: Interpretar datos y evidencia.
+    ↳ Estadística
+      Explicación: Media, mediana, dispersión y atípicos.
+    ↳ Probabilidad
+      Explicación: Eventos, independencia y probabilidad condicional.
+    ↳ Bayes y Naive Bayes
+      Explicación: Prior, likelihood, posterior e independencia condicional.
+    ↳ Simulaciones
+      Explicación: Monte Carlo con dados, trayectos y cafetería.
+  ↳ Proyectos y ejercicios
+    Explicación: Aplicar conocimientos a problemas concretos.
+    ↳ ViviendaSeg
+      Explicación: Reglas de evaluación del riesgo de viviendas.
+    ↳ RAUDO A/B
+      Explicación: Hipótesis, variantes y formulario de comparación.
+    ↳ Machine Learning en Colab
+      Explicación: Regresión y clasificación con explicación.
+    ↳ MongoDB Atlas
+      Explicación: Pipelines y capturas de resultados.
+    ↳ Esports Predictor
+      Explicación: Experimento propio con Elo, variables y división temporal.

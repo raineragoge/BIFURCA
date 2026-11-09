@@ -1,0 +1,461 @@
+{
+  "format": "bifurca-v4",
+  "kind": "knowledge",
+  "name": "Big Data · Ingeniería y análisis",
+  "tree": {
+    "id": "nc0829807fd5c46e2aae3",
+    "title": "Big Data",
+    "notes": "",
+    "description": "Trabajo con datos por volumen, variedad y velocidad, entre otros retos.",
+    "example": "",
+    "status": "neutral",
+    "collapsed": false,
+    "expanded": false,
+    "children": [
+      {
+        "id": "nfd787be7a98f47d98b6b",
+        "title": "Panorama de datos",
+        "notes": "",
+        "description": "Diferencia las tareas principales.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nb9341cc55ced4c209b6b",
+            "title": "Ingeniería de datos",
+            "notes": "",
+            "description": "Diseña captación, transformación, almacenamiento y distribución.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne884584cef1842baac99",
+            "title": "Analítica de datos",
+            "notes": "",
+            "description": "Interpreta información para responder preguntas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nd84dfb6efa7c419b9a67",
+            "title": "Ciencia de datos",
+            "notes": "",
+            "description": "Usa métodos estadísticos y modelos para analizar o predecir.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nd20f6878e7224e48b9f8",
+        "title": "Arquitectura y procesos",
+        "notes": "",
+        "description": "Movimiento y preparación de los datos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nd4b817d7ee7448b5af5f",
+            "title": "ETL",
+            "notes": "",
+            "description": "Extraer, transformar y cargar.",
+            "example": "Limpiar CSV antes de cargar al almacén.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n7602977c87604e52bb75",
+            "title": "ELT",
+            "notes": "",
+            "description": "Extraer, cargar y transformar en el destino.",
+            "example": "Transformaciones sobre tablas de BigQuery.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nb631b0e14dcb4d4d9cdc",
+            "title": "Procesamiento batch",
+            "notes": "",
+            "description": "Ejecuta trabajos sobre lotes acumulados.",
+            "example": "Carga nocturna de datos.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n4a1ec0ac8bfe4e718fe3",
+            "title": "Procesamiento en streaming",
+            "notes": "",
+            "description": "Procesa eventos que llegan continuamente.",
+            "example": "Flujo de sensores.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n82c29f6e8c8e46ae9a76",
+            "title": "CDC · captura de cambios",
+            "notes": "",
+            "description": "Replica inserciones, actualizaciones y eliminaciones.",
+            "example": "Leer cambios desde WAL o binlog.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "nf67a45e59b9b4eccab89",
+                "title": "INSERT · UPDATE · DELETE",
+                "notes": "",
+                "description": "Operaciones cuyas modificaciones pueden propagarse.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n5f12c5b57c964fd797ed",
+                "title": "WAL y binlog",
+                "notes": "",
+                "description": "Registros transaccionales que pueden alimentar CDC.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "n7bcaf4535afe489f9fc4",
+        "title": "Ecosistema de almacenamiento",
+        "notes": "",
+        "description": "Tecnologías introducidas y practicadas.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n4e294237e74045c0a306",
+            "title": "HDFS",
+            "notes": "",
+            "description": "Sistema distribuido de archivos del ecosistema Hadoop.",
+            "example": "Almacenar un CSV en HDFS.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n70096158d11b40009766",
+            "title": "Hadoop",
+            "notes": "",
+            "description": "Ecosistema para almacenamiento y procesamiento distribuido.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n4f24b15d1ba54822a4a1",
+            "title": "Hive",
+            "notes": "",
+            "description": "Consulta datos con lenguaje similar a SQL sobre almacenamiento distribuido.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne771cdbdfe184e54ab48",
+            "title": "Parquet",
+            "notes": "",
+            "description": "Formato columnar útil para análisis.",
+            "example": "Guardar una tabla procesada.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nd253f02c2fbc4fbfb01b",
+            "title": "BigQuery",
+            "notes": "",
+            "description": "Almacén analítico gestionado para consultas SQL.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n475f6b00654c4fbea8dc",
+            "title": "DuckDB",
+            "notes": "",
+            "description": "Motor analítico embebido con consultas SQL.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "na8129ffc176e4f3db611",
+        "title": "Práctica de flujo de datos",
+        "notes": "",
+        "description": "Trabajo con archivo y automatización.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n05171de8177f4d5eb098",
+            "title": "CSV a HDFS",
+            "notes": "",
+            "description": "Subir datos de partida al almacenamiento distribuido.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n84b8309af67343619e09",
+            "title": "HDFS a Hive",
+            "notes": "",
+            "description": "Definir y consultar tablas sobre datos en HDFS.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n815336be41c341eebf3e",
+            "title": "Hive a Parquet",
+            "notes": "",
+            "description": "Producir datos estructurados en formato columnar.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n102d87dcd6384ca7a36a",
+            "title": "Bash",
+            "notes": "",
+            "description": "Automatizar pasos de la tubería desde terminal.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nc0e045ae4e944419a56a",
+            "title": "Cron",
+            "notes": "",
+            "description": "Programar la ejecución periódica de un script.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nf43f1995cfdc438c8b07",
+        "title": "Tecnologías del ecosistema · introducción",
+        "notes": "",
+        "description": "Herramientas mencionadas como parte del panorama profesional, no prácticas completas verificadas.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n150a31d014874a8a9a2d",
+            "title": "Apache Spark y PySpark",
+            "notes": "",
+            "description": "Procesamiento distribuido en Spark con Python.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n55479a53bd4345658a2e",
+            "title": "Apache Airflow",
+            "notes": "",
+            "description": "Orquestación de flujos de trabajo programados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n64cd07ad663941d6b225",
+            "title": "Apache Kafka",
+            "notes": "",
+            "description": "Plataforma de eventos y mensajería distribuida.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nefb73b1c4c80486ea2ca",
+            "title": "Apache Flink",
+            "notes": "",
+            "description": "Procesamiento de datos en flujo.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nb81df5173f8f4645b4a1",
+        "title": "Visualización y análisis",
+        "notes": "",
+        "description": "Presentar resultados e indicadores.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nb7656199f52d423fb858",
+            "title": "Looker Studio",
+            "notes": "",
+            "description": "Construir cuadros de mando sobre fuentes de datos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "na26e71ae49c2462c9391",
+            "title": "Power BI",
+            "notes": "",
+            "description": "Analizar y visualizar datos empresariales.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n59738800607c463b922e",
+            "title": "Streamlit",
+            "notes": "",
+            "description": "Crear interfaces Python para explorar y mostrar datos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n05628974f55e4e0285b6",
+        "title": "Calidad y gobierno",
+        "notes": "",
+        "description": "Conservar fiabilidad, trazabilidad y uso responsable.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nf196226a279e4472b747",
+            "title": "Calidad de datos",
+            "notes": "",
+            "description": "Comprobar integridad, consistencia y validez.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ncfa04d8da9c24b30a023",
+            "title": "Trazabilidad",
+            "notes": "",
+            "description": "Identificar el origen y transformaciones del dato.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n19de7ec402824d3ebda4",
+            "title": "Privacidad",
+            "notes": "",
+            "description": "Evitar exponer información personal innecesaria.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "n82c29f6e8c8e46ae9a76",
+      "to": "n4a1ec0ac8bfe4e718fe3"
+    },
+    {
+      "from": "n102d87dcd6384ca7a36a",
+      "to": "nc0e045ae4e944419a56a"
+    },
+    {
+      "from": "n4f24b15d1ba54822a4a1",
+      "to": "ne771cdbdfe184e54ab48"
+    },
+    {
+      "from": "n150a31d014874a8a9a2d",
+      "to": "nb9341cc55ced4c209b6b"
+    }
+  ]
+}

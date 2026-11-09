@@ -1,0 +1,94 @@
+MongoDB · Bases de datos documentales
+
+MongoDB
+  Explicación: Base de datos NoSQL orientada a documentos, con datos BSON.
+  ↳ Fundamentos
+    Explicación: Cómo se organiza la información.
+    ↳ NoSQL documental
+      Explicación: No exige el mismo esquema rígido que una tabla relacional.
+    ↳ MongoDB Atlas
+      Explicación: Servicio administrado para clústeres y bases de datos.
+    ↳ Clúster
+      Explicación: Infraestructura que aloja las bases de datos.
+    ↳ Base de datos
+      Explicación: Contiene colecciones.
+      Ejemplo: clase_bigdata.
+    ↳ Colección
+      Explicación: Agrupa documentos.
+      Ejemplo: movies o alumnos.
+    ↳ Documento
+      Explicación: Objeto de campos y valores.
+      Ejemplo: Película con título, año y puntuación.
+    ↳ JSON y BSON
+      Explicación: JSON expresa objetos; BSON es el formato binario de MongoDB.
+    ↳ Embebidos y referencias
+      Explicación: Se pueden anidar objetos o enlazar datos de otras colecciones.
+  ↳ CRUD
+    Explicación: Crear, consultar, actualizar y borrar documentos.
+    ↳ insertOne
+      Explicación: Inserta un documento.
+    ↳ find
+      Explicación: Consulta documentos con filtros.
+      ↳ Operadores de comparación
+        Explicación: $gt, $lt y otros comparan valores.
+      ↳ Notación de punto
+        Explicación: Accede a campos anidados.
+        Ejemplo: imdb.rating.
+    ↳ updateOne
+      Explicación: Actualiza campos en un documento.
+    ↳ deleteOne
+      Explicación: Elimina un documento seleccionado.
+    ↳ sort y limit
+      Explicación: Ordenan y limitan resultados.
+    ↳ countDocuments
+      Explicación: Cuenta documentos que cumplen un filtro.
+  ↳ Agregaciones
+    Explicación: Pipelines que transforman o resumen documentos.
+    ↳ aggregate
+      Explicación: Ejecuta una secuencia de etapas sobre una colección.
+    ↳ $match
+      Explicación: Filtra documentos según criterios.
+    ↳ $project
+      Explicación: Selecciona o transforma campos de salida.
+    ↳ $group
+      Explicación: Agrupa y calcula agregados.
+    ↳ $sort
+      Explicación: Ordena resultados de la tubería.
+    ↳ $limit
+      Explicación: Restringe el número de resultados.
+    ↳ $lookup
+      Explicación: Combina datos de otra colección; comparable a un JOIN.
+    ↳ Orden de etapas
+      Explicación: Cambiar el orden puede modificar resultados y rendimiento.
+  ↳ Comparación con SQL
+    Explicación: Relacionar conceptos de ambos modelos.
+    ↳ Tabla frente a colección
+      Explicación: Un conjunto de registros frente a uno de documentos.
+    ↳ Fila frente a documento
+      Explicación: Una fila relacional frente a un objeto documental.
+    ↳ WHERE frente a $match
+      Explicación: Aplicar un filtro antes de operar con resultados.
+    ↳ JOIN frente a $lookup
+      Explicación: Conectar datos que viven en estructuras separadas.
+    ↳ GROUP BY frente a $group
+      Explicación: Agrupar registros y obtener agregados.
+  ↳ Prácticas en Atlas
+    Explicación: Ejercicios con películas, series y colecciones.
+    ↳ sample_mflix.movies
+      Explicación: Documentos de películas de ejemplo.
+    ↳ Filtros por año
+      Explicación: Consultar películas con condiciones sobre year.
+    ↳ imdb.rating
+      Explicación: Leer puntuaciones desde un subdocumento.
+    ↳ movies y comments
+      Explicación: Relacionar películas y comentarios cuando hay referencias.
+    ↳ Pipelines en Data Explorer
+      Explicación: Construcción de etapas y observación de resultados.
+    ↳ Capturas y explicación
+      Explicación: Registrar cada resultado importante y resumirlo en dos líneas.
+
+Conexiones entre ramas:
+• JOIN frente a $lookup ↔ $lookup
+• GROUP BY frente a $group ↔ $group
+• Notación de punto ↔ imdb.rating
+• aggregate ↔ Pipelines en Data Explorer

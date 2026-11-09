@@ -1,0 +1,481 @@
+{
+  "format": "bifurca-v4",
+  "kind": "knowledge",
+  "name": "MongoDB · Bases de datos documentales",
+  "tree": {
+    "id": "n4f04f8ffcef743aabb0e",
+    "title": "MongoDB",
+    "notes": "",
+    "description": "Base de datos NoSQL orientada a documentos, con datos BSON.",
+    "example": "",
+    "status": "neutral",
+    "collapsed": false,
+    "expanded": false,
+    "children": [
+      {
+        "id": "n4fdb169d11b64f049b63",
+        "title": "Fundamentos",
+        "notes": "",
+        "description": "Cómo se organiza la información.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n6b7f86596082477f9de9",
+            "title": "NoSQL documental",
+            "notes": "",
+            "description": "No exige el mismo esquema rígido que una tabla relacional.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n9c1a7592bd6141a29510",
+            "title": "MongoDB Atlas",
+            "notes": "",
+            "description": "Servicio administrado para clústeres y bases de datos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nfa92eeb8d2e24840a39e",
+            "title": "Clúster",
+            "notes": "",
+            "description": "Infraestructura que aloja las bases de datos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nb7eb76ff04bc412eaec6",
+            "title": "Base de datos",
+            "notes": "",
+            "description": "Contiene colecciones.",
+            "example": "clase_bigdata.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nc54851b089b04c778b38",
+            "title": "Colección",
+            "notes": "",
+            "description": "Agrupa documentos.",
+            "example": "movies o alumnos.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n28bfc6c2c7494414ab6a",
+            "title": "Documento",
+            "notes": "",
+            "description": "Objeto de campos y valores.",
+            "example": "Película con título, año y puntuación.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n5345945f6dc74564a664",
+            "title": "JSON y BSON",
+            "notes": "",
+            "description": "JSON expresa objetos; BSON es el formato binario de MongoDB.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n9777d73c45df429f8ec1",
+            "title": "Embebidos y referencias",
+            "notes": "",
+            "description": "Se pueden anidar objetos o enlazar datos de otras colecciones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n687e1dc927414487b9ae",
+        "title": "CRUD",
+        "notes": "",
+        "description": "Crear, consultar, actualizar y borrar documentos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n7d185bfe844a4cefb0e4",
+            "title": "insertOne",
+            "notes": "",
+            "description": "Inserta un documento.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n67b9571e6bab4760beb1",
+            "title": "find",
+            "notes": "",
+            "description": "Consulta documentos con filtros.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "ndbb1a3a5a6a44c36a5dd",
+                "title": "Operadores de comparación",
+                "notes": "",
+                "description": "$gt, $lt y otros comparan valores.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n041bbea226a24c32941f",
+                "title": "Notación de punto",
+                "notes": "",
+                "description": "Accede a campos anidados.",
+                "example": "imdb.rating.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "nb069188947a64ea99979",
+            "title": "updateOne",
+            "notes": "",
+            "description": "Actualiza campos en un documento.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne7b9aa8ac9b143569b2c",
+            "title": "deleteOne",
+            "notes": "",
+            "description": "Elimina un documento seleccionado.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n61c7774004054297a5b8",
+            "title": "sort y limit",
+            "notes": "",
+            "description": "Ordenan y limitan resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nae9104814538477ebafd",
+            "title": "countDocuments",
+            "notes": "",
+            "description": "Cuenta documentos que cumplen un filtro.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "na12bb87a1d8f4e9e96b4",
+        "title": "Agregaciones",
+        "notes": "",
+        "description": "Pipelines que transforman o resumen documentos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n03f04cdc68dd44849221",
+            "title": "aggregate",
+            "notes": "",
+            "description": "Ejecuta una secuencia de etapas sobre una colección.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n5e3b0f6108d944aa86cf",
+            "title": "$match",
+            "notes": "",
+            "description": "Filtra documentos según criterios.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n878d2761c1534229978d",
+            "title": "$project",
+            "notes": "",
+            "description": "Selecciona o transforma campos de salida.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n066bfb5ef66542dda475",
+            "title": "$group",
+            "notes": "",
+            "description": "Agrupa y calcula agregados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n270bad861b8c42198046",
+            "title": "$sort",
+            "notes": "",
+            "description": "Ordena resultados de la tubería.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nce2e21098ad74ed5acaf",
+            "title": "$limit",
+            "notes": "",
+            "description": "Restringe el número de resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n243cf6dbfb3a446f950b",
+            "title": "$lookup",
+            "notes": "",
+            "description": "Combina datos de otra colección; comparable a un JOIN.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "naea9765ac70a4f63a62f",
+            "title": "Orden de etapas",
+            "notes": "",
+            "description": "Cambiar el orden puede modificar resultados y rendimiento.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nab8ab5f1e5014f6c9f7e",
+        "title": "Comparación con SQL",
+        "notes": "",
+        "description": "Relacionar conceptos de ambos modelos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n91f947202fe94fee9d60",
+            "title": "Tabla frente a colección",
+            "notes": "",
+            "description": "Un conjunto de registros frente a uno de documentos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n391288be9aca49f68005",
+            "title": "Fila frente a documento",
+            "notes": "",
+            "description": "Una fila relacional frente a un objeto documental.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne2f4cd1fc5274b35b228",
+            "title": "WHERE frente a $match",
+            "notes": "",
+            "description": "Aplicar un filtro antes de operar con resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n7f1d694f54d9478688ed",
+            "title": "JOIN frente a $lookup",
+            "notes": "",
+            "description": "Conectar datos que viven en estructuras separadas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n455cedf435d54c2799b4",
+            "title": "GROUP BY frente a $group",
+            "notes": "",
+            "description": "Agrupar registros y obtener agregados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n8e56e261ae2148bba83b",
+        "title": "Prácticas en Atlas",
+        "notes": "",
+        "description": "Ejercicios con películas, series y colecciones.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n10fd1b0bd1214d29ba71",
+            "title": "sample_mflix.movies",
+            "notes": "",
+            "description": "Documentos de películas de ejemplo.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n5a3150e44d9d4dcf82fd",
+            "title": "Filtros por año",
+            "notes": "",
+            "description": "Consultar películas con condiciones sobre year.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n527a38dd1df340f7b69f",
+            "title": "imdb.rating",
+            "notes": "",
+            "description": "Leer puntuaciones desde un subdocumento.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n789a7692b05d470fb02e",
+            "title": "movies y comments",
+            "notes": "",
+            "description": "Relacionar películas y comentarios cuando hay referencias.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nc068d6b9f6254669b1df",
+            "title": "Pipelines en Data Explorer",
+            "notes": "",
+            "description": "Construcción de etapas y observación de resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ndbbca80c93dc4ea29e00",
+            "title": "Capturas y explicación",
+            "notes": "",
+            "description": "Registrar cada resultado importante y resumirlo en dos líneas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "n7f1d694f54d9478688ed",
+      "to": "n243cf6dbfb3a446f950b"
+    },
+    {
+      "from": "n455cedf435d54c2799b4",
+      "to": "n066bfb5ef66542dda475"
+    },
+    {
+      "from": "n041bbea226a24c32941f",
+      "to": "n527a38dd1df340f7b69f"
+    },
+    {
+      "from": "n03f04cdc68dd44849221",
+      "to": "nc068d6b9f6254669b1df"
+    }
+  ]
+}

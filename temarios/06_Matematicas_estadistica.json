@@ -1,0 +1,344 @@
+{
+  "format": "bifurca-v4",
+  "kind": "knowledge",
+  "name": "Matemáticas, probabilidad y Bayes",
+  "tree": {
+    "id": "n2f1ee8bd890d446c8372",
+    "title": "Matemáticas aplicadas a datos",
+    "notes": "",
+    "description": "Herramientas para interpretar resultados y razonar con incertidumbre.",
+    "example": "",
+    "status": "neutral",
+    "collapsed": false,
+    "expanded": false,
+    "children": [
+      {
+        "id": "n3a9edce84ae842a9a246",
+        "title": "Estadística descriptiva",
+        "notes": "",
+        "description": "Resume observaciones disponibles.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n247bba0968624a878f8a",
+            "title": "Media",
+            "notes": "",
+            "description": "Suma de valores dividida por el número de observaciones.",
+            "example": "Promedio de notas.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n826d9684fa7b40e1bad3",
+            "title": "Mediana",
+            "notes": "",
+            "description": "Valor central al ordenar una muestra.",
+            "example": "Edad típica menos sensible a extremos.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n4a68ccbd51df477085d9",
+            "title": "Moda",
+            "notes": "",
+            "description": "Valor más frecuente.",
+            "example": "Tamaño de prenda más vendido.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n06f99a19f2cb46d4bf20",
+            "title": "Dispersión",
+            "notes": "",
+            "description": "Describe cuánto varían los valores.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n1c5d8561f09d456a8e21",
+            "title": "Valores atípicos",
+            "notes": "",
+            "description": "Observaciones muy alejadas del resto.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n2ffc9276db3d4029b146",
+        "title": "Probabilidad",
+        "notes": "",
+        "description": "Cuantifica incertidumbre de eventos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nf724426db9444ae49a31",
+            "title": "Evento",
+            "notes": "",
+            "description": "Suceso sobre el que se pregunta.",
+            "example": "Que un correo sea spam.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n97db8533052444d498c8",
+            "title": "Probabilidad condicional",
+            "notes": "",
+            "description": "Probabilidad de A sabiendo que ocurrió B.",
+            "example": "Positivo dado que hay enfermedad.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nff2101caca734b2bb7a4",
+            "title": "Probabilidad total",
+            "notes": "",
+            "description": "Combina casos según una partición de posibilidades.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "na08eacddaa37453ca6a4",
+            "title": "Independencia",
+            "notes": "",
+            "description": "Saber un evento no altera la probabilidad del otro.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nf717aeedf0694777a6ac",
+        "title": "Teorema de Bayes",
+        "notes": "",
+        "description": "Actualiza una probabilidad usando nueva evidencia.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "ndcf4f5af9df2437f8f5f",
+            "title": "Probabilidad previa · prior",
+            "notes": "",
+            "description": "Creencia inicial antes de observar la evidencia.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n1d61a2b228dc4f6d8fda",
+            "title": "Verosimilitud · likelihood",
+            "notes": "",
+            "description": "Qué probable es la evidencia si la hipótesis fuera cierta.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n7414850f284d483eae4c",
+            "title": "Probabilidad posterior · posterior",
+            "notes": "",
+            "description": "Creencia actualizada tras aplicar la evidencia.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n3835339c9551472f925e",
+            "title": "Sensibilidad a la tasa base",
+            "notes": "",
+            "description": "Un positivo no implica necesariamente alta probabilidad final.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nbc6b184f702243368c0f",
+        "title": "Naive Bayes",
+        "notes": "",
+        "description": "Clasificador que aplica Bayes con una hipótesis simplificadora.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n05c13deaf63a4e88bf42",
+            "title": "Independencia condicional de atributos",
+            "notes": "",
+            "description": "Considera las características independientes entre sí dada la clase.",
+            "example": "Palabras tratadas independientemente cuando se fija spam/no spam.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n8a7ce1adbcb94ebea8e5",
+            "title": "Por qué se llama naive",
+            "notes": "",
+            "description": "La independencia es fuerte y a menudo imperfecta, pero útil.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n695ef14678df4becb936",
+            "title": "Clasificación de textos",
+            "notes": "",
+            "description": "Uso clásico de recuentos de palabras.",
+            "example": "Filtrar spam.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n8b07b997d1b7427c9119",
+        "title": "Simulaciones",
+        "notes": "",
+        "description": "Aproximar resultados realizando muchos ensayos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "ncddd343b9d4e4dbf894d",
+            "title": "Números pseudoaleatorios",
+            "notes": "",
+            "description": "Secuencias reproducibles mediante una semilla.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n8bca53db3b7644f0971d",
+            "title": "Monte Carlo",
+            "notes": "",
+            "description": "Repite ensayos aleatorios para aproximar resultados.",
+            "example": "Simular 1000 días de ventas.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n88e38dec457b4c10b270",
+            "title": "Tiradas de dados",
+            "notes": "",
+            "description": "Ejercicio de distribución de resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nb03bc4e146b54c5eae46",
+            "title": "Medias acumuladas",
+            "notes": "",
+            "description": "Observar cómo cambia el promedio al crecer la muestra.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n18ba76ef44f04b3ab8f8",
+            "title": "Viaje al trabajo",
+            "notes": "",
+            "description": "Simular tiempos de trayecto con incertidumbre.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n60bab42dfd28497f8f9e",
+            "title": "Cafetería",
+            "notes": "",
+            "description": "Modelar ingresos, costes y escenarios posibles.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nee2d401d96754c1e8ede",
+            "title": "Excel y Google Sheets",
+            "notes": "",
+            "description": "Usar fórmulas, tablas y gráficas para simulaciones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "nf717aeedf0694777a6ac",
+      "to": "nbc6b184f702243368c0f"
+    },
+    {
+      "from": "n97db8533052444d498c8",
+      "to": "n05c13deaf63a4e88bf42"
+    },
+    {
+      "from": "ncddd343b9d4e4dbf894d",
+      "to": "n8bca53db3b7644f0971d"
+    }
+  ]
+}

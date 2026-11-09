@@ -1,0 +1,312 @@
+{
+  "format": "bifurca-v4",
+  "kind": "knowledge",
+  "name": "Inteligencia Artificial · Fundamentos",
+  "tree": {
+    "id": "n440687b4c7064a3f9485",
+    "title": "Inteligencia Artificial",
+    "notes": "",
+    "description": "Sistemas que realizan tareas asociadas al razonamiento, aprendizaje o búsqueda.",
+    "example": "Clasificar correos o recomendar una ruta.",
+    "status": "neutral",
+    "collapsed": false,
+    "expanded": false,
+    "children": [
+      {
+        "id": "nbb06fc149ac64336b5ce",
+        "title": "Enfoques de IA",
+        "notes": "",
+        "description": "No todos los sistemas inteligentes aprenden con datos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nd817a9285cd8462083bb",
+            "title": "IA simbólica",
+            "notes": "",
+            "description": "Representa conocimiento con hechos, símbolos y reglas explícitas.",
+            "example": "Sistema experto que aplica reglas de seguridad.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "na5cf32282c1e4ff6838c",
+            "title": "Machine Learning",
+            "notes": "",
+            "description": "Aprende patrones a partir de ejemplos y datos.",
+            "example": "Predecir si habrá abandono de clientes.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n1b3181f4d1e744748c2b",
+            "title": "Redes neuronales",
+            "notes": "",
+            "description": "Modelos con capas de unidades y parámetros aprendidos.",
+            "example": "Reconocer patrones en imágenes.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n9f7720c405e14a02a4fd",
+        "title": "Sistemas expertos",
+        "notes": "",
+        "description": "Razonan sobre hechos mediante reglas establecidas previamente.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nd2d23386964d4dceaa7e",
+            "title": "Base de conocimientos",
+            "notes": "",
+            "description": "Almacena hechos y reglas del dominio.",
+            "example": "Si hay instalación eléctrica defectuosa, elevar riesgo.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "n948f81905caa4141b460",
+                "title": "Hechos",
+                "notes": "",
+                "description": "Información conocida sobre un caso.",
+                "example": "La vivienda tiene instalación antigua.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n2382a0f4802a4567aa5f",
+                "title": "Reglas SI-ENTONCES",
+                "notes": "",
+                "description": "Expresan condiciones y conclusiones.",
+                "example": "SI hay defecto eléctrico, ENTONCES riesgo alto.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n63eccb1a2be94711a9f4",
+            "title": "Motor de inferencia",
+            "notes": "",
+            "description": "Aplica reglas para obtener conclusiones.",
+            "example": "Inferir la categoría de riesgo de una vivienda.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "ne58d361eae8840c094f8",
+                "title": "Encadenamiento hacia delante",
+                "notes": "",
+                "description": "Parte de hechos y activa reglas aplicables.",
+                "example": "Reunir datos y llegar a un riesgo.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "na11a78da5c6e44778e1d",
+                "title": "Encadenamiento hacia atrás",
+                "notes": "",
+                "description": "Parte de un objetivo y busca condiciones que lo apoyen.",
+                "example": "Comprobar si se cumple riesgo alto.",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "ne9c6a4fb1717470594e4",
+            "title": "Interfaz de usuario",
+            "notes": "",
+            "description": "Recoge respuestas y explica los resultados.",
+            "example": "Formulario de evaluación de vivienda.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nf5ac43be99e94c269a27",
+            "title": "Prolog",
+            "notes": "",
+            "description": "Lenguaje declarativo basado en hechos, reglas y consultas.",
+            "example": "consultar riesgo_alto(Vivienda).",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n392025010bbe463085a8",
+            "title": "Diferencia frente a ML",
+            "notes": "",
+            "description": "Las reglas están programadas; un modelo ML ajusta patrones a datos.",
+            "example": "Regla de riesgo frente a clasificador entrenado.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "ne2df091a2bb346dca599",
+        "title": "Búsqueda en espacios de estados",
+        "notes": "",
+        "description": "Explora posibles pasos hasta alcanzar un objetivo.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n9fa797342c4c4420ba46",
+            "title": "Estado y acción",
+            "notes": "",
+            "description": "Situación actual y transición permitida.",
+            "example": "Posición de un agente en un laberinto.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n57e76e7b0585400cbf93",
+            "title": "BFS · anchura",
+            "notes": "",
+            "description": "Explora primero estados a menor profundidad.",
+            "example": "Ruta con menos pasos si cada paso cuesta igual.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n4d02fe915bb846299277",
+            "title": "DFS · profundidad",
+            "notes": "",
+            "description": "Avanza por una rama antes de volver atrás.",
+            "example": "Explorar un camino largo y retroceder.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne52e04dba2954737a120",
+            "title": "UCS · coste uniforme",
+            "notes": "",
+            "description": "Prioriza el camino de menor coste acumulado.",
+            "example": "Rutas con peajes diferentes.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nefc87ce2868a42449469",
+            "title": "A estrella · A*",
+            "notes": "",
+            "description": "Combina coste acumulado y estimación del coste restante.",
+            "example": "Buscar una ruta con una heurística de distancia.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n5e59d5636ee54a57a965",
+            "title": "Heurística",
+            "notes": "",
+            "description": "Estimación que guía una búsqueda informada.",
+            "example": "Distancia estimada al objetivo.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n5e6383194e644d31b784",
+        "title": "Aprendizaje por refuerzo",
+        "notes": "",
+        "description": "Un agente aprende según las recompensas de sus acciones.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "ncb16f507be9f412ab26d",
+            "title": "Agente y entorno",
+            "notes": "",
+            "description": "Quién decide y el sistema en que actúa.",
+            "example": "Robot que navega por un laberinto.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n7336365da6e24813bdc8",
+            "title": "Estado, acción y recompensa",
+            "notes": "",
+            "description": "Lo observado, lo elegido y la señal de evaluación.",
+            "example": "Avanzar, girar y recibir puntos.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n6fdea59625b847a0a692",
+            "title": "Q-Learning",
+            "notes": "",
+            "description": "Aprende valores de calidad para pares estado-acción.",
+            "example": "Elegir movimientos que acumulan recompensa.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "nd817a9285cd8462083bb",
+      "to": "n9f7720c405e14a02a4fd"
+    },
+    {
+      "from": "n948f81905caa4141b460",
+      "to": "n63eccb1a2be94711a9f4"
+    },
+    {
+      "from": "n5e59d5636ee54a57a965",
+      "to": "nefc87ce2868a42449469"
+    }
+  ]
+}

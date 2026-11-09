@@ -1,0 +1,81 @@
+Inteligencia Artificial · Fundamentos
+
+Inteligencia Artificial
+  Explicación: Sistemas que realizan tareas asociadas al razonamiento, aprendizaje o búsqueda.
+  Ejemplo: Clasificar correos o recomendar una ruta.
+  ↳ Enfoques de IA
+    Explicación: No todos los sistemas inteligentes aprenden con datos.
+    ↳ IA simbólica
+      Explicación: Representa conocimiento con hechos, símbolos y reglas explícitas.
+      Ejemplo: Sistema experto que aplica reglas de seguridad.
+    ↳ Machine Learning
+      Explicación: Aprende patrones a partir de ejemplos y datos.
+      Ejemplo: Predecir si habrá abandono de clientes.
+    ↳ Redes neuronales
+      Explicación: Modelos con capas de unidades y parámetros aprendidos.
+      Ejemplo: Reconocer patrones en imágenes.
+  ↳ Sistemas expertos
+    Explicación: Razonan sobre hechos mediante reglas establecidas previamente.
+    ↳ Base de conocimientos
+      Explicación: Almacena hechos y reglas del dominio.
+      Ejemplo: Si hay instalación eléctrica defectuosa, elevar riesgo.
+      ↳ Hechos
+        Explicación: Información conocida sobre un caso.
+        Ejemplo: La vivienda tiene instalación antigua.
+      ↳ Reglas SI-ENTONCES
+        Explicación: Expresan condiciones y conclusiones.
+        Ejemplo: SI hay defecto eléctrico, ENTONCES riesgo alto.
+    ↳ Motor de inferencia
+      Explicación: Aplica reglas para obtener conclusiones.
+      Ejemplo: Inferir la categoría de riesgo de una vivienda.
+      ↳ Encadenamiento hacia delante
+        Explicación: Parte de hechos y activa reglas aplicables.
+        Ejemplo: Reunir datos y llegar a un riesgo.
+      ↳ Encadenamiento hacia atrás
+        Explicación: Parte de un objetivo y busca condiciones que lo apoyen.
+        Ejemplo: Comprobar si se cumple riesgo alto.
+    ↳ Interfaz de usuario
+      Explicación: Recoge respuestas y explica los resultados.
+      Ejemplo: Formulario de evaluación de vivienda.
+    ↳ Prolog
+      Explicación: Lenguaje declarativo basado en hechos, reglas y consultas.
+      Ejemplo: consultar riesgo_alto(Vivienda).
+    ↳ Diferencia frente a ML
+      Explicación: Las reglas están programadas; un modelo ML ajusta patrones a datos.
+      Ejemplo: Regla de riesgo frente a clasificador entrenado.
+  ↳ Búsqueda en espacios de estados
+    Explicación: Explora posibles pasos hasta alcanzar un objetivo.
+    ↳ Estado y acción
+      Explicación: Situación actual y transición permitida.
+      Ejemplo: Posición de un agente en un laberinto.
+    ↳ BFS · anchura
+      Explicación: Explora primero estados a menor profundidad.
+      Ejemplo: Ruta con menos pasos si cada paso cuesta igual.
+    ↳ DFS · profundidad
+      Explicación: Avanza por una rama antes de volver atrás.
+      Ejemplo: Explorar un camino largo y retroceder.
+    ↳ UCS · coste uniforme
+      Explicación: Prioriza el camino de menor coste acumulado.
+      Ejemplo: Rutas con peajes diferentes.
+    ↳ A estrella · A*
+      Explicación: Combina coste acumulado y estimación del coste restante.
+      Ejemplo: Buscar una ruta con una heurística de distancia.
+    ↳ Heurística
+      Explicación: Estimación que guía una búsqueda informada.
+      Ejemplo: Distancia estimada al objetivo.
+  ↳ Aprendizaje por refuerzo
+    Explicación: Un agente aprende según las recompensas de sus acciones.
+    ↳ Agente y entorno
+      Explicación: Quién decide y el sistema en que actúa.
+      Ejemplo: Robot que navega por un laberinto.
+    ↳ Estado, acción y recompensa
+      Explicación: Lo observado, lo elegido y la señal de evaluación.
+      Ejemplo: Avanzar, girar y recibir puntos.
+    ↳ Q-Learning
+      Explicación: Aprende valores de calidad para pares estado-acción.
+      Ejemplo: Elegir movimientos que acumulan recompensa.
+
+Conexiones entre ramas:
+• IA simbólica ↔ Sistemas expertos
+• Hechos ↔ Motor de inferencia
+• Heurística ↔ A estrella · A*

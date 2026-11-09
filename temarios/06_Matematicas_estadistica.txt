@@ -1,0 +1,73 @@
+Matemáticas, probabilidad y Bayes
+
+Matemáticas aplicadas a datos
+  Explicación: Herramientas para interpretar resultados y razonar con incertidumbre.
+  ↳ Estadística descriptiva
+    Explicación: Resume observaciones disponibles.
+    ↳ Media
+      Explicación: Suma de valores dividida por el número de observaciones.
+      Ejemplo: Promedio de notas.
+    ↳ Mediana
+      Explicación: Valor central al ordenar una muestra.
+      Ejemplo: Edad típica menos sensible a extremos.
+    ↳ Moda
+      Explicación: Valor más frecuente.
+      Ejemplo: Tamaño de prenda más vendido.
+    ↳ Dispersión
+      Explicación: Describe cuánto varían los valores.
+    ↳ Valores atípicos
+      Explicación: Observaciones muy alejadas del resto.
+  ↳ Probabilidad
+    Explicación: Cuantifica incertidumbre de eventos.
+    ↳ Evento
+      Explicación: Suceso sobre el que se pregunta.
+      Ejemplo: Que un correo sea spam.
+    ↳ Probabilidad condicional
+      Explicación: Probabilidad de A sabiendo que ocurrió B.
+      Ejemplo: Positivo dado que hay enfermedad.
+    ↳ Probabilidad total
+      Explicación: Combina casos según una partición de posibilidades.
+    ↳ Independencia
+      Explicación: Saber un evento no altera la probabilidad del otro.
+  ↳ Teorema de Bayes
+    Explicación: Actualiza una probabilidad usando nueva evidencia.
+    ↳ Probabilidad previa · prior
+      Explicación: Creencia inicial antes de observar la evidencia.
+    ↳ Verosimilitud · likelihood
+      Explicación: Qué probable es la evidencia si la hipótesis fuera cierta.
+    ↳ Probabilidad posterior · posterior
+      Explicación: Creencia actualizada tras aplicar la evidencia.
+    ↳ Sensibilidad a la tasa base
+      Explicación: Un positivo no implica necesariamente alta probabilidad final.
+  ↳ Naive Bayes
+    Explicación: Clasificador que aplica Bayes con una hipótesis simplificadora.
+    ↳ Independencia condicional de atributos
+      Explicación: Considera las características independientes entre sí dada la clase.
+      Ejemplo: Palabras tratadas independientemente cuando se fija spam/no spam.
+    ↳ Por qué se llama naive
+      Explicación: La independencia es fuerte y a menudo imperfecta, pero útil.
+    ↳ Clasificación de textos
+      Explicación: Uso clásico de recuentos de palabras.
+      Ejemplo: Filtrar spam.
+  ↳ Simulaciones
+    Explicación: Aproximar resultados realizando muchos ensayos.
+    ↳ Números pseudoaleatorios
+      Explicación: Secuencias reproducibles mediante una semilla.
+    ↳ Monte Carlo
+      Explicación: Repite ensayos aleatorios para aproximar resultados.
+      Ejemplo: Simular 1000 días de ventas.
+    ↳ Tiradas de dados
+      Explicación: Ejercicio de distribución de resultados.
+    ↳ Medias acumuladas
+      Explicación: Observar cómo cambia el promedio al crecer la muestra.
+    ↳ Viaje al trabajo
+      Explicación: Simular tiempos de trayecto con incertidumbre.
+    ↳ Cafetería
+      Explicación: Modelar ingresos, costes y escenarios posibles.
+    ↳ Excel y Google Sheets
+      Explicación: Usar fórmulas, tablas y gráficas para simulaciones.
+
+Conexiones entre ramas:
+• Teorema de Bayes ↔ Naive Bayes
+• Probabilidad condicional ↔ Independencia condicional de atributos
+• Números pseudoaleatorios ↔ Monte Carlo

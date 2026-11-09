@@ -1,0 +1,404 @@
+{
+  "format": "bifurca-v4",
+  "kind": "knowledge",
+  "name": "Python, SQL y herramientas de datos",
+  "tree": {
+    "id": "nc9952dd02a1848f0af09",
+    "title": "Herramientas de programación y datos",
+    "notes": "",
+    "description": "Lenguajes y bibliotecas utilizados en ejercicios y notebooks.",
+    "example": "",
+    "status": "neutral",
+    "collapsed": false,
+    "expanded": false,
+    "children": [
+      {
+        "id": "n071534a6464548dfb5e4",
+        "title": "Python",
+        "notes": "",
+        "description": "Lenguaje para automatizar, analizar y crear modelos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nbafe5bc49cb942d39c57",
+            "title": "Variables y tipos de datos",
+            "notes": "",
+            "description": "Guardan valores numéricos, texto, booleanos y estructuras.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n68f9b0000fd545d1ba41",
+            "title": "Listas y diccionarios",
+            "notes": "",
+            "description": "Organizan datos secuenciales y por clave.",
+            "example": "Documento con título y año.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nfa59039de2e24e5ca633",
+            "title": "Condicionales y bucles",
+            "notes": "",
+            "description": "Controlan decisiones y repeticiones en programas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n955142665ede4fb98b5c",
+            "title": "Funciones",
+            "notes": "",
+            "description": "Agrupan lógica que puede reutilizarse.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n2420d8a611964ee1b060",
+            "title": "Módulos y paquetes",
+            "notes": "",
+            "description": "Permiten usar bibliotecas de terceros.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n73d2334d4386459082e5",
+            "title": "random y randint",
+            "notes": "",
+            "description": "Generan valores pseudoaleatorios.",
+            "example": "Simular una tirada de dado.",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne11b96e0b5ba44f399c4",
+            "title": "Semilla aleatoria",
+            "notes": "",
+            "description": "Facilita repetir resultados de una simulación.",
+            "example": "random.seed(42).",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n9ff843b7f6944eb189cf",
+        "title": "Análisis con Python",
+        "notes": "",
+        "description": "Manipulación y exploración de datos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n2f1b88e465bb4eaaa879",
+            "title": "NumPy",
+            "notes": "",
+            "description": "Trabajar con arrays y operaciones numéricas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nc690c021173a4138ae2e",
+            "title": "Pandas",
+            "notes": "",
+            "description": "DataFrames, limpieza y análisis tabular.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "nacb7262c1f5949a3b2c6",
+                "title": "DataFrame",
+                "notes": "",
+                "description": "Tabla en memoria con filas y columnas.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "nc5f91a2cbb784e74a783",
+                "title": "Duplicados y ausentes",
+                "notes": "",
+                "description": "Identificar y corregir registros problemáticos.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "ne3ce0a5979d641f9b937",
+                "title": "Estadísticos descriptivos",
+                "notes": "",
+                "description": "Media, mediana y resúmenes.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n2a50c10f2bf1430b8d5c",
+            "title": "Matplotlib",
+            "notes": "",
+            "description": "Generar gráficos para explorar resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n936ad6b9636b49e29f1b",
+            "title": "Scikit-learn",
+            "notes": "",
+            "description": "Algoritmos, preprocesado y evaluación de ML.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n6d4290b2f8854cd5bb7a",
+        "title": "SQL",
+        "notes": "",
+        "description": "Consultas estructuradas sobre bases de datos relacionales.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "ncb064be386744c79a9c8",
+            "title": "SELECT y FROM",
+            "notes": "",
+            "description": "Escoger columnas desde una tabla.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n5d9faf4edc13435abb00",
+            "title": "WHERE",
+            "notes": "",
+            "description": "Filtrar registros según condiciones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n2e43a8851089431da4c0",
+            "title": "ORDER BY y LIMIT",
+            "notes": "",
+            "description": "Ordenar y acotar resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n5cef18f275ce428a8670",
+            "title": "GROUP BY",
+            "notes": "",
+            "description": "Resumir datos en grupos con agregaciones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nd1d72043f75d4b2c943a",
+            "title": "JOIN",
+            "notes": "",
+            "description": "Combinar tablas por una relación.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nbfeb5ddad10c4324a14a",
+            "title": "INSERT, UPDATE y DELETE",
+            "notes": "",
+            "description": "Crear, modificar y eliminar registros.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n19790805b346412bb021",
+        "title": "Entornos de trabajo",
+        "notes": "",
+        "description": "Lugares donde ejecutar código y análisis.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n0e175536752640a2b1ce",
+            "title": "Jupyter y Google Colab",
+            "notes": "",
+            "description": "Ejecutar y documentar notebooks por celdas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ndddfaf2213e84e04a49f",
+            "title": "Celdas de explicación",
+            "notes": "",
+            "description": "Documentar el objetivo, los pasos y la interpretación.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n0369460b026949dfafb2",
+            "title": "Archivo .py",
+            "notes": "",
+            "description": "Script Python ejecutable fuera del notebook.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "need19ff1c0674092985d",
+            "title": "Linux y Bash",
+            "notes": "",
+            "description": "Comandos y scripts para archivos y automatización.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n11785d065ea741dc9f22",
+            "title": "VS Code y terminal",
+            "notes": "",
+            "description": "Entorno de edición y ejecución.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "naf468cac61b040c9b681",
+        "title": "Llevar modelos fuera del notebook",
+        "notes": "",
+        "description": "Distinción entre código e información aprendida.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nd49613d354e0448b81b6",
+            "title": "Código de inferencia",
+            "notes": "",
+            "description": "Script que carga datos y ejecuta predicciones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n6cf47c76bca143528604",
+            "title": "Modelo entrenado",
+            "notes": "",
+            "description": "Parámetros ajustados que deben guardarse si se reutilizan.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n34d68a9d9f4e40b0a6f8",
+            "title": "MLflow · introducción",
+            "notes": "",
+            "description": "Experimentos, métricas y artefactos de modelos; nociones generales.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "links": [
+    {
+      "from": "nc690c021173a4138ae2e",
+      "to": "nacb7262c1f5949a3b2c6"
+    },
+    {
+      "from": "n936ad6b9636b49e29f1b",
+      "to": "n6cf47c76bca143528604"
+    },
+    {
+      "from": "ne11b96e0b5ba44f399c4",
+      "to": "n73d2334d4386459082e5"
+    },
+    {
+      "from": "n34d68a9d9f4e40b0a6f8",
+      "to": "n6cf47c76bca143528604"
+    }
+  ]
+}

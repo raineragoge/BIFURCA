@@ -1,0 +1,159 @@
+Machine Learning · Temario
+
+Machine Learning
+  Explicación: Modelos que aprenden patrones de datos para predecir o explorar estructuras.
+  ↳ Tipos de aprendizaje
+    Explicación: Se diferencian por la información disponible y el objetivo.
+    ↳ Supervisado
+      Explicación: Se entrena con entradas y respuestas conocidas.
+      ↳ Clasificación
+        Explicación: Predice una clase o etiqueta.
+        Ejemplo: Spam frente a correo legítimo.
+        ↳ Binaria
+          Explicación: Dos clases de salida.
+          Ejemplo: Abandona o no abandona.
+        ↳ Multiclase
+          Explicación: Una clase entre varias.
+          Ejemplo: Clasificar un texto por idioma.
+        ↳ Multietiqueta
+          Explicación: Varias etiquetas para un mismo ejemplo.
+          Ejemplo: Foto con coche y persona.
+      ↳ Regresión
+        Explicación: Predice un número continuo.
+        Ejemplo: Estimar el consumo eléctrico.
+    ↳ No supervisado
+      Explicación: Descubre estructura sin etiquetas objetivo.
+      ↳ Clustering
+        Explicación: Agrupa observaciones parecidas.
+        Ejemplo: Segmentar clientes por comportamiento.
+      ↳ Detección de anomalías
+        Explicación: Identifica observaciones poco habituales.
+        Ejemplo: Detectar operaciones sospechosas.
+      ↳ Reducción de dimensionalidad
+        Explicación: Resume variables preservando información relevante.
+        Ejemplo: Visualizar muchos atributos en 2 dimensiones.
+  ↳ Modelos supervisados
+    Explicación: Algoritmos para clasificación o regresión.
+    ↳ Regresión lineal
+      Explicación: Ajusta una relación lineal para predecir una cantidad.
+      Ejemplo: Estimar precio a partir de metros cuadrados.
+    ↳ Regresión logística
+      Explicación: Usa una función logística para clasificar probabilísticamente.
+      Ejemplo: Probabilidad de aprobar un examen.
+    ↳ KNN
+      Explicación: Predice usando ejemplos cercanos según una distancia.
+      Ejemplo: Clasificar una flor por sus vecinos.
+    ↳ Árbol de decisión
+      Explicación: Aplica divisiones sucesivas mediante reglas.
+      Ejemplo: Decidir a partir de condiciones.
+    ↳ Random Forest
+      Explicación: Combina muchos árboles para reducir la variabilidad.
+      Ejemplo: Clasificar clientes con un conjunto de árboles.
+    ↳ SVM
+      Explicación: Busca un hiperplano separador con margen amplio.
+      Ejemplo: Separar dos clases de datos.
+      ↳ Vectores de soporte
+        Explicación: Observaciones que determinan la frontera.
+        Ejemplo: Puntos próximos al margen.
+      ↳ Margen e hiperplano
+        Explicación: Frontera de decisión y separación respecto a datos cercanos.
+      ↳ Parámetro C
+        Explicación: Ajusta penalización por errores frente a margen.
+        Ejemplo: C alto penaliza más ciertas violaciones.
+      ↳ Kernel trick
+        Explicación: Permite separaciones no lineales sin transformar explícitamente todas las variables.
+        Ejemplo: Kernel RBF.
+  ↳ Modelos no supervisados
+    Explicación: Métodos para descubrir grupos, estructura o rarezas.
+    ↳ K-Means
+      Explicación: Forma K grupos alrededor de centroides.
+      Ejemplo: Crear tres segmentos de clientes.
+    ↳ DBSCAN
+      Explicación: Agrupa zonas densas y puede marcar puntos como ruido.
+      Ejemplo: Encontrar grupos de ubicaciones.
+    ↳ Isolation Forest
+      Explicación: Detecta anomalías aislándolas con árboles aleatorios.
+      Ejemplo: Señalar transacciones atípicas.
+    ↳ PCA
+      Explicación: Proyecta datos en componentes que explican varianza.
+      Ejemplo: Reducir 15 variables a 2 componentes.
+  ↳ Flujo de trabajo ML
+    Explicación: Pasos para obtener resultados evaluables y utilizables.
+    ↳ Definir problema
+      Explicación: Concretar objetivo, variable objetivo y criterio de éxito.
+      Ejemplo: Predecir abandono de clientes.
+    ↳ EDA · exploración
+      Explicación: Inspeccionar distribuciones, nulos y patrones.
+      Ejemplo: Histograma de edades.
+    ↳ Limpieza de datos
+      Explicación: Corregir ausentes, duplicados y valores anómalos.
+      ↳ Imputación por mediana
+        Explicación: Sustituye ausentes con una estadística robusta.
+        Ejemplo: Completar edades con la mediana.
+      ↳ Valores atípicos
+        Explicación: Observaciones alejadas que requieren revisión.
+        Ejemplo: Edad imposible en un registro.
+    ↳ Preprocesamiento
+      Explicación: Transformar variables según necesidades del modelo.
+      ↳ StandardScaler
+        Explicación: Centra y escala variables numéricas.
+        Ejemplo: Escalar metros y salarios para KNN.
+      ↳ Sensibilidad a la escala
+        Explicación: KNN, SVM y K-Means suelen depender de distancias; árboles no tanto.
+    ↳ División train/test
+      Explicación: Reservar datos sin utilizar para evaluar generalización.
+      Ejemplo: Separación 80/20.
+      ↳ Estratificación
+        Explicación: Mantiene proporciones de clases entre subconjuntos.
+        Ejemplo: Conservar frecuencia de abandonos.
+      ↳ Data leakage
+        Explicación: Información indebida del test llega al entrenamiento.
+        Ejemplo: Escalar antes de separar los datos.
+    ↳ Entrenar modelo
+      Explicación: Ajustar parámetros con datos de entrenamiento.
+    ↳ Evaluar y ajustar
+      Explicación: Medir el resultado y comparar alternativas.
+      ↳ Validación cruzada · K-Fold
+        Explicación: Repite entrenamiento y validación en distintos pliegues.
+      ↳ GridSearchCV
+        Explicación: Prueba una cuadrícula de hiperparámetros.
+      ↳ RandomizedSearchCV
+        Explicación: Prueba combinaciones aleatorias de hiperparámetros.
+      ↳ Sobreajuste · overfitting
+        Explicación: Aprende demasiado el entrenamiento y generaliza peor.
+      ↳ Infraajuste · underfitting
+        Explicación: Modelo incapaz de captar patrones útiles.
+    ↳ Despliegue y seguimiento
+      Explicación: Usar el modelo fuera del notebook y monitorizar cambios.
+  ↳ Métricas
+    Explicación: Permiten evaluar resultados según la tarea.
+    ↳ Matriz de confusión
+      Explicación: Resume aciertos y errores por clase.
+    ↳ Accuracy
+      Explicación: Proporción de predicciones correctas.
+    ↳ Precision
+      Explicación: De los positivos predichos, cuántos son correctos.
+    ↳ Recall
+      Explicación: De los positivos reales, cuántos se detectan.
+    ↳ F1
+      Explicación: Media armónica de precision y recall.
+    ↳ ROC AUC
+      Explicación: Evalúa la capacidad de ordenación de un clasificador binario.
+    ↳ MAE y RMSE
+      Explicación: Errores de predicción de regresión, en unidades del objetivo.
+  ↳ Clases desbalanceadas
+    Explicación: Cuando una clase aparece mucho menos que otra.
+    ↳ SMOTE
+      Explicación: Sintetiza ejemplos de clases minoritarias sobre entrenamiento.
+    ↳ Tomek Links
+      Explicación: Identifica pares cercanos de clases opuestas para limpiar datos.
+    ↳ SMOTEENN y SMOTETomek
+      Explicación: Combinan sobremuestreo y métodos de limpieza.
+
+Conexiones entre ramas:
+• StandardScaler ↔ KNN
+• StandardScaler ↔ SVM
+• Data leakage ↔ División train/test
+• Clases desbalanceadas ↔ Recall
+• Clustering ↔ DBSCAN
+• Detección de anomalías ↔ Isolation Forest

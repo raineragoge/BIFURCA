@@ -1,0 +1,65 @@
+Proyectos y prácticas realizadas
+
+Proyectos prácticos
+  Explicación: Conectar contenidos estudiados con trabajos concretos; incluye proyectos en distinta fase.
+  ↳ Sistema experto ViviendaSeg
+    Explicación: Evaluación del riesgo de viviendas de propietarios mediante reglas.
+    ↳ Conocimiento del dominio
+      Explicación: Requisitos y preguntas de la vivienda.
+    ↳ Hechos y reglas
+      Explicación: Base de conocimientos con condiciones de riesgo.
+    ↳ Motor de inferencia
+      Explicación: Aplica reglas y produce nivel bajo, medio o alto.
+    ↳ Datos faltantes
+      Explicación: Un dato relevante desconocido puede exigir aviso o revisión.
+    ↳ Prolog y Python académicos
+      Explicación: Arquitectura inicial del ejercicio de clase.
+    ↳ Demo web con Node.js
+      Explicación: Implementación demostrativa diferenciada del trabajo académico.
+  ↳ Experimento RAUDO A/B
+    Explicación: Comparación de dos versiones de una tienda visual.
+    ↳ Hipótesis
+      Explicación: Evaluar diferencias entre dos experiencias de usuario.
+    ↳ Variantes A y B
+      Explicación: Dos diseños para comparar.
+    ↳ Formulario de evaluación
+      Explicación: Recoger respuestas de estudiantes sobre ambas versiones.
+    ↳ Interpretación de respuestas
+      Explicación: Analizar tendencias sin atribuir causalidad injustificada.
+  ↳ Laboratorio de Machine Learning
+    Explicación: Ejercicios y modelos de clasificación y regresión.
+    ↳ Pipeline de modelado
+      Explicación: EDA, limpieza, train/test, entrenamiento y evaluación.
+    ↳ Problema de abandono
+      Explicación: Ejercicio de limpieza de datos, división e imputación.
+    ↳ Regresión logística en Colab
+      Explicación: Clasificación binaria con celdas de explicación.
+    ↳ Regresión lineal en Colab
+      Explicación: Predicción de un valor continuo.
+  ↳ Laboratorio de MongoDB
+    Explicación: Ejercicios con MongoDB Atlas.
+    ↳ Colecciones de películas y series
+      Explicación: Análisis de documentos y atributos.
+    ↳ Pipelines de agregación
+      Explicación: Combinación de etapas en Data Explorer.
+    ↳ Documentación de resultados
+      Explicación: Captura de resultados y descripción de dos líneas.
+  ↳ Simulación Monte Carlo
+    Explicación: Trabajo con ensayos repetidos en hojas de cálculo.
+    ↳ Dados y medias
+      Explicación: Ensayar, calcular y representar resultados.
+    ↳ Trayectos y cafetería
+      Explicación: Modelar variabilidad de tiempos o actividad comercial.
+  ↳ AI Lab · predicción de esports
+    Explicación: Experimento personal de Machine Learning, separado de la asignatura.
+    ↳ Variables de entrenamiento
+      Explicación: Elo y estadísticas recientes de partidas.
+    ↳ Separación temporal
+      Explicación: Probar con partidas posteriores para evitar filtraciones.
+    ↳ Cambio de distribución
+      Explicación: El parche y el metajuego pueden cambiar los patrones.
+
+Conexiones entre ramas:
+• Hechos y reglas ↔ Motor de inferencia
+• Pipeline de modelado ↔ Separación temporal
+• Experimento RAUDO A/B ↔ Hipótesis

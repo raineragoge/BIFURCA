@@ -1,0 +1,522 @@
+{
+  "format": "bifurca-v4",
+  "kind": "knowledge",
+  "name": "Mi aprendizaje · IA y Big Data",
+  "tree": {
+    "id": "nac3542e0038d480c95e8",
+    "title": "Mi aprendizaje en IA y Big Data",
+    "notes": "",
+    "description": "Vista general de lo trabajado hasta noviembre de 2026; cada bloque tiene su propio mapa detallado.",
+    "example": "",
+    "status": "neutral",
+    "collapsed": false,
+    "expanded": false,
+    "children": [
+      {
+        "id": "nb6df23fbb64845379f88",
+        "title": "Inteligencia Artificial",
+        "notes": "",
+        "description": "Conocer las distintas formas de razonar y aprender.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "nd4d5f69bd696455a8f46",
+            "title": "IA simbólica",
+            "notes": "",
+            "description": "Reglas y conocimiento explícito.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n820ba5bf063a4fefaf76",
+            "title": "Sistemas expertos",
+            "notes": "",
+            "description": "Base de conocimientos y motor de inferencia.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n166847adad564a4fb5e1",
+            "title": "Búsqueda",
+            "notes": "",
+            "description": "BFS, DFS, UCS y A estrella.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n857aaa3ae33c4d219ff0",
+            "title": "Aprendizaje por refuerzo",
+            "notes": "",
+            "description": "Agentes, recompensas y Q-Learning.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nad8f159219f74ed89c1f",
+            "title": "Redes neuronales",
+            "notes": "",
+            "description": "Introducción a redes y capas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "ne0a692fd335c4d86ba01",
+        "title": "Machine Learning",
+        "notes": "",
+        "description": "Aprender patrones y evaluar la generalización.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n14b40ac1375e4b40ad3d",
+            "title": "Supervisado",
+            "notes": "",
+            "description": "Clasificación y regresión.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "n28fbf175005e4c748a60",
+                "title": "Clasificación",
+                "notes": "",
+                "description": "KNN, regresión logística, árboles, Random Forest y SVM.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "n78093e1d1e60444b8b18",
+                "title": "Regresión",
+                "notes": "",
+                "description": "Regresión lineal y errores de predicción.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n41d1db3b60f045ccac4f",
+            "title": "No supervisado",
+            "notes": "",
+            "description": "Clustering, anomalías y reducción de dimensiones.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": [
+              {
+                "id": "n0c00b658504c49a88436",
+                "title": "Agrupación",
+                "notes": "",
+                "description": "K-Means y DBSCAN.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              },
+              {
+                "id": "nb87655fb0daf429d9c62",
+                "title": "Anomalías y componentes",
+                "notes": "",
+                "description": "Isolation Forest y PCA.",
+                "example": "",
+                "status": "neutral",
+                "collapsed": false,
+                "expanded": false,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "n073dcf5066c54a24b0ee",
+            "title": "Preparación de datos",
+            "notes": "",
+            "description": "Nulos, duplicados, escalado, train/test y filtración.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n9fd2e892e5724e2cbaea",
+            "title": "Validación y métricas",
+            "notes": "",
+            "description": "Validación cruzada, búsqueda de hiperparámetros y F1, AUC, MAE.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nebc58acd6a8144f8baea",
+            "title": "Modelos fuera de Colab",
+            "notes": "",
+            "description": "Scripts, persistencia y nociones de MLflow.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nd4b05da8bf12453b8d34",
+        "title": "Big Data e ingeniería",
+        "notes": "",
+        "description": "Procesar, almacenar y mover datos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n021876070e6340cb916f",
+            "title": "Arquitectura",
+            "notes": "",
+            "description": "ETL, ELT, batch, streaming y CDC.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n36b8b3e0b53c4b17b9a8",
+            "title": "Hadoop y almacenamiento",
+            "notes": "",
+            "description": "HDFS, Hive, Parquet y práctica CSV.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nec32cc032668434fb68a",
+            "title": "Automatización",
+            "notes": "",
+            "description": "Bash, Cron y pipelines.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nd41d9a2c763d43d5b9c7",
+            "title": "Ecosistema",
+            "notes": "",
+            "description": "BigQuery, DuckDB, Spark, Airflow, Kafka y Flink; diferentes niveles de estudio.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n96f93641abbb48898a28",
+            "title": "Visualización",
+            "notes": "",
+            "description": "Looker Studio, Power BI y Streamlit.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "na83dd57d5a374c13a4a6",
+        "title": "MongoDB",
+        "notes": "",
+        "description": "Consultar y transformar documentos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n5e7556207ecc4a2aa88b",
+            "title": "Atlas y datos",
+            "notes": "",
+            "description": "Clúster, base, colección, documento, BSON.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nd2f5afe2757e46eea5af",
+            "title": "Consultas CRUD",
+            "notes": "",
+            "description": "insertOne, find, updateOne, deleteOne, filtros.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n3e5751ce7ef64adfb3d5",
+            "title": "Agregaciones",
+            "notes": "",
+            "description": "$match, $project, $group, $sort, $limit y $lookup.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n479f9767c1ec41369d34",
+            "title": "SQL comparado",
+            "notes": "",
+            "description": "Colecciones/tablas y $lookup/JOIN.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n4da50a1bba0e4c80a556",
+            "title": "Prácticas",
+            "notes": "",
+            "description": "Películas, series y pipelines.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n9cccd98aedfb4f839666",
+        "title": "Python y SQL",
+        "notes": "",
+        "description": "Herramientas para programar y analizar.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n8be8aa625b324da2ade9",
+            "title": "Python",
+            "notes": "",
+            "description": "Estructuras, funciones, random y semilla.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nbb70f1b0e8d64678b062",
+            "title": "NumPy y Pandas",
+            "notes": "",
+            "description": "Arrays, DataFrames y limpieza.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n645ca05558ac4f03af33",
+            "title": "SQL",
+            "notes": "",
+            "description": "SELECT, WHERE, JOIN, GROUP BY y operaciones DML.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne7047db8fa634d85b793",
+            "title": "Notebooks",
+            "notes": "",
+            "description": "Google Colab, explicación por celdas y scripts .py.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n0fc080a1f5944638874a",
+            "title": "Scikit-learn",
+            "notes": "",
+            "description": "Preprocesar, entrenar y evaluar modelos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "n7f47f2fcd96342bdba2a",
+        "title": "Matemáticas y probabilidad",
+        "notes": "",
+        "description": "Interpretar datos y evidencia.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n162ef3489ccb4c2c8288",
+            "title": "Estadística",
+            "notes": "",
+            "description": "Media, mediana, dispersión y atípicos.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ndcca7b5f8685422882a2",
+            "title": "Probabilidad",
+            "notes": "",
+            "description": "Eventos, independencia y probabilidad condicional.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n69d81e27459546188169",
+            "title": "Bayes y Naive Bayes",
+            "notes": "",
+            "description": "Prior, likelihood, posterior e independencia condicional.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "ne22e838f631443e1a9af",
+            "title": "Simulaciones",
+            "notes": "",
+            "description": "Monte Carlo con dados, trayectos y cafetería.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "nf1364281f6f64ad7b9f4",
+        "title": "Proyectos y ejercicios",
+        "notes": "",
+        "description": "Aplicar conocimientos a problemas concretos.",
+        "example": "",
+        "status": "neutral",
+        "collapsed": false,
+        "expanded": false,
+        "children": [
+          {
+            "id": "n935819d39ef148c09ffd",
+            "title": "ViviendaSeg",
+            "notes": "",
+            "description": "Reglas de evaluación del riesgo de viviendas.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "nb5a7be465ddf4ec09e28",
+            "title": "RAUDO A/B",
+            "notes": "",
+            "description": "Hipótesis, variantes y formulario de comparación.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n88edf1ecb547414092b1",
+            "title": "Machine Learning en Colab",
+            "notes": "",
+            "description": "Regresión y clasificación con explicación.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n84619100ed6b4ac2b843",
+            "title": "MongoDB Atlas",
+            "notes": "",
+            "description": "Pipelines y capturas de resultados.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          },
+          {
+            "id": "n917a6137510244729fbd",
+            "title": "Esports Predictor",
+            "notes": "",
+            "description": "Experimento propio con Elo, variables y división temporal.",
+            "example": "",
+            "status": "neutral",
+            "collapsed": false,
+            "expanded": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "links": []
+}
