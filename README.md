@@ -6,6 +6,17 @@
 
 Abre `index.html` en un navegador moderno. No requiere instalar dependencias ni montar un servidor.
 
+## Árboles disponibles al abrir
+
+La **v0.7 muestra automáticamente ocho mapas de conocimiento**, sin importar archivos: mapa general, IA, Machine Learning, Big Data, MongoDB, Python/SQL, Matemáticas/Bayes y proyectos. Los verás en el **panel lateral «Temarios incluidos»** y puedes cambiar entre ellos con un clic.
+
+- En ordenador, la biblioteca queda abierta a la izquierda. El botón **Árboles** permite plegarla y volver a abrirla.
+- En móvil, toca **Árboles** para abrirla como panel lateral y selecciona un temario.
+- El botón **Importar JSON** está destacado en la barra superior y repetido al pie del panel. Sirve para **añadir otros mapas tuyos**; no es necesario para los ocho incluidos.
+- **Organizar biblioteca** permite renombrar, duplicar y eliminar tus árboles.
+
+Los temarios forman parte del archivo `index.html` y no necesitan conexión de red adicional para cargarse. Los ficheros de `temarios/` siguen disponibles como copias independientes y para compartir.
+
 ## Crear un árbol
 
 1. Pulsa **Nuevo** y escribe un nombre.
@@ -33,12 +44,13 @@ La primera línea será el nodo raíz. Cada nivel de sangría crea subramas. Tam
 
 La sangría representa una relación jerárquica. Para relaciones transversales, usa el botón de **conectar nodos**; no es necesario forzar una clasificación incorrecta.
 
-## Funcionalidades (v0.6)
+## Funcionalidades (v0.7)
 
 - Árboles de decisiones con notas y estados semánticos: positivo, negativo, incierto y neutral.
 - Mapas de conocimientos con título, **explicación**, **ejemplo práctico** y **notas personales** por concepto.
 - Ramas y subramas, plegado/desplegado, enfoque, conexiones secundarias, zoom y navegación por el lienzo.
-- Deshacer/rehacer, biblioteca y duplicado de árboles.
+- Deshacer/rehacer, biblioteca lateral siempre visible en escritorio y duplicado de árboles.
+- Ocho mapas precargados (304 conceptos en total) y migración automática desde versiones anteriores, sin sobrescribir árboles ya importados ni sus modificaciones.
 - Importación/exportación JSON y exportación de texto.
 - Formato JSON **bifurca-v4**, compatible con importaciones previas **bifurca-v3** y el formato legado simple.
 - Cuatro temas (Arcilla, Lino, Salvia e Iris), modo oscuro, animación de bifurcación y efectos sonoros opcionales.
@@ -46,16 +58,16 @@ La sangría representa una relación jerárquica. Para relaciones transversales,
 
 ## Almacenamiento y privacidad
 
-Los datos se guardan automáticamente en el almacenamiento local del navegador (`localStorage`), sin base de datos ni sincronización entre dispositivos. La versión 0.6 **mantiene la misma clave de almacenamiento que la 0.5** para conservar los árboles anteriores, tratándolos como árboles de decisiones. Las explicaciones y ejemplos se guardan junto a cada concepto.
+Los datos se guardan automáticamente en el almacenamiento local del navegador (`localStorage`), sin base de datos ni sincronización entre dispositivos. La versión 0.7 **mantiene la misma clave de almacenamiento que las versiones anteriores** para conservar los árboles anteriores, tratándolos como árboles de decisiones. Las explicaciones y ejemplos se guardan junto a cada concepto.
 
 **Exporta periódicamente una copia JSON.** Si borras los datos del navegador o cambias de dispositivo, necesitarás importar dicha copia.
 
 ## Verificación
 
-Se ha comprobado la sintaxis de JavaScript y el análisis de un esquema sangrado, incluidas ramas hermanas, explicaciones, ejemplos y lectura de árboles anteriores. No se ha realizado una prueba completa de interfaz en navegador ni un despliegue web validado.
+Se ha comprobado la sintaxis JavaScript y la incorporación de los ocho mapas, su apertura inicial, la lectura de datos anteriores, la prevención de duplicados, la conservación de preferencias y la persistencia al recargar. No se ha realizado una prueba completa de interfaz en navegador ni un despliegue web validado.
 
 ## Despliegue
 
 Puede publicarse desde la rama `main` y la carpeta raíz mediante GitHub Pages, tras activar Pages en la configuración del repositorio, o mediante Cloudflare Pages. El punto de entrada es `index.html`.
 
-**Estado:** v0.6 · primera versión funcional del modo Conocimientos · sin backend.
+**Estado:** v0.7 · biblioteca visible y temarios integrados · sin backend.
