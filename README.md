@@ -8,7 +8,7 @@ Abre `index.html` en un navegador moderno. No requiere instalar dependencias ni 
 
 ## Árboles disponibles al abrir
 
-La **v0.7 muestra automáticamente ocho mapas de conocimiento**, sin importar archivos: mapa general, IA, Machine Learning, Big Data, MongoDB, Python/SQL, Matemáticas/Bayes y proyectos. Los verás en el **panel lateral «Temarios incluidos»** y puedes cambiar entre ellos con un clic.
+La **v0.9 muestra automáticamente ocho mapas de conocimiento**, sin importar archivos: mapa general, IA, Machine Learning, Big Data, MongoDB, Python/SQL, Matemáticas/Bayes y proyectos. Los verás en el **panel lateral «Temarios incluidos»** y puedes cambiar entre ellos con un clic.
 
 - En ordenador, la biblioteca queda abierta a la izquierda. El botón **Árboles** permite plegarla y volver a abrirla.
 - En móvil, toca **Árboles** para abrirla como panel lateral y selecciona un temario.
@@ -19,6 +19,16 @@ La **v0.7 muestra automáticamente ocho mapas de conocimiento**, sin importar ar
 - **Organizar biblioteca** también permite renombrar, duplicar y eliminar tus árboles.
 
 Los temarios forman parte del archivo `index.html` y no necesitan conexión de red adicional para cargarse. Los ficheros de `temarios/` siguen disponibles como copias independientes y para compartir.
+
+## Leer y buscar en los temarios
+
+- **Escalonado** es la vista predeterminada: el árbol crece verticalmente, con cada subtema sangrado. La rueda del ratón desplaza el lienzo hacia arriba o abajo; usa los botones **+ / −** para el zoom.
+- El botón **Escalonado / Horizontal** dentro del lienzo permite recuperar la distribución horizontal tradicional.
+- Los ocho temarios incluidos aparecen inicialmente con sus **bloques principales plegados** para evitar cientos de tarjetas a la vez. Pulsa un bloque para abrir o cerrar sus subramas. El lápiz sirve para editar.
+- **Plegar niveles** vuelve a cerrar los bloques de segundo nivel y posteriores.
+- El **buscador de la biblioteca** encuentra coincidencias en títulos, explicaciones, ejemplos y notas de todos los árboles guardados, aunque estén plegados. Ignora mayúsculas y tildes; por ejemplo, «regresion» encuentra «regresión». Al pulsar un resultado, BIFURCA abre las ramas necesarias y te lleva al concepto.
+- Usa **Ctrl+K** (o **⌘K** en Mac) para ir al buscador.
+- Los cambios de disposición y plegado se guardan localmente; los datos anteriores se conservan.
 
 ## Crear un árbol
 
@@ -47,13 +57,14 @@ La primera línea será el nodo raíz. Cada nivel de sangría crea subramas. Tam
 
 La sangría representa una relación jerárquica. Para relaciones transversales, usa el botón de **conectar nodos**; no es necesario forzar una clasificación incorrecta.
 
-## Funcionalidades (v0.8)
+## Funcionalidades (v0.9)
 
 - Árboles de decisiones con notas y estados semánticos: positivo, negativo, incierto y neutral.
 - Mapas de conocimientos con título, **explicación**, **ejemplo práctico** y **notas personales** por concepto.
 - Ramas y subramas, plegado/desplegado, enfoque, conexiones secundarias, zoom y navegación por el lienzo.
 - Deshacer/rehacer, biblioteca lateral siempre visible en escritorio y duplicado de árboles.
-- Ocho mapas precargados (304 conceptos en total) y migración automática desde versiones anteriores, sin sobrescribir árboles ya importados ni sus modificaciones.
+- Ocho mapas precargados (304 conceptos en total) con apertura inicial por bloques y migración automática desde versiones anteriores, conservando sus conceptos y notas.
+- Vista escalonada de anchura limitada, vista horizontal opcional, búsqueda transversal con navegación directa y desplazamiento vertical mediante rueda.
 - Importación/exportación JSON y exportación de texto.
 - Formato JSON **bifurca-v4**, compatible con importaciones previas **bifurca-v3** y el formato legado simple.
 - Cuatro temas (Arcilla, Lino, Salvia e Iris), modo oscuro, animación de bifurcación y efectos sonoros opcionales.
@@ -67,10 +78,10 @@ Los datos se guardan automáticamente en el almacenamiento local del navegador (
 
 ## Verificación
 
-Se ha comprobado la sintaxis JavaScript y, mediante pruebas automatizadas de lógica, la confirmación y cancelación del borrado, la eliminación de árboles activos e inactivos, el caso del último árbol, la conservación de datos personales, la restauración de temarios y la persistencia tras recargar. No se ha realizado una prueba visual completa del flujo en navegador.
+Se han comprobado la sintaxis JavaScript, la búsqueda con y sin tildes, la apertura de ramas ocultas desde resultados y la distribución de los ocho temarios sin solapamientos de tarjetas. Se ha validado la reducción de anchura de la vista escalonada frente a la horizontal. Falta una prueba visual completa en navegador y verificar el despliegue público.
 
 ## Despliegue
 
 Puede publicarse desde la rama `main` y la carpeta raíz mediante GitHub Pages, tras activar Pages en la configuración del repositorio, o mediante Cloudflare Pages. El punto de entrada es `index.html`.
 
-**Estado:** v0.8 · biblioteca visible, eliminación de árboles y restauración de temarios · sin backend.
+**Estado:** v0.9 · vista escalonada, temarios plegables y buscador de conceptos · sin backend.
