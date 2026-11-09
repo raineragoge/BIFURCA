@@ -4,13 +4,13 @@ Mapas de conocimiento preparados para **BIFURCA v0.7**. Cada archivo JSON contie
 
 ## Ya están dentro de la aplicación
 
-**En BIFURCA v0.7 no tienes que importar ninguno de estos ocho archivos.** Los mapas ya vienen integrados en `index.html` y aparecen automáticamente en el panel lateral **«Temarios incluidos»** al abrir la web. Selecciona uno y empieza a explorar.
+**En BIFURCA v0.7 no tienes que importar ninguno de estos ocho archivos.** Los mapas ya vienen integrados en `index.html` y aparecen automáticamente en el panel lateral **«Temarios incluidos»** al abrir la web. Selecciona uno y empieza a explorar. Desde la versión **0.9**, los bloques de primer nivel vienen **plegados por defecto** para evitar árboles muy anchos. Puedes abrir cada bloque con un clic, cambiar a vista horizontal o usar el buscador para localizar conceptos.
 
 Para añadir **otros mapas**, utiliza el botón visible **Importar JSON** en la barra superior o al pie de la biblioteca.
 
 Los JSON de esta carpeta se conservan para compartir, hacer copias independientes o importar a otra aplicación. Los TXT sirven como esquemas de lectura.
 
-Los mapas y las modificaciones que realices se guardan localmente en tu navegador. Si editas un temario integrado, la aplicación conserva tus cambios al volver a abrirla, sin sustituirlos por la versión original.
+La distribución escalonada se aplica desde la interfaz y los JSON incluidos también conservan el plegado inicial de los bloques principales. Los mapas y las modificaciones que realices se guardan localmente en tu navegador. Si editas un temario integrado, la aplicación conserva tus cambios al volver a abrirla, sin sustituirlos por la versión original.
 
 ## Índice
 

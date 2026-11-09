@@ -19,7 +19,7 @@
         "description": "Se diferencian por la información disponible y el objetivo.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -144,7 +144,7 @@
         "description": "Algoritmos para clasificación o regresión.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -267,7 +267,7 @@
         "description": "Métodos para descubrir grupos, estructura o rarezas.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -323,7 +323,7 @@
         "description": "Pasos para obtener resultados evaluables y utilizables.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -548,7 +548,7 @@
         "description": "Permiten evaluar resultados según la tarea.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -637,7 +637,7 @@
         "description": "Cuando una clase aparece mucho menos que otra.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {

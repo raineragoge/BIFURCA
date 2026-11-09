@@ -19,7 +19,7 @@
         "description": "Resume observaciones disponibles.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -86,7 +86,7 @@
         "description": "Cuantifica incertidumbre de eventos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -142,7 +142,7 @@
         "description": "Actualiza una probabilidad usando nueva evidencia.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -198,7 +198,7 @@
         "description": "Clasificador que aplica Bayes con una hipótesis simplificadora.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -243,7 +243,7 @@
         "description": "Aproximar resultados realizando muchos ensayos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {

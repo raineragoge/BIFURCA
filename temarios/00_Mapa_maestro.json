@@ -19,7 +19,7 @@
         "description": "Conocer las distintas formas de razonar y aprender.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -86,7 +86,7 @@
         "description": "Aprender patrones y evaluar la generalización.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -199,7 +199,7 @@
         "description": "Procesar, almacenar y mover datos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -266,7 +266,7 @@
         "description": "Consultar y transformar documentos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -333,7 +333,7 @@
         "description": "Herramientas para programar y analizar.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -400,7 +400,7 @@
         "description": "Interpretar datos y evidencia.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -456,7 +456,7 @@
         "description": "Aplicar conocimientos a problemas concretos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {

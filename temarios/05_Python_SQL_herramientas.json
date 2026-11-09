@@ -19,7 +19,7 @@
         "description": "Lenguaje para automatizar, analizar y crear modelos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -108,7 +108,7 @@
         "description": "Manipulación y exploración de datos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -198,7 +198,7 @@
         "description": "Consultas estructuradas sobre bases de datos relacionales.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -276,7 +276,7 @@
         "description": "Lugares donde ejecutar código y análisis.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -343,7 +343,7 @@
         "description": "Distinción entre código e información aprendida.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {

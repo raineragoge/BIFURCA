@@ -19,7 +19,7 @@
         "description": "Diferencia las tareas principales.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -64,7 +64,7 @@
         "description": "Movimiento y preparación de los datos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -154,7 +154,7 @@
         "description": "Tecnologías introducidas y practicadas.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -232,7 +232,7 @@
         "description": "Trabajo con archivo y automatización.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -299,7 +299,7 @@
         "description": "Herramientas mencionadas como parte del panorama profesional, no prácticas completas verificadas.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -355,7 +355,7 @@
         "description": "Presentar resultados e indicadores.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -400,7 +400,7 @@
         "description": "Conservar fiabilidad, trazabilidad y uso responsable.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {

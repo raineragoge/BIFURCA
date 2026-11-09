@@ -19,7 +19,7 @@
         "description": "No todos los sistemas inteligentes aprenden con datos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -64,7 +64,7 @@
         "description": "Razonan sobre hechos mediante reglas establecidas previamente.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -177,7 +177,7 @@
         "description": "Explora posibles pasos hasta alcanzar un objetivo.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -255,7 +255,7 @@
         "description": "Un agente aprende según las recompensas de sus acciones.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {

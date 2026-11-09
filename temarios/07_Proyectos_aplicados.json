@@ -19,7 +19,7 @@
         "description": "Evaluación del riesgo de viviendas de propietarios mediante reglas.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -97,7 +97,7 @@
         "description": "Comparación de dos versiones de una tienda visual.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -153,7 +153,7 @@
         "description": "Ejercicios y modelos de clasificación y regresión.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -209,7 +209,7 @@
         "description": "Ejercicios con MongoDB Atlas.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -254,7 +254,7 @@
         "description": "Trabajo con ensayos repetidos en hojas de cálculo.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -288,7 +288,7 @@
         "description": "Experimento personal de Machine Learning, separado de la asignatura.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {

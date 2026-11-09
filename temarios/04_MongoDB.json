@@ -19,7 +19,7 @@
         "description": "Cómo se organiza la información.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -119,7 +119,7 @@
         "description": "Crear, consultar, actualizar y borrar documentos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -220,7 +220,7 @@
         "description": "Pipelines que transforman o resumen documentos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -320,7 +320,7 @@
         "description": "Relacionar conceptos de ambos modelos.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
@@ -387,7 +387,7 @@
         "description": "Ejercicios con películas, series y colecciones.",
         "example": "",
         "status": "neutral",
-        "collapsed": false,
+        "collapsed": true,
         "expanded": false,
         "children": [
           {
