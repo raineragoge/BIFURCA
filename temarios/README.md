@@ -1,15 +1,16 @@
 # Temarios para BIFURCA
 
-Mapas de conocimiento preparados para **BIFURCA v0.6**. Cada archivo JSON contiene el árbol de conceptos, explicaciones, ejemplos, notas y conexiones entre ramas. Los archivos TXT son versiones legibles sin BIFURCA.
+Mapas de conocimiento preparados para **BIFURCA v0.7**. Cada archivo JSON contiene el árbol de conceptos, explicaciones, ejemplos, notas y conexiones entre ramas. Los archivos TXT son versiones legibles sin BIFURCA.
 
-## Importación en BIFURCA
+## Ya están dentro de la aplicación
 
-1. Abre la aplicación BIFURCA.
-2. Pulsa el selector de árbol (**Mis árboles**).
-3. Elige **Importar JSON** y selecciona uno de los archivos de esta carpeta.
-4. Repite el procedimiento para importar los demás mapas. Cada uno aparecerá como árbol independiente en la biblioteca.
+**En BIFURCA v0.7 no tienes que importar ninguno de estos ocho archivos.** Los mapas ya vienen integrados en `index.html` y aparecen automáticamente en el panel lateral **«Temarios incluidos»** al abrir la web. Selecciona uno y empieza a explorar.
 
-> No basta con almacenar estos archivos en GitHub para que aparezcan en la aplicación: la versión 0.6 utiliza almacenamiento local del navegador. Debes importar los JSON una vez en cada navegador donde quieras usarlos.
+Para añadir **otros mapas**, utiliza el botón visible **Importar JSON** en la barra superior o al pie de la biblioteca.
+
+Los JSON de esta carpeta se conservan para compartir, hacer copias independientes o importar a otra aplicación. Los TXT sirven como esquemas de lectura.
+
+Los mapas y las modificaciones que realices se guardan localmente en tu navegador. Si editas un temario integrado, la aplicación conserva tus cambios al volver a abrirla, sin sustituirlos por la versión original.
 
 ## Índice
 
