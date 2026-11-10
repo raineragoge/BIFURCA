@@ -2,6 +2,33 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## v1.2.0 — respuestas de IA sin JSON
+
+Para evitar los fallos de pegado de respuestas JSON desde ChatGPT, **BIFURCA solicita ahora texto plano etiquetado**. Es el formato recomendado, no requiere comillas, llaves, corchetes ni caracteres escapados.
+
+Ejemplo:
+
+```text
+CONCEPTO: GraphSAGE
+EXPLICACION: Agrega información de una muestra de nodos vecinos.
+EJEMPLO: Representar productos según sus conexiones.
+NOTAS: Muestreo de vecinos.
+IMAGEN: Diagrama de agregación.
+---
+CONCEPTO: GAT
+EXPLICACION: Utiliza atención para ponderar los vecinos.
+EJEMPLO: Analizar una red de artículos científicos.
+NOTAS: Arquitectura GNN.
+IMAGEN:
+---
+```
+
+Cada bloque se interpreta como **un único nodo** con título, explicación, ejemplo, notas y sugerencia visual dentro de notas. La vista previa muestra el contenido y exige aceptar o rechazar propuestas; ninguna sugerencia se guarda antes de su aprobación. Se admite `EXPLICACIÓN` con tilde, encabezados en negrita y texto partido en varias líneas.
+
+Los JSON anteriores, los listados simples y la importación desde archivo siguen disponibles como formatos compatibles, pero **ya no son el flujo preferido**. Si falla un JSON viejo, el error incluye un código Unicode de diagnóstico y se recomienda generar una respuesta nueva con el formato etiquetado.
+
+La nueva versión conserva las claves de almacenamiento local y de respaldo. Pruebas realizadas: sintaxis completa JavaScript, lectura de formato etiquetado, acentos, multilínea, JSON clásico, Unicode anómalo y líneas antiguas. Pendiente: prueba visual interactiva y confirmación del despliegue en Cloudflare.
+
 ## v1.1.4 — importar propuestas directamente desde el portapapeles
 
 **Flujo recomendado:** en ChatGPT copia el JSON generado, vuelve a **Ideas / IA** y pulsa **Pegar del portapapeles y revisar**. BIFURCA lee el texto, valida sus propuestas y muestra inmediatamente las tarjetas provisionales, con sus explicaciones y ejemplos **dentro**; puedes aceptar/rechazar cada una. **No hace falta descargar ni subir archivos.**
