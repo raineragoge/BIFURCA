@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f7f5f1">
-<title>BIFURCA v1.1 — Nodos visuales, conexiones y glosarios</title>
+<title>BIFURCA v1.1.2 — Nodos visuales, conexiones y glosarios</title>
 <style>
 :root{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; color-scheme:light; --positive:#4c9b7e;--warning:#db9e41;--negative:#d47e74;--neutral:#94a3af}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{--bg:#f7f5f1;--stage:#f8f6f3;--surface:#fffdfa;--surface2:#f3f1ed;--text:#33353a;--muted:#89868a;--stroke:#e9e5e0;--grid:#dbd7d0;--accent:#ca8065;--accentSoft:#f8e6dc;--inkButton:#35353c;--root:#52545b;--rootText:#fffdfa;--shadow:0 16px 40px #29262712,0 3px 8px #29262708;--line:#bfb9b3;--cross:#b283cb;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
@@ -226,7 +226,7 @@ body[data-tree-layout="compact"] .connector{stroke:var(--accent);stroke-width:2;
 
 </style>
 </head>
-<body data-theme="arcilla" data-mode="light" data-version="1.1" data-map-kind="decision" data-tree-layout="compact">
+<body data-theme="arcilla" data-mode="light" data-version="1.1.2" data-map-kind="decision" data-tree-layout="compact">
 <div class="app">
 <header class="topbar">
   <div class="identity">
@@ -1165,20 +1165,88 @@ function normalizeAiProposal(value){
  if(visual)notes=(notes?notes+'\n\n':'')+'IMAGEN SUGERIDA (pendiente de adjuntar): '+visual;
  return {title,description,example,notes:notes.slice(0,7000)};
 }
-function parseAiResponse(raw){
- let input=raw.trim();
- const fence=String.fromCharCode(96).repeat(3);
- if(input.startsWith(fence))input=input.replace(/^\s*\x60{3}(?:json)?\s*/i,'').replace(/\s*\x60{3}\s*$/,'').trim();
- if(input.startsWith('{')||input.startsWith('[')){
-  let data;try{data=JSON.parse(input)}catch(e){throw Error('El JSON de la IA no es válido. Copia el JSON completo sin texto adicional.')}
-  const arr=Array.isArray(data)?data:data?.propuestas||data?.conceptos||data?.nodes||data?.items;
-  if(!Array.isArray(arr))throw Error('El JSON necesita una lista "propuestas".');
-  const result=arr.slice(0,15).map(normalizeAiProposal).filter(Boolean);
-  if(!result.length)throw Error('El JSON no contiene conceptos con título.');
-  return result;
+function jsonObjectParts(text){
+ // Busca JSON completo, ignorando las llaves que aparecen en cadenas de texto.
+ const parts=[];
+ for(let start=0;start<text.length;start++){
+  if(text[start]!=='{'&&text[start]!=='[')continue;
+  const stack=[],pairs={'}':'{',']':'['};
+  let quoted=false,escape=false;
+  for(let i=start;i<text.length;i++){
+   const ch=text[i];
+   if(quoted){
+    if(escape){escape=false;continue}
+    if(ch==='\\'){escape=true;continue}
+    if(ch==='"')quoted=false;
+    continue;
+   }
+   if(ch==='"'){quoted=true;continue}
+   if(ch==='{'||ch==='['){stack.push(ch);continue}
+   if(ch==='}'||ch===']'){
+    if(stack.pop()!==pairs[ch])break;
+    if(!stack.length){parts.push(text.slice(start,i+1));start=i;break}
+   }
+  }
  }
- const lines=input.split(/\r?\n/).map(line=>line.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,'').trim()).filter(line=>line.length>=3).slice(0,15);
- return lines.map(line=>{
+ return parts;
+}
+function normalizeCopiedJson(text){
+ // Algunas aplicaciones copian los saltos de línea como "\\n" literales fuera de cadenas JSON.
+ // No se modifica jamás el contenido de las cadenas.
+ let out='',inside=false,escaped=false;
+ for(let i=0;i<text.length;i++){
+  const ch=text[i];
+  if(inside){
+   out+=ch;
+   if(escaped){escaped=false;continue}
+   if(ch==='\\'){escaped=true;continue}
+   if(ch==='"')inside=false;
+  }else if(ch==='"'){inside=true;out+=ch}
+  else if(ch==='\\'&&/[nrt]/.test(text[i+1]||'')){out+=' ';i++}
+  else out+=ch;
+ }
+ return out;
+}
+function parseAiResponse(raw){
+ let input=String(raw||'').replace(/^\uFEFF/,'').trim();
+ if(!input)throw Error('Pega primero la respuesta generada por la IA.');
+ // Algunas vistas de ChatGPT pueden incluir la etiqueta de visualización al copiar.
+ input=input.replace(/^<escape>\s*/i,'').replace(/\s*<\/escape>$/i,'').trim();
+ const fence=String.fromCharCode(96).repeat(3);
+ const candidates=[input];
+ if(input.startsWith(fence)){
+  const stripped=input.replace(/^\s*\x60{3}(?:json)?\s*/i,'').replace(/\s*\x60{3}\s*$/,'').trim();
+  candidates.push(stripped);
+ }
+ // También admite textos explicativos alrededor de un bloque JSON delimitado.
+ for(const match of input.matchAll(/\x60{3}(?:json)?\s*([\s\S]*?)\x60{3}/gi))candidates.push(match[1].trim());
+ for(const piece of jsonObjectParts(input))candidates.push(piece);
+ let jsonFound=false,parseError=null,structureError=null;
+ const attempted=new Set();
+ for(const rawCandidate of candidates){
+  for(const candidate of [rawCandidate,normalizeCopiedJson(rawCandidate)]){
+   if(!candidate.trim()||attempted.has(candidate))continue;
+   attempted.add(candidate);
+   if(!/^[{\[]/.test(candidate.trim())&&!/^"/.test(candidate.trim()))continue;
+   jsonFound=true;
+   let data;
+   try{data=JSON.parse(candidate)}catch(err){parseError=err;continue}
+   if(typeof data==='string'){
+    try{data=JSON.parse(data)}catch(err){parseError=err;continue}
+   }
+   const arr=Array.isArray(data)?data:data?.propuestas||data?.conceptos||data?.nodes||data?.items;
+   if(!Array.isArray(arr)){structureError='El JSON debe incluir una lista llamada "propuestas".';continue}
+   const result=arr.slice(0,15).map(normalizeAiProposal).filter(Boolean);
+   if(!result.length){structureError='Las propuestas necesitan un campo "concepto" con el título.';continue}
+   return result;
+  }
+ }
+ if(jsonFound){
+  const reason=structureError||(parseError?'Hay algún carácter, comilla o separador incorrecto. '+String(parseError.message).slice(0,140):'');
+  throw Error('No se ha podido leer el JSON. '+reason+' Comprueba que está completo y empieza por { y termina por }.');
+ }
+ // Compatibilidad con las respuestas antiguas de una línea y con campos separados por |.
+ return input.split(/\r?\n/).map(line=>line.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,'').trim()).filter(line=>line.length>=3).slice(0,15).map(line=>{
   const p=line.split(/\s+\|\s+/);
   return normalizeAiProposal({concepto:p[0],explicacion:p[1]||'',ejemplo:p[2]||'',notas:p.slice(3).join(' | ')});
  }).filter(Boolean);
