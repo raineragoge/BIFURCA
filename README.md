@@ -8,6 +8,9 @@
 
 ### Funciones nuevas
 
+- **Vista previa revisable de sugerencias:** tanto las preguntas rápidas como las respuestas de una IA externa pegadas por el usuario se muestran como nodos temporales de borde discontinuo, conectados visualmente a la rama de origen. Un panel permite **Aceptar/Rechazar cada sugerencia**, descartar todas o pulsar **Añadir seleccionadas** para incorporarlas en una sola operación deshacible. Los nodos de vista previa **no se guardan en `localStorage` ni en JSON** antes de confirmarlos. La versión actual NO llama automáticamente a un modelo; el backend de IA para completar con un clic continúa pendiente.
+
+
 - **Imagen por nodo:** pega una URL HTTPS de fotografía o sube un PNG/JPG/WebP/GIF; la imagen subida se comprime y se almacena dentro del JSON del árbol. Las imágenes de URL externa requieren conexión.
 - **Cinco colores de nodos:** gris, verde, amarillo, rojo y azul. **Colores** abre un glosario editable en cada árbol; los estados de colores anteriores se mantienen.
 - **Animaciones:** breve realce al guardar información, dibujo al conectar y desaparición con sonido al eliminar una rama. Se respeta la opción de silenciar y el ajuste de accesibilidad `prefers-reduced-motion`.
@@ -107,4 +110,4 @@ Se han comprobado la sintaxis JavaScript, la búsqueda con y sin tildes, la aper
 
 Puede publicarse desde la rama `main` y la carpeta raíz mediante GitHub Pages, tras activar Pages en la configuración del repositorio, o mediante Cloudflare Pages. El punto de entrada es `index.html`.
 
-**Estado de desarrollo:** v1.0 en rama separada; se han validado sintaxis JavaScript, importación de los ocho temarios, migración de datos y distribución geométrica de auxiliares. **Pendiente:** prueba visual e interactiva completa en un navegador real y publicación.
+**Estado de desarrollo:** v1.0 en rama separada; se han validado sintaxis JavaScript, importación de los ocho temarios, migración de datos y distribución geométrica de auxiliares. **Pendiente:** prueba visual e interactiva completa en un navegador real, conexión a un backend de IA para completar automáticamente y publicación.
