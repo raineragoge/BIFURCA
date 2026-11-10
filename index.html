@@ -432,7 +432,7 @@ body[data-theme="iris"] .stage{
   </div>
   <section id="colorFilterPanel" class="color-filter-panel" aria-label="Filtrar nodos por color del glosario" hidden>
     <div class="color-filter-header"><strong>Filtrar por glosario</strong><button type="button" id="filterCloseBtn" aria-label="Cerrar filtro">×</button></div>
-    <p>Resalta un color y atenúa los demás nodos. No modifica el árbol.</p>
+    <p>Resalta los nodos visibles de un color y atenúa los demás. Abre ramas plegadas para ver sus conceptos. No modifica el árbol.</p>
     <div id="colorFilterOptions" class="color-filter-options"></div>
     <button type="button" id="clearColorFilter" class="color-filter-reset">Mostrar todos los colores</button>
   </section>
@@ -1049,8 +1049,7 @@ function renderColorFilters(){
  badge.hidden=!colorFilter;
  badge.textContent=colorFilter?(doc().legend?.[colorFilter]||DEFAULT_LEGEND[colorFilter]):'';
  const counts=Object.fromEntries(COLOR_KEYS.map(key=>[key,0]));
- nodesAll(doc().root,n=>{if(Object.hasOwn(counts,n.status))counts[n.status]++});
- for(const aux of doc().auxNodes||[])nodesAll(aux,n=>{if(Object.hasOwn(counts,n.status))counts[n.status]++});
+ for(const card of cards.values())if(Object.hasOwn(counts,card.dataset.status))counts[card.dataset.status]++;
  const list=$('colorFilterOptions');list.replaceChildren();
  for(const key of COLOR_KEYS){
   const row=document.createElement('button');row.type='button';row.className='color-filter-choice';
@@ -1800,7 +1799,8 @@ const stopDrag=e=>{
 };
 stage.addEventListener('pointerup',stopDrag);
 stage.addEventListener('pointercancel',stopDrag);
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSidebar();$('conceptSearch').focus();$('conceptSearch').select();return}if(e.key==='Escape'&&e.target===$('conceptSearch')&&$('conceptSearch').value){$('conceptSearch').value='';renderSearchResults();return}if(e.key==='Escape'&&linkSource){linkSource=null;$('hintBanner').hidden=true;render();return}if(e.target.closest('input,textarea,[contenteditable="true"]')||document.querySelector('dialog[open]'))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();historyMove(e.shiftKey?'redo':'undo')}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();historyMove('redo')}});
+document.addEventListener('pointerdown',e=>{if(filterPanelOpen&&!e.target.closest('#colorFilterPanel,#filterColorsBtn'))setColorFilterPanel(false)});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSidebar();$('conceptSearch').focus();$('conceptSearch').select();return}if(e.key==='Escape'&&e.target===$('conceptSearch')&&$('conceptSearch').value){$('conceptSearch').value='';renderSearchResults();return}if(e.key==='Escape'&&linkSource){linkSource=null;$('hintBanner').hidden=true;render();return}if(e.key==='Escape'&&filterPanelOpen){setColorFilterPanel(false);return}if(e.target.closest('input,textarea,[contenteditable="true"]')||document.querySelector('dialog[open]'))return;if(e.key==='Escape'&&(focusMode||selectedId)){exitFocusedBlock();return}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();historyMove(e.shiftKey?'redo':'undo')}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();historyMove('redo')}});
 window.addEventListener('resize',()=>{syncSidebar();render();frameCurrentTree()});
 window.BIFURCA_DEBUG={aiPreview:()=>aiPreview?clone(aiPreview):null,search:(q)=>findKnowledgeMatches(q).map(m=>({tree:m.docName,title:m.title,path:m.trail})),presets:()=>BUNDLED_MAPS.map(x=>({key:x.key,label:x.label,root:x.tree.title})),state:()=>clone(state),tree:()=>clone(doc().root),links:()=>clone(doc().links),coords:()=>[...layout.entries()].map(([id,p])=>({id,...p})),view:()=>({scale,tx,ty}),currentDoc:()=>doc().name,audio:()=>({enabled:audioPrefs.enabled,volume:audioPrefs.volume,context:audioCtx?.state||'uninitialized',scheduled:{...soundCounts}})};
 loadSound();readState();installBundledMaps();prepareBundledReadability();themeRender();syncSidebar();render();requestAnimationFrame(()=>frameCurrentTree());
