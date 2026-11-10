@@ -2,6 +2,32 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## v1.1 — completar conceptos por dentro (10/11/2026)
+
+Al pulsar **Ideas / IA → Copiar prompt para IA**, BIFURCA solicita una respuesta JSON donde cada propuesta contenga un **concepto** y su **explicacion**, **ejemplo** y **notas**. La propuesta se previsualiza como una sola tarjeta, con su título y contenidos internos. Solo después de aprobarla, los datos pasan al nodo real; el detalle se deja desplegado. **Las explicaciones no se crean como ramas hijas**.
+
+Formato recomendado:
+
+```json
+{
+  "propuestas": [
+    {
+      "concepto": "K-Means",
+      "explicacion": "Agrupa datos según su cercanía a K centroides.",
+      "ejemplo": "Segmentar clientes por patrones de compra.",
+      "notas": "K se elige antes del entrenamiento.",
+      "imagen_sugerida": "Diagrama de asignación al centroide más próximo"
+    }
+  ]
+}
+```
+
+El campo `imagen_sugerida` es opcional y se guarda como sugerencia en las notas; **no descarga ninguna imagen ni inventa enlaces**. Se aceptan también variantes de nombres de campos en español e inglés, líneas `Concepto | Explicación | Ejemplo | Notas` y listas antiguas con solo títulos. Los datos existentes, los árboles exportados y el formato `bifurca-v4` permanecen compatibles.
+
+**Limitación actual:** BIFURCA genera un prompt para una IA externa y permite pegar su respuesta estructurada. Todavía no llama a un modelo directamente; «Completar con un clic» necesita un backend de IA seguro.
+
+**Pruebas de esta entrega:** análisis sintáctico de todo el JavaScript, pruebas de lectura JSON y formatos antiguos, rechazo de JSON incorrecto, aprobación parcial de propuestas, guardado en una sola operación y preservación de las claves de almacenamiento. **Pendiente:** prueba completa visual e interactiva en navegador y confirmación de la publicación en Cloudflare.
+
 ## Actualización propuesta v1.0 — nodos visuales
 
 > **Seguridad de datos:** los árboles personales viven en `localStorage` del navegador, NO en este repositorio. **Antes de desplegar una nueva versión, desde la versión pública actual exporta una copia JSON de tus árboles.** No borres los datos de BIFURCA ni cambies de navegador antes de respaldarlos.
