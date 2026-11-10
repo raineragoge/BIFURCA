@@ -339,7 +339,7 @@ body[data-theme="iris"] .stage{
 /* Filtro discreto: solo muestra opciones cuando se abre. */
 .filter-trigger[data-active="true"]{border-color:var(--accent);color:var(--accent);background:var(--accentSoft)}
 .filter-trigger #filterActiveName{max-width:105px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:800}
-.color-filter-panel{position:absolute;top:61px;right:clamp(14px,3vw,50px);z-index:5;width:min(292px,calc(100vw - 26px));padding:16px;background:var(--surface);border:1px solid var(--stroke);border-radius:15px;box-shadow:0 17px 46px #1018222e;color:var(--text)}
+.color-filter-panel{position:absolute;top:61px;right:clamp(14px,3vw,50px);z-index:5;width:min(292px,calc(100vw - 26px));max-height:calc(100% - 80px);overflow-y:auto;touch-action:pan-y;overscroll-behavior:contain;padding:16px;background:var(--surface);border:1px solid var(--stroke);border-radius:15px;box-shadow:0 17px 46px #1018222e;color:var(--text)}
 .color-filter-panel[hidden]{display:none!important}
 .color-filter-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .color-filter-header strong{font-size:13px}
