@@ -417,6 +417,7 @@ function readState(){
     candidate.kind=candidate.kind==='knowledge'?'knowledge':'decision';
     docs.push(ensureDocExtras(candidate));
    }
+   if(!docs.length){window.__stateLoadError=true;console.warn('No se reemplazará una biblioteca existente que no se haya podido validar');return}
    if(docs.length){state={activeId:docs.some(d=>d.id===s.activeId)?s.activeId:docs[0].id,docs,
     settings:{theme:['arcilla','lino','salvia','iris'].includes(s.settings?.theme)?s.settings.theme:'arcilla',
     mode:s.settings?.mode==='dark'?'dark':'light',treeLayout:s.settings?.treeLayout==='horizontal'?'horizontal':'compact'},
@@ -767,7 +768,7 @@ function pth(a,b){
 }
 function crossPth(a,b){const right=b.x>=a.x,sign=right?1:-1,sx=a.x+sign*W/2,ex=b.x-sign*W/2,sy=a.y+a.h/2,ey=b.y+b.h/2;if(Math.abs(ex-sx)<110){let bend=sx+sign*105;return `M ${sx} ${sy} C ${bend} ${sy} ${bend} ${ey} ${ex} ${ey}`}const cx=(sx+ex)/2;return `M ${sx} ${sy} C ${cx} ${sy} ${cx} ${ey} ${ex} ${ey}`}
 function makeStaticCard(n){const el=document.createElement('article');el.className='node';el.tabIndex=0;el.dataset.id=n.id;el.setAttribute('role','group');el.innerHTML=`<div class="node-top"><span class="node-ball"></span><span class="node-meta"></span></div><div class="node-main"><div class="node-title"></div><img class="node-thumb" alt="" loading="lazy" hidden><div class="node-note" hidden></div></div><div class="node-footer"><span class="node-stat"></span><div class="node-buttons"><button type="button" class="node-button node-note-toggle" title="Mostrar u ocultar análisis" aria-label="Mostrar notas">▤</button><button type="button" class="node-button node-fold" title="Plegar o desplegar ramas" aria-label="Plegar ramas">${icon.fold}</button><button type="button" class="node-button node-chain" title="Conectar con otra rama" aria-label="Conectar con otra rama">${icon.chain}</button><button type="button" class="node-button node-edit" title="Editar esta idea" aria-label="Editar esta idea">${icon.edit}</button><button type="button" class="node-button add" title="Crear una subrama" aria-label="Crear una subrama">+</button></div></div>`;
- el.addEventListener('click',e=>{if(e.target.closest('button'))return;nodeClick(n.id)});el.addEventListener('keydown',e=>{if(e.target===el&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nodeClick(n.id)}});
+ el.addEventListener('click',e=>{if(e.target.closest('button'))return;if(el.dataset.justDragged==='yes'){el.dataset.justDragged='no';return}nodeClick(n.id)});el.addEventListener('keydown',e=>{if(e.target===el&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nodeClick(n.id)}});
  el.querySelector('.add').addEventListener('click',e=>{e.stopPropagation();openEdit(null,n.id)});
  el.querySelector('.node-edit').addEventListener('click',e=>{e.stopPropagation();openEdit(n.id)});
  el.querySelector('.node-note-toggle').addEventListener('click',e=>{e.stopPropagation();const expanded=!!locate(n.id)?.n.expanded;commit(d=>{const found=locate(n.id);if(found)found.n.expanded=!found.n.expanded});sound(expanded?'fold':'unfold')});
@@ -795,6 +796,7 @@ function makeStaticCard(n){const el=document.createElement('article');el.classNa
   const at=layout.get(n.id),xx=at?.x,yy=at?.y;
   const changed=Number.isFinite(xx)&&Number.isFinite(yy)&&(Math.abs(xx-auxDrag.x)>2||Math.abs(yy-auxDrag.y)>2);
   auxDrag=null;
+  if(changed){el.dataset.justDragged='yes';setTimeout(()=>{el.dataset.justDragged='no'},60)}
   if(changed)commit(()=>{const a=locate(n.id)?.n;if(a?.auxiliary){a.auxX=Math.round(xx);a.auxY=Math.round(yy)}});
  };
  handle.addEventListener('pointerup',finish);handle.addEventListener('pointercancel',finish);
@@ -1022,7 +1024,18 @@ const learningTemplates=[
  t=>'¿Qué debería comprender antes de estudiar "'+t+'"?'
 ];
 function quickIdeas(){const node=aiScope(),already=new Set(node.children.map(c=>c.title.toLowerCase().trim()));const templates=doc().kind==='knowledge'?learningTemplates:questionTemplates;return templates.map(fn=>fn(node.title)).filter(t=>!already.has(t.toLowerCase())).slice(0,5)}
-function aiRender(){if(!locate(aiNodeId))aiNodeId=doc().root.id;const n=aiScope();$('aiHeading').textContent=doc().kind==='knowledge'?'Ampliar conocimientos':'Explorar posibilidades';$('aiContext').textContent=(doc().kind==='knowledge'?'Concepto seleccionado: ':'Rama seleccionada: ')+n.title;const container=$('quickSuggestions');container.replaceChildren();for(const suggestion of quickIdeas()){const item=document.createElement('div');item.className='suggestion';const s=document.createElement('span');s.textContent=suggestion;const b=document.createElement('button');b.textContent='+ Rama';b.addEventListener('click',()=>{const parentId=aiNodeId;closeDialog('aiDialog');springBirth(parentId,[makeNode(suggestion)],{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast('Nueva posibilidad añadida')}})});item.append(s,b);container.appendChild(item)}}
+function createAuxSuggestions(parentId,items){
+ const parentPos=layout.get(parentId)||layout.get(doc().root.id);
+ const base=(doc().auxNodes||[]).length;
+ const added=items.map((name,i)=>{
+  const n=makeNode(name);n.auxiliary=true;n.auxX=Math.max(430,Math.round((parentPos?.x||360)+W+110+(i%2)*38));
+  n.auxY=Math.max(80,Math.round((parentPos?.y||130)+((base+i)%8)*160));
+  return n;
+ });
+ commit(d=>{d.auxNodes.push(...added);for(const a of added)d.links.push({from:parentId,to:a.id})},{freshId:added[0]?.id});
+ sound('connect');toast(added.length+' auxiliares creados y conectados');
+}
+function aiRender(){if(!locate(aiNodeId))aiNodeId=doc().root.id;const n=aiScope();$('aiHeading').textContent=doc().kind==='knowledge'?'Ampliar conocimientos':'Explorar posibilidades';$('aiContext').textContent=(doc().kind==='knowledge'?'Concepto seleccionado: ':'Rama seleccionada: ')+n.title;const container=$('quickSuggestions');container.replaceChildren();for(const suggestion of quickIdeas()){const item=document.createElement('div');item.className='suggestion';const s=document.createElement('span');s.textContent=suggestion;const b=document.createElement('button');b.textContent='+ Rama';b.addEventListener('click',()=>{const parentId=aiNodeId;closeDialog('aiDialog');if(locate(parentId)?.n.auxiliary)createAuxSuggestions(parentId,[suggestion]);else springBirth(parentId,[makeNode(suggestion)],{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast('Nueva posibilidad añadida')}})});item.append(s,b);container.appendChild(item)}}
 function promptText(){
  const path=(ancestors(aiNodeId).length?ancestors(aiNodeId).map(x=>locate(x)?.n.title):[aiScope().title]).filter(Boolean).join(' → '),n=aiScope();
  const visualGuidance=$('aiIncludeImages').checked?'\\n\\nCuando la comprensión mejore mediante una imagen, fotografía, esquema o diagrama, propone 1–3 apoyos visuales concretos: qué ilustrar, dónde adjuntarlo y términos para buscar o generar la imagen. No inventes enlaces ni describas imágenes no verificadas. Si no aportan nada, no los propongas.':'';
@@ -1033,7 +1046,7 @@ function promptText(){
  return 'Estoy construyendo un árbol de posibilidades llamado "'+doc().name+'". Quiero explorar las consecuencias de una rama, sin predicciones inventadas ni porcentajes.\n\nCamino actual: '+path+'\nIdea: '+n.title+'\nNotas: '+(n.notes||'(sin notas)')+'\nRamas existentes: '+(n.children.map(c=>c.title).join('; ')||'(ninguna)')+'\n\nPropón entre 4 y 7 nuevas alternativas, consecuencias o preguntas relevantes, diversas y específicas. Una por línea, sin explicaciones adicionales ni introducción. No repitas ramas ya existentes.'+visualGuidance;
 }
 async function copyPrompt(){const value=promptText();try{await navigator.clipboard.writeText(value);toast('Prompt copiado')}catch(e){const area=document.createElement('textarea');area.value=value;document.body.appendChild(area);area.select();const okay=document.execCommand('copy');area.remove();toast(okay?'Prompt copiado':'No se pudo copiar: selecciona el texto manualmente')}}
-function pasteIdeas(){const raw=$('aiResponse').value.trim();const lines=raw.split(/\r?\n/).map(s=>s.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,'').trim()).filter(s=>s.length>=3).slice(0,15),existing=new Set(aiScope().children.map(c=>c.title.toLowerCase()));const clean=[...new Set(lines)].filter(s=>!existing.has(s.toLowerCase())).map(s=>s.slice(0,220));if(!clean.length){toast('Pega al menos una idea nueva por línea');return}const parentId=aiNodeId;const added=clean.map(t=>makeNode(t));$('aiResponse').value='';closeDialog('aiDialog');springBirth(parentId,added,{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast(clean.length+' ramas añadidas')}})}
+function pasteIdeas(){const raw=$('aiResponse').value.trim();const lines=raw.split(/\r?\n/).map(s=>s.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,'').trim()).filter(s=>s.length>=3).slice(0,15),existing=new Set(aiScope().children.map(c=>c.title.toLowerCase()));const clean=[...new Set(lines)].filter(s=>!existing.has(s.toLowerCase())).map(s=>s.slice(0,220));if(!clean.length){toast('Pega al menos una idea nueva por línea');return}const parentId=aiNodeId;const added=clean.map(t=>makeNode(t));$('aiResponse').value='';closeDialog('aiDialog');if(locate(parentId)?.n.auxiliary)createAuxSuggestions(parentId,clean);else springBirth(parentId,added,{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast(clean.length+' ramas añadidas')}})}
 $('editForm').addEventListener('submit',e=>{
  e.preventDefault();
  const title=$('editTitle').value.trim(),notes=$('editNote').value.trim(),description=$('editDescription').value.trim(),example=$('editExample').value.trim();
