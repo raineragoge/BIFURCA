@@ -363,6 +363,9 @@ function sound(type){
    case 'unfold':tone(0,350,575,.17,.062);tone(.05,570,720,.14,.033);break;
    case 'fold':tone(0,575,360,.17,.061);break;
    case 'connect':tone(0,460,560,.13,.05);tone(.11,600,800,.19,.075);break;
+   case 'save':tone(0,570,735,.12,.045);break;
+   case 'disconnect':tone(0,540,340,.16,.058,'triangle');break;
+   case 'delete':tone(0,470,290,.23,.075,'triangle');tone(.1,330,190,.26,.035,'sine');break;
    case 'focus':tone(0,510,685,.15,.049);break;
    case 'undo':tone(0,500,340,.14,.044);break;
    case 'redo':tone(0,340,505,.14,.044);break;
@@ -839,8 +842,8 @@ async function compressImage(file){
 }
 function openEdit(nodeId=null,parentId=null,aux=false){
  const f=nodeId?locate(nodeId):null;if(nodeId&&!f)return;
- editDraft={id:nodeId,parentId,aux};editStatus=f?.n.status||'neutral';editImage=f?.n.image||'';
- selectedId=nodeId||parentId;render();
+ editDraft={id:nodeId,parentId,aux,anchor:selectedId};editStatus=f?.n.status||'neutral';editImage=f?.n.image||'';
+ selectedId=nodeId||parentId||(aux?editDraft.anchor:null);render();
  const learning=doc().kind==='knowledge';
  $('editHeading').textContent=aux?'Crear nodo auxiliar':nodeId?(f.n.auxiliary?'Editar auxiliar':f.parent?(learning?'Editar concepto':'Editar posibilidad'):(learning?'Tema principal':'Punto de partida')):(learning?'Nuevo concepto':'Nueva rama');
  $('editTitleLabel').textContent=learning?'Nombre del concepto':'Idea o consecuencia';
@@ -940,9 +943,62 @@ function resetScene(){cards.forEach(el=>el.remove());cards.clear();treePaths.for
 function switchDoc(docId){if(state.activeId===docId){closeDialog('libraryDialog');return}if(!state.docs.some(d=>d.id===docId))return;state.activeId=docId;selectedId=null;focusMode=false;focusId=null;linkSource=null;$('hintBanner').hidden=true;resetScene();persist();render();frameCurrentTree();closeDialog('libraryDialog')}
 function libraryRender(){const list=$('libraryList');list.replaceChildren();for(const d of state.docs){const row=document.createElement('div');row.className='library-row'+(d.id===state.activeId?' current-row':'');const info=document.createElement('div');info.className='library-info';const name=document.createElement('div');name.className='library-name';name.textContent=d.name;const date=document.createElement('div');date.className='library-date';date.textContent=(d.id===state.activeId?'Abierto · ':'')+(d.kind==='knowledge'?'Conocimientos':'Decisiones')+' · Actualizado '+new Date(d.updatedAt||Date.now()).toLocaleDateString('es-ES');info.append(name,date);const actions=document.createElement('div');actions.className='library-buttons';const mk=(text,fn)=>{const b=document.createElement('button');b.className='mini';b.textContent=text;b.addEventListener('click',fn);return b};actions.append(mk(d.id===state.activeId?'Ver':'Abrir',()=>switchDoc(d.id)),mk('⋯',()=>{const r=prompt('Renombrar análisis:',d.name);if(r===null)return;d.name=r.trim().slice(0,90)||d.name;d.updatedAt=Date.now();persist();libraryRender();$('projectName').textContent=doc().name}),mk('⧉',()=>{const copy=clone(d);copy.id=id();delete copy.presetKey;copy.name='Copia de '+d.name;copy.updatedAt=Date.now();state.docs.unshift(copy);persist();libraryRender();toast('Árbol duplicado')}));actions.append(mk('Eliminar',()=>removeDoc(d.id)));row.append(info,actions);list.appendChild(row)}renderSidebar()}
 function themeRender(){document.body.dataset.theme=state.settings.theme;document.body.dataset.mode=state.settings.mode;document.querySelectorAll('[data-theme-value]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeValue===state.settings.theme)));$('lightMode').setAttribute('aria-pressed',String(state.settings.mode==='light'));$('darkMode').setAttribute('aria-pressed',String(state.settings.mode==='dark'));$('lightMode').style.borderColor=state.settings.mode==='light'?'var(--accent)':'var(--stroke)';$('darkMode').style.borderColor=state.settings.mode==='dark'?'var(--accent)':'var(--stroke)';const isDark=state.settings.mode==='dark';for(const id of ['quickModeBtn','quickModeMobile']){const b=$(id);b.querySelector('.mode-symbol').textContent=isDark?'☀':'☾';b.querySelector('.mode-label').textContent=isDark?'Claro':'Oscuro';b.setAttribute('aria-label',isDark?'Activar modo claro':'Activar modo oscuro');b.setAttribute('title',isDark?'Activar modo claro':'Activar modo oscuro');b.setAttribute('aria-pressed',String(isDark))}document.querySelector('meta[name="theme-color"]').content=getComputedStyle(document.body).getPropertyValue('--bg').trim();persist()}
+async function copyToClipboard(value){
+ try{await navigator.clipboard.writeText(value);return true}
+ catch(e){const t=document.createElement('textarea');t.value=value;document.body.appendChild(t);t.select();const ok=document.execCommand('copy');t.remove();return ok}
+}
+function completeTreePrompt(){
+ const d=doc(),lines=[],maxLen=56000;
+ function walk(n,depth){const margin='  '.repeat(Math.min(depth,65));lines.push(margin+'- '+n.title+' [ID '+n.id+']');
+  if(n.description?.trim())lines.push(margin+'  Definición: '+n.description.trim().slice(0,700));
+  if(n.example?.trim())lines.push(margin+'  Ejemplo: '+n.example.trim().slice(0,450));
+  if(n.notes?.trim())lines.push(margin+'  Notas: '+n.notes.trim().slice(0,450));
+  if(n.image)lines.push(margin+'  Imagen existente: '+(n.image.startsWith('https://')?n.image:'archivo local incrustado'));
+  if(n.status!=='neutral')lines.push(margin+'  Color: '+(d.legend?.[n.status]||n.status));
+  n.children.forEach(c=>walk(c,depth+1));
+ }
+ walk(d.root,0);if(d.auxNodes?.length){lines.push('NODOS AUXILIARES:');d.auxNodes.forEach(n=>walk(n,0))}
+ const links=(d.links||[]).map(l=>{const a=locate(l.from)?.n,b=locate(l.to)?.n;return a&&b?'- '+a.title+' ↔ '+b.title:''}).filter(Boolean);
+ const contents=lines.join('\n'),truncated=contents.length>maxLen;
+ const body=(truncated?contents.slice(0,maxLen)+'\n[CONTENIDO RESUMIDO POR LONGITUD]':contents);
+ return 'Quiero que completes mi árbol de BIFURCA llamado "'+d.name+'", de tipo '+d.kind+'.\n\nOBJETIVO: Analiza toda la estructura que ya escribí; detecta conceptos importantes que falten, explicaciones incompletas, ejemplos útiles y conexiones relevantes. NO borres, contradigas ni dupliques ramas existentes. Distingue información confirmada de sugerencias.\n\nEntrega: (1) propuesta organizada por ruta exacta del nodo padre, (2) textos para ampliar huecos, (3) relaciones entre ramas, (4) imágenes o diagramas útiles solo donde de verdad ayuden, explicando qué deberían mostrar. NO inventes enlaces ni referencias. Respeta los cinco colores y sus significados. No reformules todo el árbol: añade lo que aporte valor.\n\nGLOSARIO: '+JSON.stringify(d.legend)+'\n\nESTRUCTURA ACTUAL:\n'+body+'\n\nCONEXIONES TRANSVERSALES:\n'+(links.join('\n')||'(ninguna)')+(truncated?'\n\nAviso: el árbol es muy extenso; solicita el resto si lo necesitas.':'');
+}
 function download(filename,text,mime){const blob=new Blob([text],{type:mime}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2500)}
 function basename(){return doc().name.trim().replace(/[^\p{L}\p{N}_-]+/gu,'_').slice(0,70)||'bifurca'}
 function exportJson(){download('BIFURCA_'+basename()+'.json',JSON.stringify({format:'bifurca-v4',kind:doc().kind,name:doc().name,tree:doc().root,links:doc().links,auxNodes:doc().auxNodes,legend:doc().legend},null,2),'application/json;charset=utf-8');closeDialog('exportDialog');toast('Copia exportada')}
+function backupEntireLibrary(){
+ download('BIFURCA_BIBLIOTECA_'+new Date().toISOString().slice(0,10)+'.json',
+  JSON.stringify({format:'bifurca-library-v1',exportedAt:new Date().toISOString(),state:clone(state)},null,2),
+  'application/json;charset=utf-8');
+ toast('Copia de toda la biblioteca descargada');
+}
+function restoreEntireLibrary(input){
+ if(input?.format!=='bifurca-library-v1'||!Array.isArray(input.state?.docs))throw Error('No es una copia completa de BIFURCA');
+ const incoming=input.state.docs;if(incoming.length>149)throw Error('La copia contiene demasiados árboles');
+ const added=[];
+ for(const raw of incoming){
+  const candidate=clone(raw),seen=new Set();
+  if(!safeTree(candidate.root,seen))throw Error('Un árbol de la copia no es válido');
+  candidate.auxNodes=Array.isArray(candidate.auxNodes)?candidate.auxNodes:[];
+  if(candidate.auxNodes.length>200)throw Error('Demasiados auxiliares');
+  for(const a of candidate.auxNodes)if(!safeTree(a,seen))throw Error('Nodo auxiliar de copia no válido');
+  normalize(candidate.root);candidate.auxNodes.forEach(normalize);
+  const ids=new Set();nodesAll(candidate.root,n=>ids.add(n.id));candidate.auxNodes.forEach(a=>nodesAll(a,n=>ids.add(n.id)));
+  candidate.links=Array.isArray(candidate.links)?candidate.links.filter(l=>ids.has(l.from)&&ids.has(l.to)&&l.from!==l.to):[];
+  ensureDocExtras(candidate);
+  const same=state.docs.find(d=>d.id===candidate.id);
+  if(same&&JSON.stringify({root:same.root,links:same.links,auxNodes:same.auxNodes,legend:same.legend})===JSON.stringify({root:candidate.root,links:candidate.links,auxNodes:candidate.auxNodes,legend:candidate.legend}))continue;
+  if(same){candidate.id=id();candidate.name='Copia recuperada · '+candidate.name;delete candidate.presetKey}
+  if(state.docs.length+added.length>=149)throw Error('No caben todos los árboles en la biblioteca');
+  added.push(candidate);
+ }
+ if(!added.length){toast('La copia no contiene árboles nuevos');return}
+ const before=clone(state);
+ state.docs.push(...added);
+ if(!persist()){state=before;throw Error('No hay espacio de guardado. Exporta tus árboles y prueba con menos imágenes')}
+ resetScene();render();frameCurrentTree();closeDialog('libraryDialog');
+ toast(added.length+' árboles recuperados sin eliminar los existentes');
+}
 function exportTxt(){let out=[doc().name,''];function walk(n,depth){out.push('  '.repeat(depth)+(depth?'↳ ':'')+n.title+({positive:' [positivo]',warning:' [incierto]',negative:' [negativo]'}[n.status]||''));if(doc().kind==='knowledge'){if(n.description?.trim())out.push('  '.repeat(depth+1)+'Explicación: '+n.description.trim().replace(/\n/g,' / '));if(n.example?.trim())out.push('  '.repeat(depth+1)+'Ejemplo: '+n.example.trim().replace(/\n/g,' / '));}if(n.notes.trim())out.push('  '.repeat(depth+1)+'Notas: '+n.notes.trim().replace(/\n/g,' / '));n.children.forEach(c=>walk(c,depth+1))}walk(doc().root,0);if(doc().links.length){out.push('','Conexiones adicionales:');for(const l of doc().links)out.push('• '+(locate(l.from)?.n.title||'?')+' ↔ '+(locate(l.to)?.n.title||'?'))}download('BIFURCA_'+basename()+'.txt',out.join('\n'),'text/plain;charset=utf-8');closeDialog('exportDialog');toast('Texto exportado')}
 function validateImport(input){const data=(input?.format==='bifurca-v4'||input?.format==='bifurca-v3')?{root:input.tree,links:input.links||[],name:input.name,kind:input.kind==='knowledge'?'knowledge':'decision'}:input?.format==='bifurca-simple-v1'?{root:input.tree,links:[],name:'Árbol importado',kind:'decision'}:input?.tree?{root:input.tree,links:input.links||[],name:input.name||'Árbol importado',kind:input.kind==='knowledge'?'knowledge':'decision'}:{root:input,links:[],name:'Árbol importado',kind:'decision'};if(!safeTree(data.root))throw Error('Árbol no válido');normalize(data.root);const known=new Set();nodesAll(data.root,n=>known.add(n.id));
  data.auxNodes=Array.isArray(input?.auxNodes)?input.auxNodes.slice(0,200):[];
@@ -963,35 +1019,53 @@ const learningTemplates=[
 function quickIdeas(){const node=aiScope(),already=new Set(node.children.map(c=>c.title.toLowerCase().trim()));const templates=doc().kind==='knowledge'?learningTemplates:questionTemplates;return templates.map(fn=>fn(node.title)).filter(t=>!already.has(t.toLowerCase())).slice(0,5)}
 function aiRender(){if(!locate(aiNodeId))aiNodeId=doc().root.id;const n=aiScope();$('aiHeading').textContent=doc().kind==='knowledge'?'Ampliar conocimientos':'Explorar posibilidades';$('aiContext').textContent=(doc().kind==='knowledge'?'Concepto seleccionado: ':'Rama seleccionada: ')+n.title;const container=$('quickSuggestions');container.replaceChildren();for(const suggestion of quickIdeas()){const item=document.createElement('div');item.className='suggestion';const s=document.createElement('span');s.textContent=suggestion;const b=document.createElement('button');b.textContent='+ Rama';b.addEventListener('click',()=>{const parentId=aiNodeId;closeDialog('aiDialog');springBirth(parentId,[makeNode(suggestion)],{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast('Nueva posibilidad añadida')}})});item.append(s,b);container.appendChild(item)}}
 function promptText(){
- const path=ancestors(aiNodeId).map(x=>locate(x)?.n.title).filter(Boolean).join(' → '),n=aiScope();
+ const path=(ancestors(aiNodeId).length?ancestors(aiNodeId).map(x=>locate(x)?.n.title):[aiScope().title]).filter(Boolean).join(' → '),n=aiScope();
+ const visualGuidance=$('aiIncludeImages').checked?'\\n\\nCuando la comprensión mejore mediante una imagen, fotografía, esquema o diagrama, propone 1–3 apoyos visuales concretos: qué ilustrar, dónde adjuntarlo y términos para buscar o generar la imagen. No inventes enlaces ni describas imágenes no verificadas. Si no aportan nada, no los propongas.':'';
+
  if(doc().kind==='knowledge'){
-  return 'Estoy creando en BIFURCA un mapa de conocimientos llamado "'+doc().name+'".\n\nRuta del temario: '+path+'\nConcepto: '+n.title+'\nExplicación actual: '+(n.description||'(sin explicar)')+'\nEjemplo actual: '+(n.example||'(sin ejemplo)')+'\nNotas: '+(n.notes||'(sin notas)')+'\nSubtemas existentes: '+(n.children.map(c=>c.title).join('; ')||'(ninguno)')+'\n\nPropón de 4 a 7 subtemas o preguntas de estudio pertinentes y académicamente correctos. Si algo no es una categoría hija sino un concepto relacionado, identifícalo en lugar de forzar la jerarquía. Devuelve una propuesta por línea, sin inventar hechos ni repetir ramas existentes.';
+  return 'Estoy creando en BIFURCA un mapa de conocimientos llamado "'+doc().name+'".\n\nRuta del temario: '+path+'\nConcepto: '+n.title+'\nExplicación actual: '+(n.description||'(sin explicar)')+'\nEjemplo actual: '+(n.example||'(sin ejemplo)')+'\nNotas: '+(n.notes||'(sin notas)')+'\nSubtemas existentes: '+(n.children.map(c=>c.title).join('; ')||'(ninguno)')+'\n\nPropón de 4 a 7 subtemas o preguntas de estudio pertinentes y académicamente correctos. Si algo no es una categoría hija sino un concepto relacionado, identifícalo en lugar de forzar la jerarquía. Devuelve una propuesta por línea, sin inventar hechos ni repetir ramas existentes.'+visualGuidance;
  }
- return 'Estoy construyendo un árbol de posibilidades llamado "'+doc().name+'". Quiero explorar las consecuencias de una rama, sin predicciones inventadas ni porcentajes.\n\nCamino actual: '+path+'\nIdea: '+n.title+'\nNotas: '+(n.notes||'(sin notas)')+'\nRamas existentes: '+(n.children.map(c=>c.title).join('; ')||'(ninguna)')+'\n\nPropón entre 4 y 7 nuevas alternativas, consecuencias o preguntas relevantes, diversas y específicas. Una por línea, sin explicaciones adicionales ni introducción. No repitas ramas ya existentes.';
+ return 'Estoy construyendo un árbol de posibilidades llamado "'+doc().name+'". Quiero explorar las consecuencias de una rama, sin predicciones inventadas ni porcentajes.\n\nCamino actual: '+path+'\nIdea: '+n.title+'\nNotas: '+(n.notes||'(sin notas)')+'\nRamas existentes: '+(n.children.map(c=>c.title).join('; ')||'(ninguna)')+'\n\nPropón entre 4 y 7 nuevas alternativas, consecuencias o preguntas relevantes, diversas y específicas. Una por línea, sin explicaciones adicionales ni introducción. No repitas ramas ya existentes.'+visualGuidance;
 }
 async function copyPrompt(){const value=promptText();try{await navigator.clipboard.writeText(value);toast('Prompt copiado')}catch(e){const area=document.createElement('textarea');area.value=value;document.body.appendChild(area);area.select();const okay=document.execCommand('copy');area.remove();toast(okay?'Prompt copiado':'No se pudo copiar: selecciona el texto manualmente')}}
 function pasteIdeas(){const raw=$('aiResponse').value.trim();const lines=raw.split(/\r?\n/).map(s=>s.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,'').trim()).filter(s=>s.length>=3).slice(0,15),existing=new Set(aiScope().children.map(c=>c.title.toLowerCase()));const clean=[...new Set(lines)].filter(s=>!existing.has(s.toLowerCase())).map(s=>s.slice(0,220));if(!clean.length){toast('Pega al menos una idea nueva por línea');return}const parentId=aiNodeId;const added=clean.map(t=>makeNode(t));$('aiResponse').value='';closeDialog('aiDialog');springBirth(parentId,added,{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast(clean.length+' ramas añadidas')}})}
 $('editForm').addEventListener('submit',e=>{
  e.preventDefault();
  const title=$('editTitle').value.trim(),notes=$('editNote').value.trim(),description=$('editDescription').value.trim(),example=$('editExample').value.trim();
+ const urlText=$('editImageUrl').value.trim();
  if(!title||!editDraft)return;
- if(editDraft.parentId){
-   const parentId=editDraft.parentId;
-   const added=makeNode(title);
-   added.notes=notes;added.description=doc().kind==='knowledge'?description:'';added.example=doc().kind==='knowledge'?example:'';added.status=doc().kind==='knowledge'?'neutral':editStatus;added.expanded=false;
-   selectedId=added.id;
-   editDraft=null;
-   closeDialog('editDialog');
-   springBirth(parentId,[added],{onFinish:()=>{
-     if(isCompact()||layout.size>=9)centerOn(added.id,true);else fit(true);
-     toast('Nueva rama creada');
-   }});
+ if(urlText&&!isNodeImage(urlText)){alert('La imagen debe ser una URL HTTPS válida.');return}
+ const image=urlText||editImage||'';
+ const apply=added=>{added.notes=notes;added.description=doc().kind==='knowledge'?description:'';added.example=doc().kind==='knowledge'?example:'';added.status=editStatus;added.image=image;added.expanded=false};
+ if(editDraft.aux){
+  const oldAnchor=editDraft.anchor;
+  const p=layout.get(oldAnchor)||layout.get(doc().root.id);
+  const added=makeNode(title);apply(added);added.auxiliary=true;
+  const auxCount=(doc().auxNodes||[]).length;
+  added.auxX=Math.max(420,Math.round((p?.x||320)+W+95));
+  added.auxY=Math.max(90,Math.round((p?.y||130)+(auxCount%4)*155));
+  selectedId=added.id;editDraft=null;closeDialog('editDialog');
+  commit(d=>d.auxNodes.push(added),{freshId:added.id});
+  centerOn(added.id,true);sound('split');toast('Nodo auxiliar añadido: arrastra su cabecera para moverlo');
+ }else if(editDraft.parentId){
+  const parentId=editDraft.parentId,added=makeNode(title);apply(added);
+  selectedId=added.id;editDraft=null;closeDialog('editDialog');
+  springBirth(parentId,[added],{onFinish:()=>{if(isCompact()||layout.size>=9)centerOn(added.id,true);else fit(true);toast('Nueva rama creada')}});
  }else{
-   const editedId=editDraft.id;
-   commit(d=>{const n=locate(editedId)?.n;if(n){n.title=title;n.notes=notes;if(doc().kind==='knowledge'){n.description=description;n.example=example;n.status='neutral'}else n.status=editStatus;if(!detailText(n).trim())n.expanded=false}});
-   selectedId=editedId;editDraft=null;closeDialog('editDialog');render();toast('Idea guardada');
+  const editedId=editDraft.id;
+  commit(d=>{const n=locate(editedId)?.n;if(n){n.title=title;n.notes=notes;n.description=doc().kind==='knowledge'?description:'';n.example=doc().kind==='knowledge'?example:'';n.status=editStatus;n.image=image;if(!detailText(n).trim())n.expanded=false}});
+  selectedId=editedId;editDraft=null;closeDialog('editDialog');
+  const card=cards.get(editedId);if(card&&!reduced){card.classList.remove('node-updated');void card.offsetWidth;card.classList.add('node-updated');card.addEventListener('animationend',()=>card.classList.remove('node-updated'),{once:true})}
+  sound('save');toast('Nodo actualizado');
  }
 });
+$('editImageUrl').addEventListener('input',()=>{const value=$('editImageUrl').value.trim();editImage=value||'';setImagePreview()});
+$('editImageFile').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];e.target.value='';if(!file)return;
+ try{const img=await compressImage(file);if(!$('editDialog').open)return;editImage=img;$('editImageUrl').value='';setImagePreview();toast('Imagen preparada; guarda el nodo')}
+ catch(err){alert('No se pudo adjuntar la imagen: '+err.message)}
+});
+$('clearImageBtn').addEventListener('click',()=>{editImage='';$('editImageUrl').value='';$('editImageFile').value='';setImagePreview()});
 $('deleteNode').addEventListener('click',deleteBranch);
 $('nodeAIBtn').addEventListener('click',()=>{aiNodeId=editDraft?.id||editDraft?.parentId||doc().root.id;selectedId=aiNodeId;editDraft=null;closeDialog('editDialog');render();aiRender();openDialog('aiDialog')});
 document.querySelectorAll('[data-status]').forEach(b=>b.addEventListener('click',()=>{editStatus=b.dataset.status;updateStatusChoices()}));
