@@ -561,6 +561,11 @@ function findKnowledgeMatches(raw){
      current:d.id===state.activeId});
    }
   });
+  for(const n of d.auxNodes||[]){
+   const body=searchNormalize([n.title,n.description,n.example,n.notes].join(' '));
+   if(terms.every(t=>body.includes(t)))matches.push({docId:d.id,nodeId:n.id,title:n.title,trail:['Auxiliar',n.title],docName:d.name,
+    description:n.description||n.example||n.notes||'',titleMatch:terms.every(t=>searchNormalize(n.title).includes(t)),current:d.id===state.activeId});
+  }
  }
  matches.sort((a,b)=>Number(b.titleMatch)-Number(a.titleMatch)||Number(b.current)-Number(a.current)||a.title.localeCompare(b.title,'es'));
  return matches;
@@ -1070,6 +1075,36 @@ $('deleteNode').addEventListener('click',deleteBranch);
 $('nodeAIBtn').addEventListener('click',()=>{aiNodeId=editDraft?.id||editDraft?.parentId||doc().root.id;selectedId=aiNodeId;editDraft=null;closeDialog('editDialog');render();aiRender();openDialog('aiDialog')});
 document.querySelectorAll('[data-status]').forEach(b=>b.addEventListener('click',()=>{editStatus=b.dataset.status;updateStatusChoices()}));
 document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>{const name=btn.dataset.close;closeDialog(name);if(name==='editDialog'){selectedId=editDraft?.id||editDraft?.parentId||null;editDraft=null;render()}}));
+$('newAuxBtn').addEventListener('click',()=>openEdit(null,null,true));
+function showLegend(){
+ const entries=$('legendEntries');entries.replaceChildren();
+ for(const key of COLOR_KEYS){
+  const row=document.createElement('label');row.className='legend-row';
+  const dot=document.createElement('span');dot.className='legend-dot';dot.style.background=NODE_COLORS[key];
+  const input=document.createElement('input');input.type='text';input.className='textbox';input.maxLength=65;input.dataset.legendKey=key;
+  input.value=doc().legend?.[key]||DEFAULT_LEGEND[key];input.setAttribute('aria-label','Significado del color '+key);
+  row.append(dot,input);entries.appendChild(row);
+ }
+ openDialog('legendDialog');
+}
+$('legendBtn').addEventListener('click',showLegend);
+$('saveLegendBtn').addEventListener('click',()=>{
+ const changes={...doc().legend};document.querySelectorAll('[data-legend-key]').forEach(inp=>{changes[inp.dataset.legendKey]=inp.value.trim().slice(0,65)||DEFAULT_LEGEND[inp.dataset.legendKey]});
+ commit(d=>{d.legend=normalizeLegend(changes)});closeDialog('legendDialog');toast('Glosario de colores actualizado');
+});
+$('completeTreeBtn').addEventListener('click',()=>{$('completePrompt').value=completeTreePrompt();openDialog('completeDialog')});
+$('copyCompletePrompt').addEventListener('click',async()=>{const ok=await copyToClipboard($('completePrompt').value);toast(ok?'Prompt completo copiado':'No se pudo copiar; selecciona el texto')});
+$('backupAllBtn').addEventListener('click',backupEntireLibrary);
+$('restoreAllBtn').addEventListener('click',()=>$('libraryFileInput').click());
+$('libraryFileInput').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];e.target.value='';if(!file)return;
+ try{
+  if(file.size>16000000)throw Error('Copia mayor de 16 MB');
+  const input=JSON.parse(await file.text());
+  if(!confirm('Se añadirán los árboles de esta copia sin borrar los actuales. ¿Continuar?'))return;
+  restoreEntireLibrary(input);
+ }catch(err){alert('No se pudo recuperar la biblioteca: '+err.message)}
+});
 $('newDocForm').addEventListener('submit',e=>{e.preventDefault();createDocumentFromForm()});$('newDocKind').addEventListener('change',updateNewDocMode);$('insertSample').addEventListener('click',()=>{$('newDocKind').value='knowledge';updateNewDocMode();$('newDocName').value='Machine Learning';$('outlineInput').value="Machine Learning | Disciplina que aprende patrones a partir de datos.\n  Aprendizaje supervisado | Aprende usando ejemplos etiquetados.\n    Regresión | Predice valores numéricos continuos.\n      Regresión lineal | Ajusta una relación lineal entre variables. | Predecir el precio de una vivienda.\n    Clasificación | Predice una clase o categoría.\n      Regresión logística | Estima la probabilidad de pertenecer a una clase. | Clasificar un correo como spam.\n      Árboles de decisión | Divide los datos aplicando reglas sucesivas.\n      Random Forest | Combina muchos árboles de decisión.\n  Aprendizaje no supervisado | Busca patrones sin etiquetas de respuesta.\n    Clustering | Agrupa observaciones similares.\n      K-Means | Divide las observaciones en K grupos.\n      DBSCAN | Encuentra grupos densos e identifica ruido.\n    Detección de anomalías | Identifica observaciones atípicas.\n      Isolation Forest | Aísla observaciones inusuales mediante árboles aleatorios.\n  Entrenamiento y evaluación\n    División de entrenamiento y prueba\n    Validación cruzada\n    Sobreajuste";toast('Ejemplo cargado: puedes editarlo antes de crear el mapa')});$('projectBtn').addEventListener('click',openSidebar);
 $('treesToggle').addEventListener('click',toggleSidebar);
 $('closeSidebarBtn').addEventListener('click',closeSidebar);
