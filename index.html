@@ -264,7 +264,7 @@ body[data-tree-layout="compact"] .connector{stroke:var(--accent);stroke-width:2;
 <div class="image-preview-wrap" id="editImagePreview" hidden><img id="editImagePreviewImg" alt="Vista previa de la imagen"></div>
 <p class="muted">Puedes añadir una URL HTTPS o una imagen local comprimida. Haz copias JSON de la biblioteca para conservar tus imágenes y árboles.</p>
 <div id="connectionsBlock" hidden><div class="section-title">Conexiones con otras ramas</div><div class="connections-list" id="connectionsList"></div></div>
-<div class="dialog-actions"><button class="action danger" id="deleteNode" type="button">Eliminar rama</button><button class="action" type="button" id="nodeAIBtn">✧ Ideas</button><button class="action" data-close="editDialog" type="button">Cancelar</button><button class="action primary" type="submit">Guardar cambios</button></div></form></dialog>
+<div class="dialog-actions"><button class="action" id="detachBranch" type="button" title="Separar esta rama de su padre sin borrar sus contenidos">Desvincular</button><button class="action danger" id="deleteNode" type="button">Eliminar rama</button><button class="action" type="button" id="nodeAIBtn">✧ Ideas</button><button class="action" data-close="editDialog" type="button">Cancelar</button><button class="action primary" type="submit">Guardar cambios</button></div></form></dialog>
 <dialog id="legendDialog" class="wide" aria-labelledby="legendHeading"><div class="dialog-body">
 <div class="dialog-head"><h2 id="legendHeading">Glosario de colores</h2><button type="button" class="x" data-close="legendDialog" aria-label="Cerrar">×</button></div>
 <p class="muted">Cinco colores para clasificar conceptos. Puedes modificar sus significados por árbol, sin alterar tus notas ni los árboles existentes.</p><div id="legendEntries" class="legend-entries"></div>
@@ -746,17 +746,35 @@ function compute(){
    if(!n.collapsed)n.children.forEach(c=>place(c,depth+1));
   }
   place(doc().root,0);
-  for(const a of doc().auxNodes||[])layout.set(a.id,{x:a.auxX||730,y:a.auxY||180,h:heightOf(a),depth:0,aux:true});
+  for(const a of doc().auxNodes||[]){
+   let auxY=a.auxY||180;
+   const placeAux=(n,depth)=>{
+    const h=heightOf(n);
+    layout.set(n.id,{x:(a.auxX||730)+Math.min(depth,5)*step,y:auxY,h,depth,aux:!depth});
+    auxY+=h+gap;
+    if(!n.collapsed)n.children.forEach(k=>placeAux(k,depth+1));
+   };
+   placeAux(a,0);
+  }
   const vals=[...layout.values()];
   sceneW=Math.max(800,...vals.map(p=>p.x+W/2+145));
-  sceneH=yy+125;
+  sceneH=Math.max(yy+125,...vals.map(p=>p.y+p.h+125));
   return;
  }
  const levels=new Map();visibleWalk((n,depth)=>{levels.set(depth,Math.max(levels.get(depth)||0,heightOf(n)))});
  const levelY=new Map();let yy=TOP;for(const level of [...levels.keys()].sort((a,b)=>a-b)){levelY.set(level,yy);yy+=(levels.get(level)||BASE_H)+ROW_GAP}
  let leaf=0;function place(n,d){const kids=n.collapsed?[]:n.children;const positions=kids.map(k=>place(k,d+1));const x=positions.length?(positions[0]+positions[positions.length-1])/2:PAD+W/2+leaf++*COL_GAP;layout.set(n.id,{x,y:levelY.get(d),h:heightOf(n),depth:d});return x}
- place(doc().root,0);for(const a of doc().auxNodes||[])layout.set(a.id,{x:a.auxX||730,y:a.auxY||180,h:heightOf(a),depth:0,aux:true});const vals=[...layout.values()],minX=Math.min(...vals.map(p=>p.x-W/2)),maxX=Math.max(...vals.map(p=>p.x+W/2)),width=maxX-minX;
- sceneW=Math.max(930,width+PAD*2);const shift=(sceneW-width)/2-minX;for(const p of vals)p.x+=shift;sceneH=yy+130;
+ place(doc().root,0);
+ for(const a of doc().auxNodes||[]){
+  let auxY=a.auxY||180;
+  const placeAux=(n,depth)=>{
+   const h=heightOf(n);layout.set(n.id,{x:(a.auxX||730)+depth*100,y:auxY,h,depth,aux:!depth});
+   auxY+=h+24;if(!n.collapsed)n.children.forEach(k=>placeAux(k,depth+1));
+  };
+  placeAux(a,0);
+ }
+ const vals=[...layout.values()],minX=Math.min(...vals.map(p=>p.x-W/2)),maxX=Math.max(...vals.map(p=>p.x+W/2)),width=maxX-minX;
+ sceneW=Math.max(930,width+PAD*2);const shift=(sceneW-width)/2-minX;for(const p of vals)p.x+=shift;sceneH=Math.max(yy+130,...vals.map(p=>p.y+p.h+130));
 }
 function pth(a,b){
  if(isCompact()){
@@ -806,7 +824,7 @@ function linkExists(a,b){return doc().links.some(l=>(l.from===a&&l.to===b)||(l.f
 function startLink(source){linkSource=source;$('hintBanner').hidden=false;render();toast('Selecciona el nodo de destino')}
 function finishLink(target){const source=linkSource;linkSource=null;$('hintBanner').hidden=true;if(source===target){toast('Selecciona una idea diferente');render();return}const direct=locate(source)?.n.children.some(n=>n.id===target)||locate(target)?.n.children.some(n=>n.id===source);if(direct||linkExists(source,target)){toast('Estas ideas ya están conectadas');render();return}commit(d=>d.links.push({from:source,to:target}));sound('connect');toast('Conexión creada')}
 function render(freshId=null){const old=oldLayout;compute();scene.style.width=sceneW+'px';scene.style.height=sceneH+'px';wires.setAttribute('width',sceneW);wires.setAttribute('height',sceneH);wires.setAttribute('viewBox',`0 0 ${sceneW} ${sceneH}`);
- const visible=new Set();let i=0;visibleWalk((n,depth)=>{visible.add(n.id);const p=layout.get(n.id);let el=cards.get(n.id);if(!el){el=makeStaticCard(n);cards.set(n.id,el);if(n.id===freshId){el.classList.add('fresh');el.addEventListener('animationend',()=>el.classList.remove('fresh'),{once:true})}}el.style.left=(p.x-W/2)+'px';el.style.top=p.y+'px';el.style.height=p.h+'px';el.style.setProperty('--nodeColor',NODE_COLORS[n.status]||'var(--neutral)');el.classList.toggle('root',!depth&&!n.auxiliary);el.classList.toggle('aux-node',!!n.auxiliary);el.classList.toggle('selected',selectedId===n.id);el.classList.toggle('link-target',!!linkSource&&linkSource!==n.id);el.querySelector('.node-meta').textContent=n.auxiliary?'NOTA AUXILIAR':depth===0?(doc().kind==='knowledge'?'TEMA PRINCIPAL':'PUNTO DE PARTIDA'):(doc().kind==='knowledge'?(depth===1?'BLOQUE':depth===2?'SUBTEMA':'CONCEPTO'):`POSIBILIDAD ${++i}`);el.title=doc().kind==='knowledge'?(n.children.length?(n.collapsed?'Clic para abrir este bloque':'Clic para plegar este bloque'):'Clic para leer detalles; el lápiz permite editar'):'Clic para editar esta idea';el.querySelector('.node-title').textContent=n.title||'Sin título';const thumbnail=el.querySelector('.node-thumb');thumbnail.hidden=!n.image;if(n.image&&thumbnail.getAttribute('src')!==n.image)thumbnail.src=n.image;else if(!n.image)thumbnail.removeAttribute('src');const note=el.querySelector('.node-note');const details=detailText(n);note.textContent=details;note.hidden=!(n.expanded&&details.trim());const noteBtn=el.querySelector('.node-note-toggle');noteBtn.hidden=!details.trim();noteBtn.textContent=n.expanded?'▥':'▤';noteBtn.title=n.expanded?'Ocultar detalles':'Mostrar detalles';noteBtn.setAttribute('aria-label',noteBtn.title);el.querySelector('.node-stat').textContent=n.children.length?`${n.children.length} rama${n.children.length!==1?'s':''}`:'Sin ramificaciones';el.querySelector('.add').hidden=!!n.auxiliary;const fold=el.querySelector('.node-fold');fold.hidden=!n.children.length||!!n.auxiliary;fold.classList.toggle('folded',n.collapsed);fold.setAttribute('aria-label',n.collapsed?'Desplegar ramas':'Plegar ramas')});
+ const visible=new Set();let i=0;visibleWalk((n,depth)=>{visible.add(n.id);const p=layout.get(n.id);let el=cards.get(n.id);if(!el){el=makeStaticCard(n);cards.set(n.id,el);if(n.id===freshId){el.classList.add('fresh');el.addEventListener('animationend',()=>el.classList.remove('fresh'),{once:true})}}el.style.left=(p.x-W/2)+'px';el.style.top=p.y+'px';el.style.height=p.h+'px';el.style.setProperty('--nodeColor',NODE_COLORS[n.status]||'var(--neutral)');el.classList.toggle('root',!depth&&!n.auxiliary);el.classList.toggle('aux-node',!!n.auxiliary);el.classList.toggle('selected',selectedId===n.id);el.classList.toggle('link-target',!!linkSource&&linkSource!==n.id);el.querySelector('.node-meta').textContent=n.auxiliary?'NOTA AUXILIAR':depth===0?(doc().kind==='knowledge'?'TEMA PRINCIPAL':'PUNTO DE PARTIDA'):(doc().kind==='knowledge'?(depth===1?'BLOQUE':depth===2?'SUBTEMA':'CONCEPTO'):`POSIBILIDAD ${++i}`);el.title=doc().kind==='knowledge'?(n.children.length?(n.collapsed?'Clic para abrir este bloque':'Clic para plegar este bloque'):'Clic para leer detalles; el lápiz permite editar'):'Clic para editar esta idea';el.querySelector('.node-title').textContent=n.title||'Sin título';const thumbnail=el.querySelector('.node-thumb');thumbnail.hidden=!n.image;if(n.image&&thumbnail.getAttribute('src')!==n.image)thumbnail.src=n.image;else if(!n.image)thumbnail.removeAttribute('src');const note=el.querySelector('.node-note');const details=detailText(n);note.textContent=details;note.hidden=!(n.expanded&&details.trim());const noteBtn=el.querySelector('.node-note-toggle');noteBtn.hidden=!details.trim();noteBtn.textContent=n.expanded?'▥':'▤';noteBtn.title=n.expanded?'Ocultar detalles':'Mostrar detalles';noteBtn.setAttribute('aria-label',noteBtn.title);el.querySelector('.node-stat').textContent=n.children.length?`${n.children.length} rama${n.children.length!==1?'s':''}`:'Sin ramificaciones';el.querySelector('.add').hidden=!!n.auxiliary;const fold=el.querySelector('.node-fold');fold.hidden=!n.children.length;fold.classList.toggle('folded',n.collapsed);fold.setAttribute('aria-label',n.collapsed?'Desplegar ramas':'Plegar ramas')});
  for(const [nodeId,el] of cards)if(!visible.has(nodeId)){el.remove();cards.delete(nodeId)}
  updatePaths(old);oldLayout=new Map([...layout.entries()].map(([k,p])=>[k,{...p}]));refreshFocus();updateActions();syncLayoutControls();$('projectName').textContent=doc().name;document.body.dataset.mapKind=doc().kind;$('currentKind').textContent=doc().kind==='knowledge'?'▦':'◇';$('currentKind').title=doc().kind==='knowledge'?'Mapa de conocimientos':'Árbol de decisiones';const count=(()=>{let n=0;nodesAll(doc().root,()=>n++);for(const a of doc().auxNodes||[])nodesAll(a,()=>n++);return n})();renderSidebar();$('statusText').textContent=doc().kind==='knowledge'?(isCompact()?`${count} conceptos · Clic para abrir bloques · Rueda para desplazarte`:`${count} conceptos · Clic para abrir bloques`):`${count} ${count===1?'idea':'ideas'} · Pulsa para editar · + para ramificar`;persist()}
 function updatePaths(old){const primary=new Set(),extra=new Set(),animations=[];
@@ -862,7 +880,7 @@ function openEdit(nodeId=null,parentId=null,aux=false){
  $('statusLabel').hidden=false;$('statusChoices').hidden=false;
  $('editImageUrl').value=editImage?.startsWith('https://')?editImage:'';
  $('editImageFile').value='';setImagePreview();
- $('deleteNode').hidden=!(f?.parent||f?.n.auxiliary);$('connectionsBlock').hidden=!nodeId;
+ $('deleteNode').hidden=!(f?.parent||f?.n.auxiliary);$('detachBranch').hidden=!f?.parent;$('connectionsBlock').hidden=!nodeId;
  updateStatusChoices();refreshConnections();openDialog('editDialog');setTimeout(()=>$('editTitle').focus(),30);
 }
 function updateStatusChoices(){document.querySelectorAll('[data-status]').forEach(btn=>{
@@ -893,6 +911,21 @@ function refreshConnections(){
   });
   el.append(label,btn);c.appendChild(el);
  }
+}
+function detachBranch(){
+ const targetId=editDraft?.id,f=targetId?locate(targetId):null;
+ if(!f?.parent)return;
+ if(!confirm('¿Separar esta rama de su padre? Mantendremos todos sus conceptos y subramas como un bloque auxiliar.'))return;
+ const original=layout.get(targetId);
+ sound('disconnect');closeDialog('editDialog');editDraft=null;selectedId=targetId;
+ commit(d=>{
+  const here=locate(targetId);if(!here?.parent)return;
+  here.parent.children=here.parent.children.filter(n=>n.id!==targetId);
+  here.n.auxiliary=true;here.n.auxX=Math.max(430,Math.round((original?.x||400)+W+80));
+  here.n.auxY=Math.max(80,Math.round(original?.y||180));
+  d.auxNodes.push(here.n);
+ });
+ centerOn(targetId,true);toast('Rama desvinculada y conservada como auxiliar');
 }
 function deleteBranch(){
  if(!editDraft?.id)return;
@@ -1084,7 +1117,7 @@ $('editImageFile').addEventListener('change',async e=>{
  catch(err){alert('No se pudo adjuntar la imagen: '+err.message)}
 });
 $('clearImageBtn').addEventListener('click',()=>{editImage='';$('editImageUrl').value='';$('editImageFile').value='';setImagePreview()});
-$('deleteNode').addEventListener('click',deleteBranch);
+$('deleteNode').addEventListener('click',deleteBranch);$('detachBranch').addEventListener('click',detachBranch);
 $('nodeAIBtn').addEventListener('click',()=>{aiNodeId=editDraft?.id||editDraft?.parentId||doc().root.id;selectedId=aiNodeId;editDraft=null;closeDialog('editDialog');render();aiRender();openDialog('aiDialog')});
 document.querySelectorAll('[data-status]').forEach(b=>b.addEventListener('click',()=>{editStatus=b.dataset.status;updateStatusChoices()}));
 document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>{const name=btn.dataset.close;closeDialog(name);if(name==='editDialog'){selectedId=editDraft?.id||editDraft?.parentId||null;editDraft=null;render()}}));
