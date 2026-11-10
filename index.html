@@ -1235,6 +1235,7 @@ function parseLabeledAiResponse(raw){
  const finish=()=>{if(draft&&draft.concepto?.trim()){const item=normalizeAiProposal(draft);if(item)entries.push(item)}draft=null;currentKey=null};
  for(const rawLine of lines){
   const line=rawLine.replace(/\*\*/g,'').trim();
+  if(/^\x60{3}/.test(line))continue;
   if(/^(?:---+|===+)$/.test(line)){finish();continue}
   const match=line.match(/^\s*(?:[-•*]\s*)?(?:\d+[.)]\s*)?(CONCEPTO|EXPLICACI[ÓO]N|EJEMPLO|NOTAS|IMAGEN(?:\s+SUGERIDA)?)\s*[:：]\s*(.*)$/iu);
   if(match){
@@ -1295,7 +1296,7 @@ function parseAiResponse(raw){
    if(!/^[{\[]/.test(candidate.trim())&&!/^"/.test(candidate.trim()))continue;
    jsonFound=true;
    let data;
-   try{data=JSON.parse(candidate)}catch(err){parseError=err;continue}
+   try{data=JSON.parse(candidate)}catch(err){if(!parseError)parseError=err;continue}
    if(typeof data==='string'){
     try{data=JSON.parse(data)}catch(err){parseError=err;continue}
    }
