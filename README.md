@@ -2,6 +2,14 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## v1.1.3 — cargar propuestas desde archivo JSON
+
+En **Ideas / IA**, el botón **Cargar respuesta JSON** permite seleccionar un archivo `.json` o `.txt` y convertir sus `propuestas` en una **vista previa con aceptación individual**. Esta opción evita los fallos al copiar texto enriquecido desde el chat. La importación **no modifica el árbol** hasta pulsar **Añadir seleccionadas**.
+
+El pegado también se ha reforzado para normalizar espacios Unicode no estándar, caracteres invisibles, comillas tipográficas, entidades de comillas HTML, llaves exteriores duplicadas y comillas escapadas en el JSON. No usa `eval` ni acepta cualquier expresión JavaScript: el texto corregido debe convertirse en JSON válido, con una lista de propuestas.
+
+**Pruebas:** diez variantes de entrada aceptadas, dos casos inválidos rechazados, sintaxis del script validada. Pendiente: verificación visual en navegador y confirmación del despliegue público.
+
 ## v1.1.2 — corrección al pegar JSON desde ChatGPT
 
 El importador acepta JSON completo y válido, bloques de código `json`, texto introductorio/conclusiones alrededor del JSON, etiquetas de copia como `<escape>` y secuencias literales de salto de línea (`\\n`) fuera de las cadenas. Sigue aceptando listas antiguas y líneas separadas por `|`.
