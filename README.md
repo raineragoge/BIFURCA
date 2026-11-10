@@ -2,6 +2,14 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## v1.1.4 — importar propuestas directamente desde el portapapeles
+
+**Flujo recomendado:** en ChatGPT copia el JSON generado, vuelve a **Ideas / IA** y pulsa **Pegar del portapapeles y revisar**. BIFURCA lee el texto, valida sus propuestas y muestra inmediatamente las tarjetas provisionales, con sus explicaciones y ejemplos **dentro**; puedes aceptar/rechazar cada una. **No hace falta descargar ni subir archivos.**
+
+El botón necesita permiso del navegador para leer el portapapeles y un contexto seguro HTTPS (el Worker de BIFURCA dispone de HTTPS). Si el navegador deniega ese permiso, se muestra una alternativa: pegar manualmente en el campo con **Ctrl+V → Revisar texto pegado**. El importador por archivo se conserva como recurso adicional. Las propuestas no se guardan antes de confirmarlas.
+
+La **integración directa con un modelo de IA** para completar ramas sin copiar respuestas todavía está pendiente de configurar en el backend. El portapapeles elimina los pasos de descarga/importación de archivos, no elimina el paso de copiar de ChatGPT.
+
 ## v1.1.3 — cargar propuestas desde archivo JSON
 
 En **Ideas / IA**, el botón **Cargar respuesta JSON** permite seleccionar un archivo `.json` o `.txt` y convertir sus `propuestas` en una **vista previa con aceptación individual**. Esta opción evita los fallos al copiar texto enriquecido desde el chat. La importación **no modifica el árbol** hasta pulsar **Añadir seleccionadas**.
