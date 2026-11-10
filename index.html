@@ -1112,12 +1112,21 @@ const learningTemplates=[
  t=>'¿Qué debería comprender antes de estudiar "'+t+'"?'
 ];
 function quickIdeas(){const node=aiScope(),already=new Set(node.children.map(c=>c.title.toLowerCase().trim()));const templates=doc().kind==='knowledge'?learningTemplates:questionTemplates;return templates.map(fn=>fn(node.title)).filter(t=>!already.has(t.toLowerCase())).slice(0,5)}
+function makeAiNode(proposal){
+ const n=makeNode(proposal.title);
+ n.description=proposal.description||'';
+ n.example=proposal.example||'';
+ n.notes=proposal.notes||'';
+ n.expanded=!!(n.description||n.example||n.notes);
+ return n;
+}
 function createAuxSuggestions(parentId,items){
  const parentPos=layout.get(parentId)||layout.get(doc().root.id);
  const base=(doc().auxNodes||[]).length;
- const added=items.map((name,i)=>{
-  const n=makeNode(name);n.auxiliary=true;n.auxX=Math.max(430,Math.round((parentPos?.x||360)+W+110+(i%2)*38));
-  n.auxY=Math.max(80,Math.round((parentPos?.y||130)+((base+i)%8)*160));
+ const added=items.map((proposal,i)=>{
+  const n=makeAiNode(proposal);n.auxiliary=true;
+  n.auxX=Math.max(430,Math.round((parentPos?.x||360)+W+110+(i%2)*38));
+  n.auxY=Math.max(80,Math.round((parentPos?.y||130)+((base+i)%8)*180));
   return n;
  });
  commit(d=>{d.auxNodes.push(...added);for(const a of added)d.links.push({from:parentId,to:a.id})},{freshId:added[0]?.id});
@@ -1166,17 +1175,21 @@ function parseAiResponse(raw){
  }).filter(Boolean);
 }
 // El modelo (o la respuesta pegada) solo puede proponer. Revisamos antes de guardar.
-function prepareAiPreview(titles){
+function prepareAiPreview(proposals){
  const parentId=aiNodeId,parent=locate(parentId)?.n;
  if(!parent){toast('Selecciona primero una rama');return}
- const existing=new Set(parent.children.map(n=>n.title.trim().toLocaleLowerCase('es')));
- const clean=[...new Set(titles.map(t=>t.trim().slice(0,220)).filter(Boolean))].filter(t=>!existing.has(t.toLocaleLowerCase('es'))).slice(0,15);
+ const norm=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLocaleLowerCase('es');
+ const existing=new Set(parent.children.map(n=>norm(n.title))),seen=new Set();
+ const clean=proposals.map(normalizeAiProposal).filter(p=>{
+  if(!p)return false;const n=norm(p.title);if(existing.has(n)||seen.has(n))return false;
+  seen.add(n);return true;
+ }).slice(0,15);
  if(!clean.length){toast('No hay propuestas nuevas para revisar');return}
  aiPreviewPreviousView={scale,tx,ty};
- aiPreview={docId:doc().id,parentId,items:clean.map(title=>({title,approved:true}))};
+ aiPreview={docId:doc().id,parentId,items:clean.map(p=>({...p,approved:true}))};
  closeDialog('aiDialog');
  render();aimCamera();sound('preview');
- toast(clean.length+' propuestas pendientes de revisión');
+ toast(clean.length+' conceptos pendientes de revisión');
 }
 function aimCamera(){
  if(!aiPreview)return;
@@ -1196,18 +1209,30 @@ function drawAiPreview(){
  const title=locate(aiPreview.parentId)?.n.title||'Rama elegida';
  const list=$('aiPreviewList');list.replaceChildren();
  const selected=aiPreview.items.filter(x=>x.approved).length;
- $('aiPreviewSummary').textContent='Origen: '+title+' · '+selected+' de '+aiPreview.items.length+' propuestas aceptadas. Aún no se ha cambiado ningún árbol.';
+ $('aiPreviewSummary').textContent='Origen: '+title+' · '+selected+' de '+aiPreview.items.length+' conceptos aceptados. El nombre será el título y los demás campos quedarán dentro del nodo.';
  $('aiPreviewApply').disabled=!selected;
- const baseX=p.x+345,baseY=p.y;
- for(let i=0;i<aiPreview.items.length;i++){
-  const proposal=aiPreview.items[i],point={x:baseX,y:baseY+i*139,h:116};
+ const baseX=p.x+345;let cursorY=p.y;
+ for(const proposal of aiPreview.items){
+  const fields=[['Explicación',proposal.description],['Ejemplo',proposal.example],['Notas',proposal.notes]].filter(x=>x[1]);
+  const cardHeight=fields.length?Math.min(224,132+fields.length*34):116;
+  const point={x:baseX,y:cursorY,h:cardHeight};cursorY+=cardHeight+18;
   const ghost=document.createElement('article');
   ghost.className='ai-ghost-card'+(proposal.approved?'':' is-rejected');
-  ghost.style.left=(point.x-W/2)+'px';ghost.style.top=point.y+'px';
+  ghost.style.left=(point.x-W/2)+'px';ghost.style.top=point.y+'px';ghost.style.height=cardHeight+'px';
   const label=document.createElement('div');label.className='ai-ghost-kicker';
-  label.textContent=proposal.approved?'Propuesta pendiente':'Rechazada';
+  label.textContent=proposal.approved?'Concepto pendiente':'Propuesta rechazada';
   const name=document.createElement('div');name.className='ai-ghost-title';name.textContent=proposal.title;
-  ghost.append(label,name);layer.appendChild(ghost);
+  ghost.append(label,name);
+  if(fields.length){
+   const inside=document.createElement('div');inside.className='ai-ghost-inside';
+   for(const [field,value] of fields){
+    const el=document.createElement('div');el.className='ai-ghost-field';
+    const caption=document.createElement('strong');caption.textContent=field+': ';
+    el.append(caption,document.createTextNode(value));inside.appendChild(el);
+   }
+   ghost.appendChild(inside);
+  }
+  layer.appendChild(ghost);
   const path=document.createElementNS('http://www.w3.org/2000/svg','path');
   path.classList.add('ai-ghost-wire');
   if(!proposal.approved)path.classList.add('is-rejected');
@@ -1217,15 +1242,25 @@ function drawAiPreview(){
   const mark=document.createElement('span');mark.className='ai-preview-item-mark';mark.textContent=proposal.approved?'✓':'×';
   const copy=document.createElement('div');copy.style.minWidth='0';
   const n=document.createElement('div');n.className='ai-preview-name';n.textContent=proposal.title;
-  const status=document.createElement('div');status.className='ai-preview-flag';status.textContent=proposal.approved?'Pendiente de añadir':'No se añadirá';
-  copy.append(n,status);main.append(mark,copy);
+  const status=document.createElement('div');status.className='ai-preview-flag';status.textContent=proposal.approved?'Pendiente de guardar con sus campos internos':'No se añadirá';
+  copy.append(n,status);
+  if(fields.length){
+   const details=document.createElement('details');details.className='ai-preview-details';
+   const summary=document.createElement('summary');summary.textContent='Ver contenido del concepto';details.appendChild(summary);
+   for(const [field,value] of fields){
+    const itemP=document.createElement('p');const strong=document.createElement('strong');strong.textContent=field+': ';
+    itemP.append(strong,document.createTextNode(value));details.appendChild(itemP);
+   }
+   copy.appendChild(details);
+  }
+  main.append(mark,copy);
   const toggle=document.createElement('button');toggle.type='button';toggle.className='ai-preview-choice';
   toggle.textContent=proposal.approved?'Rechazar':'Aceptar';
   toggle.setAttribute('aria-label',(proposal.approved?'Rechazar ':'Aceptar ')+proposal.title);
   toggle.addEventListener('click',()=>{proposal.approved=!proposal.approved;drawAiPreview();sound(proposal.approved?'connect':'disconnect')});
   item.append(main,toggle);list.appendChild(item);
  }
- const w=Math.max(sceneW,baseX+W/2+140),h=Math.max(sceneH,baseY+(aiPreview.items.length-1)*139+210);
+ const w=Math.max(sceneW,baseX+W/2+140),h=Math.max(sceneH,cursorY+85);
  scene.style.width=w+'px';scene.style.height=h+'px';
  wires.setAttribute('width',w);wires.setAttribute('height',h);wires.setAttribute('viewBox','0 0 '+w+' '+h);
 }
@@ -1243,18 +1278,19 @@ function applyAiPreview(){
  if(!parent){discardAiPreview();return}
  if(!parent.auxiliary&&parent.children.length+items.length>75){toast('Demasiadas subramas para este nodo');return}
  if(birthBusy){toast('Espera a que termine la animación anterior');return}
- const selectedTitles=items.map(x=>x.title);
+ const proposals=items.map(({title,description,example,notes})=>({title,description,example,notes}));
  aiPreview=null;aiPreviewPreviousView=null;render();
- if(parent.auxiliary){createAuxSuggestions(parentId,selectedTitles);return}
- const additions=selectedTitles.map(title=>makeNode(title));
- const done=springBirth(parentId,additions,{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast(additions.length+' ramas añadidas · puedes deshacer')}});
+ if(parent.auxiliary){createAuxSuggestions(parentId,proposals);return}
+ const additions=proposals.map(makeAiNode);
+ const done=springBirth(parentId,additions,{onFinish:()=>{if(isCompact())centerOn(parentId,true);else fit(true);toast(additions.length+' conceptos con contenido añadidos · puedes deshacer')}});
  if(!done)toast('No se pudieron incorporar las propuestas; prueba de nuevo');
 }
 function pasteIdeas(){
- const raw=$('aiResponse').value.trim();
- const lines=raw.split(/\r?\n/).map(s=>s.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,'').trim()).filter(s=>s.length>=3).slice(0,15);
- if(!lines.length){toast('Pega una propuesta por línea');return}
- prepareAiPreview(lines);
+ try{
+  const proposals=parseAiResponse($('aiResponse').value);
+  if(!proposals.length){toast('Pega una lista de conceptos o un JSON');return}
+  prepareAiPreview(proposals);
+ }catch(err){alert('No se pudieron interpretar las propuestas: '+err.message)}
 }
 $('editForm').addEventListener('submit',e=>{
  e.preventDefault();
