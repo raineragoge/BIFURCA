@@ -2,6 +2,20 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## v1.3.0 — filtro por glosario, microsonidos y temas diferenciados
+
+- **Filtrar por color:** nuevo botón **◉ Filtrar** en el lienzo. Muestra los cinco significados definidos en el glosario del árbol y la cantidad de **nodos visibles** de cada color. Al elegir uno, los demás nodos y sus conexiones se vuelven semitransparentes. Puedes volver a **Mostrar todos los colores** o pulsar de nuevo el color seleccionado. El filtro es temporal: no borra ni edita datos, y se reinicia al cambiar de árbol.
+- **Enfoque con salida intuitiva:** al estar en modo **Enfocar**, un clic en el fondo del lienzo restablece la vista general sin alterar ramas. Un movimiento de arrastre no lo cierra; también puedes salir con **Escape**. Al hacer clic fuera del filtro se oculta su panel.
+- **Sonidos al desplegar y plegar:** los sonidos existentes se refuerzan para que sean audibles y diferenciables. También suena al usar **Plegar niveles**; siguen respetando el botón **Sonidos**, el volumen y el modo de accesibilidad de movimiento reducido.
+- **Color más presente en los nodos:** los nodos marcados tienen un borde y una franja lateral de su color, además de un fondo suavemente tintado. El selector de color del editor y las cinco filas del glosario destacan visualmente la selección.
+- **Diseño más despejado:** barra superior más ligera, sombras menos intensas, jerarquía de botones más discreta y panel de filtro plegado por defecto.
+- **Cuatro temas más diferenciados:** Arcilla, Lino, Salvia e Iris ahora varían más claramente en paleta y patrón del lienzo, también en modo oscuro.
+- **Sin imágenes sugeridas por IA:** el prompt nuevo solo pide **CONCEPTO**, **EXPLICACION**, **EJEMPLO** y **NOTAS**. Se ha retirado la casilla de imágenes sugeridas y ya no se añaden sugerencias de imagen a las notas. **Se conservan las imágenes que ya estaban guardadas y la opción de adjuntarlas manualmente**; un buscador integrado podrá añadirse más adelante. Las respuestas antiguas con campo IMAGEN pueden leerse, pero este se ignora.
+
+**Protección de los árboles:** la clave local `bifurca_v3_app`, el backup `bifurca_v3_before_visual_v1`, el formato de exportación y las funciones de deshacer no cambian. Los filtros y los estados de los paneles son solo de interfaz.
+
+**Verificación:** sintaxis JS completa, estructura de controles, compatibilidad del parser y pruebas de filtrado/teclas y sonidos (sin pruebas de audio perceptual). Pendientes prueba visual en navegador real y verificación del despliegue Cloudflare.
+
 ## v1.2.0 — respuestas de IA sin JSON
 
 Para evitar los fallos de pegado de respuestas JSON desde ChatGPT, **BIFURCA solicita ahora texto plano etiquetado**. Es el formato recomendado, no requiere comillas, llaves, corchetes ni caracteres escapados.
