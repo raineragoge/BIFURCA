@@ -655,7 +655,9 @@ function frameCurrentTree(){
 }
 
 function getHistory(){if(!histories.has(doc().id))histories.set(doc().id,{past:[],future:[]});return histories.get(doc().id)}
-function commit(mut,{fitView=false,freshId=null}={}){const d=doc(),h=getHistory(),snapshot=JSON.stringify({root:d.root,links:d.links,auxNodes:d.auxNodes,legend:d.legend});mut(d);if(JSON.stringify({root:d.root,links:d.links,auxNodes:d.auxNodes,legend:d.legend})===snapshot)return;h.past.push(snapshot);if(h.past.length>70)h.past.shift();h.future.length=0;d.updatedAt=Date.now();persist();render(freshId);if(fitView){if(isCompact())centerOn(selectedId&&layout.has(selectedId)?selectedId:doc().root.id,true);else fit(true)}}
+function commit(mut,{fitView=false,freshId=null}={}){const d=doc(),h=getHistory(),snapshot=JSON.stringify({root:d.root,links:d.links,auxNodes:d.auxNodes,legend:d.legend});mut(d);if(JSON.stringify({root:d.root,links:d.links,auxNodes:d.auxNodes,legend:d.legend})===snapshot)return;h.past.push(snapshot);if(h.past.length>70)h.past.shift();h.future.length=0;const oldUpdatedAt=d.updatedAt;d.updatedAt=Date.now();
+if(!persist()){const previous=JSON.parse(snapshot);d.root=previous.root;d.links=previous.links;d.auxNodes=previous.auxNodes;d.legend=previous.legend;d.updatedAt=oldUpdatedAt;h.past.pop();toast('No se ha guardado: reduce la imagen o exporta copia');return}
+render(freshId);if(fitView){if(isCompact())centerOn(selectedId&&layout.has(selectedId)?selectedId:doc().root.id,true);else fit(true)}}
 function springBirth(parentId,newNodes,{onFinish}={}){
  // Capture the parent before changing the layout, so the new cards emerge from its actual position.
  if(birthBusy||!locate(parentId))return false;
@@ -756,28 +758,53 @@ function pth(a,b){
  const y1=a.y+a.h,y2=b.y,curve=Math.max(28,(y2-y1)*.48);return `M ${a.x} ${y1} C ${a.x} ${y1+curve} ${b.x} ${y2-curve} ${b.x} ${y2}`;
 }
 function crossPth(a,b){const right=b.x>=a.x,sign=right?1:-1,sx=a.x+sign*W/2,ex=b.x-sign*W/2,sy=a.y+a.h/2,ey=b.y+b.h/2;if(Math.abs(ex-sx)<110){let bend=sx+sign*105;return `M ${sx} ${sy} C ${bend} ${sy} ${bend} ${ey} ${ex} ${ey}`}const cx=(sx+ex)/2;return `M ${sx} ${sy} C ${cx} ${sy} ${cx} ${ey} ${ex} ${ey}`}
-function makeStaticCard(n){const el=document.createElement('article');el.className='node';el.tabIndex=0;el.dataset.id=n.id;el.setAttribute('role','group');el.innerHTML=`<div class="node-top"><span class="node-ball"></span><span class="node-meta"></span></div><div class="node-main"><div class="node-title"></div><div class="node-note" hidden></div></div><div class="node-footer"><span class="node-stat"></span><div class="node-buttons"><button type="button" class="node-button node-note-toggle" title="Mostrar u ocultar análisis" aria-label="Mostrar notas">▤</button><button type="button" class="node-button node-fold" title="Plegar o desplegar ramas" aria-label="Plegar ramas">${icon.fold}</button><button type="button" class="node-button node-chain" title="Conectar con otra rama" aria-label="Conectar con otra rama">${icon.chain}</button><button type="button" class="node-button node-edit" title="Editar esta idea" aria-label="Editar esta idea">${icon.edit}</button><button type="button" class="node-button add" title="Crear una subrama" aria-label="Crear una subrama">+</button></div></div>`;
+function makeStaticCard(n){const el=document.createElement('article');el.className='node';el.tabIndex=0;el.dataset.id=n.id;el.setAttribute('role','group');el.innerHTML=`<div class="node-top"><span class="node-ball"></span><span class="node-meta"></span></div><div class="node-main"><div class="node-title"></div><img class="node-thumb" alt="" loading="lazy" hidden><div class="node-note" hidden></div></div><div class="node-footer"><span class="node-stat"></span><div class="node-buttons"><button type="button" class="node-button node-note-toggle" title="Mostrar u ocultar análisis" aria-label="Mostrar notas">▤</button><button type="button" class="node-button node-fold" title="Plegar o desplegar ramas" aria-label="Plegar ramas">${icon.fold}</button><button type="button" class="node-button node-chain" title="Conectar con otra rama" aria-label="Conectar con otra rama">${icon.chain}</button><button type="button" class="node-button node-edit" title="Editar esta idea" aria-label="Editar esta idea">${icon.edit}</button><button type="button" class="node-button add" title="Crear una subrama" aria-label="Crear una subrama">+</button></div></div>`;
  el.addEventListener('click',e=>{if(e.target.closest('button'))return;nodeClick(n.id)});el.addEventListener('keydown',e=>{if(e.target===el&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nodeClick(n.id)}});
  el.querySelector('.add').addEventListener('click',e=>{e.stopPropagation();openEdit(null,n.id)});
  el.querySelector('.node-edit').addEventListener('click',e=>{e.stopPropagation();openEdit(n.id)});
  el.querySelector('.node-note-toggle').addEventListener('click',e=>{e.stopPropagation();const expanded=!!locate(n.id)?.n.expanded;commit(d=>{const found=locate(n.id);if(found)found.n.expanded=!found.n.expanded});sound(expanded?'fold':'unfold')});
  el.querySelector('.node-fold').addEventListener('click',e=>{e.stopPropagation();const collapsed=!!locate(n.id)?.n.collapsed;selectedId=n.id;commit(d=>{const found=locate(n.id);if(found)found.n.collapsed=!found.n.collapsed},{fitView:true});sound(collapsed?'unfold':'fold')});
  el.querySelector('.node-chain').addEventListener('click',e=>{e.stopPropagation();startLink(n.id)});
+ // Only the upper strip of an auxiliary card is a drag handle.
+ const handle=el.querySelector('.node-top');let auxDrag=null;
+ handle.addEventListener('pointerdown',e=>{
+  if(e.button!==0||!locate(n.id)?.n.auxiliary)return;
+  const p=layout.get(n.id);if(!p)return;
+  e.stopPropagation();e.preventDefault();auxDrag={pointerId:e.pointerId,px:e.clientX,py:e.clientY,x:p.x,y:p.y};
+  handle.setPointerCapture(e.pointerId);
+ });
+ handle.addEventListener('pointermove',e=>{
+  if(!auxDrag||e.pointerId!==auxDrag.pointerId)return;
+  const xx=Math.max(160,Math.min(20000,auxDrag.x+(e.clientX-auxDrag.px)/scale));
+  const yy=Math.max(80,Math.min(300000,auxDrag.y+(e.clientY-auxDrag.py)/scale));
+  el.style.left=(xx-W/2)+'px';el.style.top=yy+'px';
+  const pos=layout.get(n.id);if(pos){pos.x=xx;pos.y=yy}
+  for(const [key,path] of crossPaths){const [a,b]=key.split('::');if(a!==n.id&&b!==n.id)continue;const ap=layout.get(a),bp=layout.get(b);if(ap&&bp)path.setAttribute('d',crossPth(ap,bp))}
+ });
+ const finish=e=>{
+  if(!auxDrag||e.pointerId!==auxDrag.pointerId)return;
+  if(handle.hasPointerCapture(e.pointerId))handle.releasePointerCapture(e.pointerId);
+  const at=layout.get(n.id),xx=at?.x,yy=at?.y;
+  const changed=Number.isFinite(xx)&&Number.isFinite(yy)&&(Math.abs(xx-auxDrag.x)>2||Math.abs(yy-auxDrag.y)>2);
+  auxDrag=null;
+  if(changed)commit(()=>{const a=locate(n.id)?.n;if(a?.auxiliary){a.auxX=Math.round(xx);a.auxY=Math.round(yy)}});
+ };
+ handle.addEventListener('pointerup',finish);handle.addEventListener('pointercancel',finish);
  nodeLayer.appendChild(el);return el}
-function nodeClick(nodeId){if(linkSource){finishLink(nodeId);return}if(focusMode){focusId=nodeId;selectedId=nodeId;render();centerOn(nodeId,true);sound('focus');toast('Camino resaltado · pulsa otro nodo para cambiarlo');return}if(doc().kind==='knowledge'){const n=locate(nodeId)?.n;if(!n)return;selectedId=nodeId;if(n.children.length){const folded=!!n.collapsed;commit(d=>{n.collapsed=!n.collapsed},{fitView:true});sound(folded?'unfold':'fold');return}if(detailText(n).trim()){commit(d=>{n.expanded=!n.expanded});centerOn(nodeId,true);return}}openEdit(nodeId)}
+function nodeClick(nodeId){if(linkSource){finishLink(nodeId);return}if(focusMode){focusId=nodeId;selectedId=nodeId;render();centerOn(nodeId,true);sound('focus');toast('Camino resaltado · pulsa otro nodo para cambiarlo');return}if(doc().kind==='knowledge'){const n=locate(nodeId)?.n;if(!n)return;if(n.auxiliary){openEdit(nodeId);return}selectedId=nodeId;if(n.children.length){const folded=!!n.collapsed;commit(d=>{n.collapsed=!n.collapsed},{fitView:true});sound(folded?'unfold':'fold');return}if(detailText(n).trim()){commit(d=>{n.expanded=!n.expanded});centerOn(nodeId,true);return}}openEdit(nodeId)}
 function linkExists(a,b){return doc().links.some(l=>(l.from===a&&l.to===b)||(l.from===b&&l.to===a))}
 function startLink(source){linkSource=source;$('hintBanner').hidden=false;render();toast('Selecciona el nodo de destino')}
 function finishLink(target){const source=linkSource;linkSource=null;$('hintBanner').hidden=true;if(source===target){toast('Selecciona una idea diferente');render();return}const direct=locate(source)?.n.children.some(n=>n.id===target)||locate(target)?.n.children.some(n=>n.id===source);if(direct||linkExists(source,target)){toast('Estas ideas ya están conectadas');render();return}commit(d=>d.links.push({from:source,to:target}));sound('connect');toast('Conexión creada')}
 function render(freshId=null){const old=oldLayout;compute();scene.style.width=sceneW+'px';scene.style.height=sceneH+'px';wires.setAttribute('width',sceneW);wires.setAttribute('height',sceneH);wires.setAttribute('viewBox',`0 0 ${sceneW} ${sceneH}`);
- const visible=new Set();let i=0;visibleWalk((n,depth)=>{visible.add(n.id);const p=layout.get(n.id);let el=cards.get(n.id);if(!el){el=makeStaticCard(n);cards.set(n.id,el);if(n.id===freshId){el.classList.add('fresh');el.addEventListener('animationend',()=>el.classList.remove('fresh'),{once:true})}}el.style.left=(p.x-W/2)+'px';el.style.top=p.y+'px';el.style.height=p.h+'px';el.style.setProperty('--nodeColor',({neutral:'var(--neutral)',positive:'var(--positive)',warning:'var(--warning)',negative:'var(--negative)'})[n.status]||'var(--neutral)');el.classList.toggle('root',!depth);el.classList.toggle('selected',selectedId===n.id);el.classList.toggle('link-target',!!linkSource&&linkSource!==n.id);el.querySelector('.node-meta').textContent=depth===0?(doc().kind==='knowledge'?'TEMA PRINCIPAL':'PUNTO DE PARTIDA'):(doc().kind==='knowledge'?(depth===1?'BLOQUE':depth===2?'SUBTEMA':'CONCEPTO'):`POSIBILIDAD ${++i}`);el.title=doc().kind==='knowledge'?(n.children.length?(n.collapsed?'Clic para abrir este bloque':'Clic para plegar este bloque'):'Clic para leer detalles; el lápiz permite editar'):'Clic para editar esta idea';el.querySelector('.node-title').textContent=n.title||'Sin título';const note=el.querySelector('.node-note');const details=detailText(n);note.textContent=details;note.hidden=!(n.expanded&&details.trim());const noteBtn=el.querySelector('.node-note-toggle');noteBtn.hidden=!details.trim();noteBtn.textContent=n.expanded?'▥':'▤';noteBtn.title=n.expanded?'Ocultar detalles':'Mostrar detalles';noteBtn.setAttribute('aria-label',noteBtn.title);el.querySelector('.node-stat').textContent=n.children.length?`${n.children.length} rama${n.children.length!==1?'s':''}`:'Sin ramificaciones';const fold=el.querySelector('.node-fold');fold.hidden=!n.children.length;fold.classList.toggle('folded',n.collapsed);fold.setAttribute('aria-label',n.collapsed?'Desplegar ramas':'Plegar ramas')});
+ const visible=new Set();let i=0;visibleWalk((n,depth)=>{visible.add(n.id);const p=layout.get(n.id);let el=cards.get(n.id);if(!el){el=makeStaticCard(n);cards.set(n.id,el);if(n.id===freshId){el.classList.add('fresh');el.addEventListener('animationend',()=>el.classList.remove('fresh'),{once:true})}}el.style.left=(p.x-W/2)+'px';el.style.top=p.y+'px';el.style.height=p.h+'px';el.style.setProperty('--nodeColor',NODE_COLORS[n.status]||'var(--neutral)');el.classList.toggle('root',!depth&&!n.auxiliary);el.classList.toggle('aux-node',!!n.auxiliary);el.classList.toggle('selected',selectedId===n.id);el.classList.toggle('link-target',!!linkSource&&linkSource!==n.id);el.querySelector('.node-meta').textContent=n.auxiliary?'NOTA AUXILIAR':depth===0?(doc().kind==='knowledge'?'TEMA PRINCIPAL':'PUNTO DE PARTIDA'):(doc().kind==='knowledge'?(depth===1?'BLOQUE':depth===2?'SUBTEMA':'CONCEPTO'):`POSIBILIDAD ${++i}`);el.title=doc().kind==='knowledge'?(n.children.length?(n.collapsed?'Clic para abrir este bloque':'Clic para plegar este bloque'):'Clic para leer detalles; el lápiz permite editar'):'Clic para editar esta idea';el.querySelector('.node-title').textContent=n.title||'Sin título';const thumbnail=el.querySelector('.node-thumb');thumbnail.hidden=!n.image;if(n.image&&thumbnail.getAttribute('src')!==n.image)thumbnail.src=n.image;else if(!n.image)thumbnail.removeAttribute('src');const note=el.querySelector('.node-note');const details=detailText(n);note.textContent=details;note.hidden=!(n.expanded&&details.trim());const noteBtn=el.querySelector('.node-note-toggle');noteBtn.hidden=!details.trim();noteBtn.textContent=n.expanded?'▥':'▤';noteBtn.title=n.expanded?'Ocultar detalles':'Mostrar detalles';noteBtn.setAttribute('aria-label',noteBtn.title);el.querySelector('.node-stat').textContent=n.children.length?`${n.children.length} rama${n.children.length!==1?'s':''}`:'Sin ramificaciones';el.querySelector('.add').hidden=!!n.auxiliary;const fold=el.querySelector('.node-fold');fold.hidden=!n.children.length||!!n.auxiliary;fold.classList.toggle('folded',n.collapsed);fold.setAttribute('aria-label',n.collapsed?'Desplegar ramas':'Plegar ramas')});
  for(const [nodeId,el] of cards)if(!visible.has(nodeId)){el.remove();cards.delete(nodeId)}
- updatePaths(old);oldLayout=new Map([...layout.entries()].map(([k,p])=>[k,{...p}]));refreshFocus();updateActions();syncLayoutControls();$('projectName').textContent=doc().name;document.body.dataset.mapKind=doc().kind;$('currentKind').textContent=doc().kind==='knowledge'?'▦':'◇';$('currentKind').title=doc().kind==='knowledge'?'Mapa de conocimientos':'Árbol de decisiones';const count=(()=>{let n=0;nodesAll(doc().root,()=>n++);return n})();renderSidebar();$('statusText').textContent=doc().kind==='knowledge'?(isCompact()?`${count} conceptos · Clic para abrir bloques · Rueda para desplazarte`:`${count} conceptos · Clic para abrir bloques`):`${count} ${count===1?'idea':'ideas'} · Pulsa para editar · + para ramificar`;persist()}
+ updatePaths(old);oldLayout=new Map([...layout.entries()].map(([k,p])=>[k,{...p}]));refreshFocus();updateActions();syncLayoutControls();$('projectName').textContent=doc().name;document.body.dataset.mapKind=doc().kind;$('currentKind').textContent=doc().kind==='knowledge'?'▦':'◇';$('currentKind').title=doc().kind==='knowledge'?'Mapa de conocimientos':'Árbol de decisiones';const count=(()=>{let n=0;nodesAll(doc().root,()=>n++);for(const a of doc().auxNodes||[])nodesAll(a,()=>n++);return n})();renderSidebar();$('statusText').textContent=doc().kind==='knowledge'?(isCompact()?`${count} conceptos · Clic para abrir bloques · Rueda para desplazarte`:`${count} conceptos · Clic para abrir bloques`):`${count} ${count===1?'idea':'ideas'} · Pulsa para editar · + para ramificar`;persist()}
 function updatePaths(old){const primary=new Set(),extra=new Set(),animations=[];
  visibleWalk((n)=>{const p=layout.get(n.id);if(n.collapsed)return;for(const child of n.children){const cp=layout.get(child.id),key=n.id+'::'+child.id;primary.add(key);let path=treePaths.get(key);if(!path){path=document.createElementNS('http://www.w3.org/2000/svg','path');path.classList.add('connector');treeWires.appendChild(path);treePaths.set(key,path)}const ap=old.get(n.id),bp=old.get(child.id);const newborn=birthEffect?.ids.has(child.id);
  const from=newborn&&birthEffect.origin?{p:birthEffect.origin,c:{x:birthEffect.origin.x,y:birthEffect.origin.y+birthEffect.origin.h+8,h:0}}:ap&&bp?{p:ap,c:bp}:null;
  animations.push({el:path,a:from,b:{p,c:cp},fn:pth})}});
  for(const [key,path] of treePaths)if(!primary.has(key)){path.remove();treePaths.delete(key)}
- for(const l of doc().links){const a=layout.get(l.from),b=layout.get(l.to);if(!a||!b)continue;const key=l.from+'::'+l.to;extra.add(key);let path=crossPaths.get(key);if(!path){path=document.createElementNS('http://www.w3.org/2000/svg','path');path.classList.add('cross-connector');crossWires.appendChild(path);crossPaths.set(key,path)}path.setAttribute('d',crossPth(a,b));}
+ for(const l of doc().links){const a=layout.get(l.from),b=layout.get(l.to);if(!a||!b)continue;const key=l.from+'::'+l.to;extra.add(key);let path=crossPaths.get(key);if(!path){path=document.createElementNS('http://www.w3.org/2000/svg','path');path.classList.add('cross-connector','link-born');crossWires.appendChild(path);crossPaths.set(key,path);path.addEventListener('animationend',()=>path.classList.remove('link-born'),{once:true})}path.setAttribute('d',crossPth(a,b));}
  for(const [key,path] of crossPaths)if(!extra.has(key)){path.remove();crossPaths.delete(key)}
  const token=++animSeq;if(reduced){animations.forEach(x=>x.el.setAttribute('d',x.fn(x.b.p,x.b.c)));return}const start=performance.now();const duration=birthEffect?820:520;const lerp=(x,y,t)=>x+(y-x)*t;
  const tick=now=>{if(token!==animSeq)return;const raw=Math.min(1,(now-start)/duration),t=1-Math.pow(1-raw,3);for(const x of animations){if(!x.a){x.el.setAttribute('d',x.fn(x.b.p,x.b.c));continue}const a=x.a,b=x.b;const p={x:lerp(a.p.x,b.p.x,t),y:lerp(a.p.y,b.p.y,t),h:lerp(a.p.h,b.p.h,t)},c={x:lerp(a.c.x,b.c.x,t),y:lerp(a.c.y,b.c.y,t),h:lerp(a.c.h,b.c.h,t)};x.el.setAttribute('d',x.fn(p,c))}if(raw<1)requestAnimationFrame(tick)};requestAnimationFrame(tick)}
@@ -791,10 +818,90 @@ function zoom(factor,x=stage.clientWidth/2,y=stage.clientHeight/2){let old=scale
 function toast(msg){clearTimeout(timeoutToast);const t=$('toast');t.textContent=msg;t.classList.add('show');timeoutToast=setTimeout(()=>t.classList.remove('show'),1800)}
 function openDialog(id){const d=$(id);if(!d.open)d.showModal()}
 function closeDialog(id){const d=$(id);if(d.open)d.close()}
-function openEdit(nodeId=null,parentId=null){const f=nodeId?locate(nodeId):null;if(nodeId&&!f)return;editDraft={id:nodeId,parentId};editStatus=f?.n.status||'neutral';selectedId=nodeId||parentId;render();const learning=doc().kind==='knowledge';$('editHeading').textContent=nodeId?(f.parent?(learning?'Editar concepto':'Editar posibilidad'):(learning?'Tema principal':'Punto de partida')):(learning?'Nuevo concepto':'Nueva rama');$('editTitleLabel').textContent=learning?'Nombre del concepto':'Idea o consecuencia';$('editTitle').placeholder=learning?'Nombre del concepto...':'Escribe una posibilidad...';$('editTitle').value=f?.n.title||'';$('editNoteLabel').textContent=learning?'Notas personales (opcional)':'Notas y análisis (opcional)';$('editNote').placeholder=learning?'Tus apuntes o dudas sobre el concepto...':'¿Por qué? ¿Qué podría ocurrir después?';$('editNote').value=f?.n.notes||'';$('knowledgeFields').hidden=!learning;$('editDescription').value=f?.n.description||'';$('editExample').value=f?.n.example||'';$('statusLabel').hidden=learning;$('statusChoices').hidden=learning;$('deleteNode').hidden=!f?.parent;$('connectionsBlock').hidden=!nodeId;updateStatusChoices();refreshConnections();openDialog('editDialog');setTimeout(()=>$('editTitle').focus(),30)}
-function updateStatusChoices(){document.querySelectorAll('[data-status]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.status===editStatus)))}
-function refreshConnections(){const c=$('connectionsList');c.replaceChildren();if(!editDraft?.id)return;const links=doc().links.filter(l=>l.from===editDraft.id||l.to===editDraft.id);$('connectionsBlock').hidden=!links.length;for(const link of links){const other=link.from===editDraft.id?link.to:link.from;const el=document.createElement('div');el.className='conn-chip';const s=document.createElement('span');s.textContent=locate(other)?.n.title||'Otra rama';const btn=document.createElement('button');btn.type='button';btn.title='Quitar conexión';btn.textContent='×';btn.addEventListener('click',()=>{const at=doc().links.findIndex(l=>(l.from===link.from&&l.to===link.to));if(at!==-1)commit(d=>d.links.splice(at,1));refreshConnections()});el.append(s,btn);c.appendChild(el)}}
-function deleteBranch(){if(!editDraft?.id)return;const f=locate(editDraft.id);if(!f?.parent)return;if(!confirm('¿Eliminar esta rama, sus descendientes y sus conexiones?'))return;const gone=new Set();nodesAll(f.n,n=>gone.add(n.id));commit(d=>{f.parent.children=f.parent.children.filter(n=>n.id!==f.n.id);d.links=d.links.filter(l=>!gone.has(l.from)&&!gone.has(l.to))},{fitView:true});selectedId=null;closeDialog('editDialog');toast('Rama eliminada')}
+function setImagePreview(){const src=editImage||$('editImageUrl').value.trim();const ok=isNodeImage(src);$('editImagePreview').hidden=!ok;if(ok)$('editImagePreviewImg').src=src;else $('editImagePreviewImg').removeAttribute('src')}
+async function compressImage(file){
+ if(file.size>10000000)throw Error('La imagen supera los 10 MB');
+ if(!/^image\/(png|jpeg|webp|gif)$/.test(file.type))throw Error('Solo PNG, JPEG, WebP o GIF');
+ const objectURL=URL.createObjectURL(file);
+ try{
+  const img=new Image();img.src=objectURL;await img.decode();
+  const ratio=Math.min(1,640/Math.max(img.naturalWidth,img.naturalHeight));
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.round(img.naturalWidth*ratio));
+  canvas.height=Math.max(1,Math.round(img.naturalHeight*ratio));
+  const ctx=canvas.getContext('2d');if(!ctx)throw Error('No se pudo procesar la imagen');
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  let encoded=canvas.toDataURL('image/jpeg',.68);
+  if(encoded.length>175000)encoded=canvas.toDataURL('image/jpeg',.44);
+  if(!isNodeImage(encoded))throw Error('Imagen demasiado grande: usa una URL o reduce su tamaño');
+  return encoded;
+ }finally{URL.revokeObjectURL(objectURL)}
+}
+function openEdit(nodeId=null,parentId=null,aux=false){
+ const f=nodeId?locate(nodeId):null;if(nodeId&&!f)return;
+ editDraft={id:nodeId,parentId,aux};editStatus=f?.n.status||'neutral';editImage=f?.n.image||'';
+ selectedId=nodeId||parentId;render();
+ const learning=doc().kind==='knowledge';
+ $('editHeading').textContent=aux?'Crear nodo auxiliar':nodeId?(f.n.auxiliary?'Editar auxiliar':f.parent?(learning?'Editar concepto':'Editar posibilidad'):(learning?'Tema principal':'Punto de partida')):(learning?'Nuevo concepto':'Nueva rama');
+ $('editTitleLabel').textContent=learning?'Nombre del concepto':'Idea o consecuencia';
+ $('editTitle').placeholder=learning?'Nombre del concepto...':'Escribe una posibilidad...';$('editTitle').value=f?.n.title||'';
+ $('editNoteLabel').textContent=learning?'Notas personales (opcional)':'Notas y análisis (opcional)';
+ $('editNote').placeholder=learning?'Tus apuntes o dudas sobre el concepto...':'¿Por qué? ¿Qué podría ocurrir después?';
+ $('editNote').value=f?.n.notes||'';
+ $('knowledgeFields').hidden=!learning;$('editDescription').value=f?.n.description||'';$('editExample').value=f?.n.example||'';
+ $('statusLabel').hidden=false;$('statusChoices').hidden=false;
+ $('editImageUrl').value=editImage?.startsWith('https://')?editImage:'';
+ $('editImageFile').value='';setImagePreview();
+ $('deleteNode').hidden=!(f?.parent||f?.n.auxiliary);$('connectionsBlock').hidden=!nodeId;
+ updateStatusChoices();refreshConnections();openDialog('editDialog');setTimeout(()=>$('editTitle').focus(),30);
+}
+function updateStatusChoices(){document.querySelectorAll('[data-status]').forEach(btn=>{
+ btn.setAttribute('aria-pressed',String(btn.dataset.status===editStatus));
+ const label=doc().legend?.[btn.dataset.status]||DEFAULT_LEGEND[btn.dataset.status];
+ if(btn.lastChild?.nodeType===3)btn.lastChild.textContent=label;
+ btn.title=label;
+})}
+function refreshConnections(){
+ const c=$('connectionsList');c.replaceChildren();
+ if(!editDraft?.id)return;
+ const links=doc().links.filter(l=>l.from===editDraft.id||l.to===editDraft.id);
+ $('connectionsBlock').hidden=!links.length;
+ for(const link of links){
+  const other=link.from===editDraft.id?link.to:link.from;
+  const el=document.createElement('div');el.className='conn-chip';
+  const label=document.createElement('span');label.textContent=locate(other)?.n.title||'Otra rama';
+  const btn=document.createElement('button');btn.type='button';btn.title='Desconectar sin eliminar nodos';btn.textContent='Desconectar ×';
+  btn.addEventListener('click',()=>{
+   const id=state.activeId,key=link.from+'::'+link.to,path=crossPaths.get(key);
+   sound('disconnect');if(path&&!reduced)path.animate([{opacity:1},{opacity:0,strokeDashoffset:65}],{duration:225,easing:'ease-in'});
+   const run=()=>{
+    if(state.activeId!==id)return;
+    commit(d=>{d.links=d.links.filter(l=>!(l.from===link.from&&l.to===link.to))});
+    refreshConnections();toast('Conexión retirada; nodos intactos');
+   };
+   if(reduced)run();else setTimeout(run,220);
+  });
+  el.append(label,btn);c.appendChild(el);
+ }
+}
+function deleteBranch(){
+ if(!editDraft?.id)return;
+ const targetId=editDraft.id,found=locate(targetId);
+ if(!found||(!found.parent&&!found.n.auxiliary))return;
+ if(!confirm(found.n.auxiliary?'¿Eliminar este nodo auxiliar y sus conexiones?':'¿Eliminar esta rama, sus descendientes y sus conexiones?'))return;
+ const gone=new Set();nodesAll(found.n,n=>gone.add(n.id));
+ const active=state.activeId;
+ sound('delete');closeDialog('editDialog');editDraft=null;selectedId=null;
+ if(!reduced)for(const id of gone){const card=cards.get(id);if(card){card.classList.add('node-deleting');card.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'translateY(13px) scale(.87)',filter:'blur(3px)'}],{duration:300,easing:'ease-in',fill:'forwards'})}}
+ const remove=()=>{
+  if(state.activeId!==active||!locate(targetId))return;
+  commit(d=>{const f=locate(targetId);if(f.parent)f.parent.children=f.parent.children.filter(n=>n.id!==targetId);
+   else d.auxNodes=d.auxNodes.filter(n=>n.id!==targetId);
+   d.links=d.links.filter(l=>!gone.has(l.from)&&!gone.has(l.to))},{fitView:true});
+  toast('Rama eliminada · puedes deshacer');
+ };
+ if(reduced)remove();else setTimeout(remove,300);
+}
 function createNewDoc(){$('newDocName').value='';$('newDocKind').value='decision';$('outlineInput').value='';updateNewDocMode();closeDialog('libraryDialog');openDialog('newDocDialog');$('newDocName').focus()}
 function updateNewDocMode(){const learning=$('newDocKind').value==='knowledge';$('outlineBlock').hidden=!learning;$('newDocHint').textContent=learning?'Organiza conceptos, explicaciones y ejemplos en un mapa ampliable.':'Explora alternativas, consecuencias y posibilidades mediante ramas.'}
 function parseOutline(input){
