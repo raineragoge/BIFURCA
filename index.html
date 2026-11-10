@@ -1114,9 +1114,18 @@ const learningTemplates=[
 function quickIdeas(){const node=aiScope(),already=new Set(node.children.map(c=>c.title.toLowerCase().trim()));const templates=doc().kind==='knowledge'?learningTemplates:questionTemplates;return templates.map(fn=>fn(node.title)).filter(t=>!already.has(t.toLowerCase())).slice(0,5)}
 function makeAiNode(proposal){
  const n=makeNode(proposal.title);
- n.description=proposal.description||'';
- n.example=proposal.example||'';
- n.notes=proposal.notes||'';
+ if(doc().kind==='knowledge'){
+  n.description=proposal.description||'';
+  n.example=proposal.example||'';
+  n.notes=proposal.notes||'';
+ }else{
+  // Los árboles de decisiones solo muestran el campo notas.
+  n.notes=[
+   proposal.description?'EXPLICACIÓN\n'+proposal.description:'',
+   proposal.example?'EJEMPLO\n'+proposal.example:'',
+   proposal.notes||''
+  ].filter(Boolean).join('\n\n').slice(0,7000);
+ }
  n.expanded=!!(n.description||n.example||n.notes);
  return n;
 }
