@@ -2,6 +2,14 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## v1.1.2 — corrección al pegar JSON desde ChatGPT
+
+El importador acepta JSON completo y válido, bloques de código `json`, texto introductorio/conclusiones alrededor del JSON, etiquetas de copia como `<escape>` y secuencias literales de salto de línea (`\\n`) fuera de las cadenas. Sigue aceptando listas antiguas y líneas separadas por `|`.
+
+El importador valida que exista `propuestas` y cada elemento tenga `concepto`. Muestra un mensaje más específico si el JSON está realmente mal formado, incompleto o no contiene conceptos válidos. **Nunca modifica el árbol hasta la aceptación visual de cada propuesta**.
+
+Se han comprobado mediante pruebas JavaScript: JSON puro, Markdown, texto adicional, etiquetas, saltos escapados, arrays, texto antiguo, JSON entrecomillado, JSON truncado, JSON incorrecto y lista vacía. Pendiente validación visual de navegador y comprobación de la publicación en Cloudflare.
+
 ## v1.1 — completar conceptos por dentro (10/11/2026)
 
 Al pulsar **Ideas / IA → Copiar prompt para IA**, BIFURCA solicita una respuesta JSON donde cada propuesta contenga un **concepto** y su **explicacion**, **ejemplo** y **notas**. La propuesta se previsualiza como una sola tarjeta, con su título y contenidos internos. Solo después de aprobarla, los datos pasan al nodo real; el detalle se deja desplegado. **Las explicaciones no se crean como ramas hijas**.
