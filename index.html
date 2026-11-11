@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f7f5f1">
-<title>BIFURCA v1.3.0 — Nodos visuales, conexiones y glosarios</title>
+<title>BIFURCA — Un árbol para pensar y aprender</title>
 <style>
 :root{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; color-scheme:light; --positive:#4c9b7e;--warning:#db9e41;--negative:#d47e74;--neutral:#94a3af}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{--bg:#f7f5f1;--stage:#f8f6f3;--surface:#fffdfa;--surface2:#f3f1ed;--text:#33353a;--muted:#89868a;--stroke:#e9e5e0;--grid:#dbd7d0;--accent:#ca8065;--accentSoft:#f8e6dc;--inkButton:#35353c;--root:#52545b;--rootText:#fffdfa;--shadow:0 16px 40px #29262712,0 3px 8px #29262708;--line:#bfb9b3;--cross:#b283cb;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
@@ -367,6 +367,7 @@ body[data-theme="iris"] .stage{
 @media(prefers-reduced-motion:reduce){.node,.color-filter-panel,.theme-card{animation:none!important;transition:none!important}}
 
 </style>
+<link rel="stylesheet" href="redesign.css">
 </head>
 <body data-theme="arcilla" data-mode="light" data-version="1.3.0" data-map-kind="decision" data-tree-layout="compact">
 <div class="app">
@@ -380,19 +381,22 @@ body[data-theme="iris"] .stage{
   </div>
   <nav class="tools" aria-label="Herramientas">
     <button class="btn outline" type="button" id="treesToggle" aria-expanded="true" aria-controls="treeSidebar" title="Mostrar u ocultar la lista de árboles">☷ <span>Árboles</span></button>
-     <button class="btn accent" type="button" id="quickImportBtn" title="Importar un árbol JSON desde tu dispositivo">↑ <span>Importar JSON</span></button>
-     <button class="btn" id="newBtn" title="Nuevo análisis">＋ <span>Nuevo</span></button>
-    <button class="btn outline" id="newAuxBtn" title="Crear una nota independiente que puedas conectar a otras ramas">＋ <span>Auxiliar</span></button>
-    <button class="btn outline" id="legendBtn" title="Editar los significados de los cinco colores">◉ <span>Colores</span></button>
-    <button class="btn outline" id="completeTreeBtn" title="Generar un prompt para completar el árbol con ChatGPT">▤ <span>Completar tabla</span></button>
+    <button class="btn accent" id="newBtn" aria-label="Crear un árbol nuevo" title="Crear un árbol">＋ <span>Nuevo árbol</span></button>
+    <button class="btn" type="button" id="quickImportBtn" title="Importar un árbol JSON desde tu dispositivo">↑ <span>Importar</span></button>
+    <span class="tool-divider" aria-hidden="true"></span>
     <button class="btn icononly" id="undoBtn" aria-label="Deshacer" title="Deshacer (Ctrl+Z)">↶</button>
     <button class="btn icononly" id="redoBtn" aria-label="Rehacer" title="Rehacer (Ctrl+Mayús+Z)">↷</button>
-    <button class="btn" id="focusBtn" aria-pressed="false" title="Atenuar ramas ajenas al camino seleccionado">◎ <span>Enfocar</span></button>
-    <button class="btn" id="aiBtn" title="Explorar nuevas posibilidades">✧ <span>Ideas / IA</span></button>
-    <button class="btn sound-desktop" type="button" id="soundBtn" aria-label="Silenciar efectos de sonido" aria-pressed="true" title="Silenciar efectos de sonido"><span class="sound-symbol" aria-hidden="true">♫</span><span class="hide-medium sound-label">Sonidos</span></button>
-    <button class="btn mode-desktop" type="button" id="quickModeBtn" aria-label="Activar modo oscuro" aria-pressed="false" title="Activar modo oscuro"><span class="mode-symbol" aria-hidden="true">☾</span><span class="mode-label">Oscuro</span></button>
-    <button class="btn outline" id="themeBtn" title="Elegir entre Arcilla, Lino, Salvia e Iris">◈ <span>Temas</span></button>
-    <button class="btn outline" id="exportBtn" title="Exportar el análisis">↓ <span>Exportar</span></button>
+    <button class="btn" id="focusBtn" aria-label="Enfocar una rama" aria-pressed="false" title="Atenuar ramas ajenas al camino seleccionado">◎ <span>Enfocar</span></button>
+    <button class="btn" id="aiBtn" aria-label="Ideas y propuestas de inteligencia artificial" title="Explorar nuevas posibilidades">✧ <span>Ideas / IA</span></button>
+    <details class="more-tools" id="moreTools"><summary>Más herramientas <span aria-hidden="true">⌄</span></summary><div class="more-tools-panel">
+      <button class="btn" id="newAuxBtn" title="Crear una nota independiente que puedas conectar a otras ramas">＋ <span>Nodo auxiliar</span></button>
+      <button class="btn" id="legendBtn" title="Editar los significados de los cinco colores">◉ <span>Glosario de colores</span></button>
+      <button class="btn" id="completeTreeBtn" title="Generar un prompt para completar el árbol con ChatGPT">▤ <span>Completar árbol</span></button>
+      <button class="btn" id="exportBtn" title="Exportar el análisis">↓ <span>Exportar árbol</span></button>
+      <button class="btn" id="themeBtn" title="Elegir entre Arcilla, Lino, Salvia e Iris">◈ <span>Apariencia</span></button>
+      <button class="btn sound-desktop" type="button" id="soundBtn" aria-label="Silenciar efectos de sonido" aria-pressed="true" title="Silenciar efectos de sonido"><span class="sound-symbol" aria-hidden="true">♫</span><span class="sound-label">Sonidos</span></button>
+      <button class="btn mode-desktop" type="button" id="quickModeBtn" aria-label="Activar modo oscuro" aria-pressed="false" title="Activar modo oscuro"><span class="mode-symbol" aria-hidden="true">☾</span><span class="mode-label">Oscuro</span></button>
+    </div></details>
   </nav>
 </header>
 <div class="workspace" id="workspace">
@@ -425,6 +429,7 @@ body[data-theme="iris"] .stage{
 </aside>
 <button type="button" id="sidebarScrim" class="sidebar-scrim" aria-label="Cerrar la lista de árboles" hidden></button>
 <main class="stage" id="stage" aria-label="Árbol de análisis vertical">
+  <div class="map-heading" aria-live="polite"><span class="map-heading-kicker">MAPA ACTUAL</span><strong id="mapHeadingName">Mi árbol</strong><span id="mapHeadingCount">Explora tus conceptos</span></div>
   <div class="stage-tools" aria-label="Distribución del árbol">
     <button class="stage-tool" type="button" id="layoutBtn" title="Alternar entre vista escalonada y horizontal" aria-pressed="true">▤ Escalonado</button>
     <button class="stage-tool subtle" type="button" id="collapseAllBtn" title="Plegar todos los bloques y mostrar las categorías principales">− Plegar niveles</button>
@@ -436,6 +441,24 @@ body[data-theme="iris"] .stage{
     <div id="colorFilterOptions" class="color-filter-options"></div>
     <button type="button" id="clearColorFilter" class="color-filter-reset">Mostrar todos los colores</button>
   </section>
+  <aside class="concept-panel" id="conceptPanel" aria-label="Detalle del concepto seleccionado" hidden>
+    <div class="concept-panel-head"><span>EN ESTE ÁRBOL</span><button type="button" id="conceptPanelClose" aria-label="Cerrar detalle">×</button></div>
+    <div id="conceptPath" class="concept-path"></div>
+    <h2 id="conceptTitle"></h2>
+    <div id="conceptMeta" class="concept-meta"></div>
+    <div id="conceptDescription" class="concept-copy" hidden><span>EXPLICACIÓN</span><p></p></div>
+    <div id="conceptExample" class="concept-copy" hidden><span>EJEMPLO</span><p></p></div>
+    <div id="conceptNotes" class="concept-copy" hidden><span>NOTAS</span><p></p></div>
+    <div class="concept-panel-actions"><button type="button" id="conceptCenter">Centrar</button><button type="button" id="conceptEdit">Editar</button><button type="button" id="conceptAdd">＋ Subrama</button></div>
+  </aside>
+  <aside class="canvas-guide" aria-label="Cómo explorar el mapa">
+    <span class="canvas-guide-kicker">ORIENTACIÓN</span>
+    <h2>Explorar el mapa</h2>
+    <p><b>01</b> Pulsa un bloque para desplegar sus ramas.</p>
+    <p><b>02</b> Selecciona un concepto para leerlo aquí.</p>
+    <p><b>03</b> Usa la búsqueda para saltar entre temarios.</p>
+    <button type="button" id="guideSearch">Buscar conceptos <span aria-hidden="true">↗</span></button>
+  </aside>
   <div id="scene" class="scene"><svg class="wires" id="wires" aria-hidden="true"><g id="treeWires"></g><g id="crossWires"></g><g id="aiGhostWires"></g></svg><div id="nodeLayer"></div><div id="aiGhostLayer" class="ai-ghost-layer" aria-hidden="true"></div></div>
   <div id="hintBanner" class="hint-banner" hidden><span>Selecciona otra tarjeta para conectar las dos ideas.</span><button type="button" id="cancelLinkBtn">Cancelar</button></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -930,6 +953,19 @@ function springBirth(parentId,newNodes,{onFinish}={}){
 }
 function historyMove(direction){const d=doc(),h=getHistory(),from=direction==='undo'?h.past:h.future,to=direction==='undo'?h.future:h.past;if(!from.length)return;to.push(JSON.stringify({root:d.root,links:d.links,auxNodes:d.auxNodes,legend:d.legend}));const snapshot=JSON.parse(from.pop());d.root=snapshot.root;d.links=snapshot.links;d.auxNodes=snapshot.auxNodes||[];d.legend=normalizeLegend(snapshot.legend);d.updatedAt=Date.now();selectedId=null;if(focusMode)focusId=d.root.id;linkSource=null;persist();render();frameCurrentTree();sound(direction);toast(direction==='undo'?'Cambio deshecho':'Cambio rehecho')}
 function locate(nodeId,n=doc().root,parent=null){if(n.id===nodeId)return {n,parent};for(const c of n.children){const f=locate(nodeId,c,n);if(f)return f}if(n===doc().root){for(const a of doc().auxNodes||[]){const found=locate(nodeId,a,null);if(found)return found}}return null}
+function renderConceptPanel(){
+ const panel=$('conceptPanel'),found=selectedId&&locate(selectedId);
+ panel.hidden=!found;
+ if(!found)return;
+ const n=found.n,path=ancestors(n.id).map(id=>locate(id)?.n?.title).filter(Boolean);
+ $('conceptPath').textContent=path.length>1?path.slice(0,-1).join('  /  '):n.auxiliary?'Nota independiente':'Punto de partida';
+ $('conceptTitle').textContent=n.title||'Sin título';
+ $('conceptMeta').textContent=`${doc().legend?.[n.status]||DEFAULT_LEGEND[n.status]} · ${n.children.length} ${n.children.length===1?'subrama':'subramas'}${n.collapsed&&n.children.length?' · Plegado':''}`;
+ for(const [id,value] of [['conceptDescription',n.description],['conceptExample',n.example],['conceptNotes',n.notes]]){
+  const section=$(id);section.hidden=!String(value||'').trim();section.querySelector('p').textContent=value||'';
+ }
+ $('conceptAdd').hidden=!!n.auxiliary;
+}
 function ancestors(nodeId){let path=[];function walk(n){path.push(n.id);if(n.id===nodeId)return true;for(const c of n.children)if(walk(c))return true;path.pop();return false}walk(doc().root);return path}
 function descendants(nodeId){const n=locate(nodeId)?.n,ids=new Set();if(n)nodesAll(n,x=>ids.add(x.id));return ids}
 function visibleWalk(fn){const walk=(n,depth=0,parent=null)=>{fn(n,depth,parent);if(!n.collapsed)n.children.forEach(c=>walk(c,depth+1,n))};walk(doc().root);for(const a of doc().auxNodes||[])walk(a,0,null)}
@@ -990,7 +1026,21 @@ function pth(a,b){
 }
 function crossPth(a,b){const right=b.x>=a.x,sign=right?1:-1,sx=a.x+sign*W/2,ex=b.x-sign*W/2,sy=a.y+a.h/2,ey=b.y+b.h/2;if(Math.abs(ex-sx)<110){let bend=sx+sign*105;return `M ${sx} ${sy} C ${bend} ${sy} ${bend} ${ey} ${ex} ${ey}`}const cx=(sx+ex)/2;return `M ${sx} ${sy} C ${cx} ${sy} ${cx} ${ey} ${ex} ${ey}`}
 function makeStaticCard(n){const el=document.createElement('article');el.className='node';el.tabIndex=0;el.dataset.id=n.id;el.setAttribute('role','group');el.innerHTML=`<div class="node-top"><span class="node-ball"></span><span class="node-meta"></span></div><div class="node-main"><div class="node-title"></div><img class="node-thumb" alt="" loading="lazy" hidden><div class="node-note" hidden></div></div><div class="node-footer"><span class="node-stat"></span><div class="node-buttons"><button type="button" class="node-button node-note-toggle" title="Mostrar u ocultar análisis" aria-label="Mostrar notas">▤</button><button type="button" class="node-button node-fold" title="Plegar o desplegar ramas" aria-label="Plegar ramas">${icon.fold}</button><button type="button" class="node-button node-chain" title="Conectar con otra rama" aria-label="Conectar con otra rama">${icon.chain}</button><button type="button" class="node-button node-edit" title="Editar esta idea" aria-label="Editar esta idea">${icon.edit}</button><button type="button" class="node-button add" title="Crear una subrama" aria-label="Crear una subrama">+</button></div></div>`;
- el.addEventListener('click',e=>{if(e.target.closest('button'))return;if(el.dataset.justDragged==='yes'){el.dataset.justDragged='no';return}nodeClick(n.id)});el.addEventListener('keydown',e=>{if(e.target===el&&(e.key==='Enter'||e.key===' ')){e.preventDefault();nodeClick(n.id)}});
+  el.addEventListener('click',e=>{if(e.target.closest('button'))return;if(el.dataset.justDragged==='yes'){el.dataset.justDragged='no';return}nodeClick(n.id)});el.addEventListener('keydown',e=>{
+   if(e.target!==el)return;
+   if(e.key==='Enter'||e.key===' '){e.preventDefault();nodeClick(n.id);return}
+   if(e.key==='F2'){e.preventDefault();selectedId=n.id;renderConceptPanel();openEdit(n.id);return}
+   if(e.key==='ArrowDown'||e.key==='ArrowUp'||e.key==='Home'||e.key==='End'){
+    e.preventDefault();const ids=[...layout.keys()].filter(id=>cards.has(id)).sort((a,b)=>layout.get(a).y-layout.get(b).y||layout.get(a).x-layout.get(b).x);
+    const index=ids.indexOf(n.id),next=e.key==='Home'?0:e.key==='End'?ids.length-1:Math.max(0,Math.min(ids.length-1,index+(e.key==='ArrowDown'?1:-1)));
+    cards.get(ids[next])?.focus();return;
+   }
+   if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+    const current=locate(n.id);if(!current)return;e.preventDefault();
+    if(e.key==='ArrowRight'&&current.n.children.length){if(current.n.collapsed)el.querySelector('.node-fold').click();else cards.get(current.n.children[0].id)?.focus()}
+    if(e.key==='ArrowLeft'){if(current.n.children.length&&!current.n.collapsed)el.querySelector('.node-fold').click();else if(current.parent)cards.get(current.parent.id)?.focus()}
+   }
+  });
  el.querySelector('.add').addEventListener('click',e=>{e.stopPropagation();openEdit(null,n.id)});
  el.querySelector('.node-edit').addEventListener('click',e=>{e.stopPropagation();openEdit(n.id)});
  el.querySelector('.node-note-toggle').addEventListener('click',e=>{e.stopPropagation();const expanded=!!locate(n.id)?.n.expanded;commit(d=>{const found=locate(n.id);if(found)found.n.expanded=!found.n.expanded});sound(expanded?'fold':'unfold')});
@@ -1023,14 +1073,14 @@ function makeStaticCard(n){const el=document.createElement('article');el.classNa
  };
  handle.addEventListener('pointerup',finish);handle.addEventListener('pointercancel',finish);
  nodeLayer.appendChild(el);return el}
-function nodeClick(nodeId){if(linkSource){finishLink(nodeId);return}if(focusMode){focusId=nodeId;selectedId=nodeId;render();centerOn(nodeId,true);sound('focus');toast('Camino resaltado · pulsa otro nodo para cambiarlo');return}if(doc().kind==='knowledge'){const n=locate(nodeId)?.n;if(!n)return;if(n.auxiliary){openEdit(nodeId);return}selectedId=nodeId;if(n.children.length){const folded=!!n.collapsed;commit(d=>{n.collapsed=!n.collapsed},{fitView:true});sound(folded?'unfold':'fold');return}if(detailText(n).trim()){commit(d=>{n.expanded=!n.expanded});centerOn(nodeId,true);return}}openEdit(nodeId)}
+function nodeClick(nodeId){if(linkSource){finishLink(nodeId);return}selectedId=nodeId;renderConceptPanel();if(focusMode){focusId=nodeId;render();centerOn(nodeId,true);sound('focus');toast('Camino resaltado · pulsa otro nodo para cambiarlo');return}if(doc().kind==='knowledge'){const n=locate(nodeId)?.n;if(!n)return;if(n.auxiliary){openEdit(nodeId);return}if(n.children.length){const folded=!!n.collapsed;commit(d=>{n.collapsed=!n.collapsed},{fitView:true});sound(folded?'unfold':'fold');return}if(detailText(n).trim()){commit(d=>{n.expanded=!n.expanded});centerOn(nodeId,true);return}}openEdit(nodeId)}
 function linkExists(a,b){return doc().links.some(l=>(l.from===a&&l.to===b)||(l.from===b&&l.to===a))}
 function startLink(source){linkSource=source;$('hintBanner').hidden=false;render();toast('Selecciona el nodo de destino')}
 function finishLink(target){const source=linkSource;linkSource=null;$('hintBanner').hidden=true;if(source===target){toast('Selecciona una idea diferente');render();return}const direct=locate(source)?.n.children.some(n=>n.id===target)||locate(target)?.n.children.some(n=>n.id===source);if(direct||linkExists(source,target)){toast('Estas ideas ya están conectadas');render();return}commit(d=>d.links.push({from:source,to:target}));sound('connect');toast('Conexión creada')}
 function render(freshId=null){const old=oldLayout;compute();scene.style.width=sceneW+'px';scene.style.height=sceneH+'px';wires.setAttribute('width',sceneW);wires.setAttribute('height',sceneH);wires.setAttribute('viewBox',`0 0 ${sceneW} ${sceneH}`);
  const visible=new Set();let i=0;visibleWalk((n,depth)=>{visible.add(n.id);const p=layout.get(n.id);let el=cards.get(n.id);if(!el){el=makeStaticCard(n);cards.set(n.id,el);if(n.id===freshId){el.classList.add('fresh');el.addEventListener('animationend',()=>el.classList.remove('fresh'),{once:true})}}el.style.left=(p.x-W/2)+'px';el.style.top=p.y+'px';el.style.height=p.h+'px';el.style.setProperty('--nodeColor',NODE_COLORS[n.status]||'var(--neutral)');el.classList.toggle('root',!depth&&!n.auxiliary);el.classList.toggle('aux-node',!!n.auxiliary);el.dataset.status=n.status;el.classList.toggle('selected',selectedId===n.id);el.classList.toggle('link-target',!!linkSource&&linkSource!==n.id);el.querySelector('.node-meta').textContent=n.auxiliary?'NOTA AUXILIAR':depth===0?(doc().kind==='knowledge'?'TEMA PRINCIPAL':'PUNTO DE PARTIDA'):(doc().kind==='knowledge'?(depth===1?'BLOQUE':depth===2?'SUBTEMA':'CONCEPTO'):`POSIBILIDAD ${++i}`);el.title=doc().kind==='knowledge'?(n.children.length?(n.collapsed?'Clic para abrir este bloque':'Clic para plegar este bloque'):'Clic para leer detalles; el lápiz permite editar'):'Clic para editar esta idea';el.title+=' · Color: '+(doc().legend?.[n.status]||DEFAULT_LEGEND[n.status]);el.querySelector('.node-title').textContent=n.title||'Sin título';const thumbnail=el.querySelector('.node-thumb');thumbnail.hidden=!n.image;if(n.image&&thumbnail.getAttribute('src')!==n.image)thumbnail.src=n.image;else if(!n.image)thumbnail.removeAttribute('src');const note=el.querySelector('.node-note');const details=detailText(n);note.textContent=details;note.hidden=!(n.expanded&&details.trim());const noteBtn=el.querySelector('.node-note-toggle');noteBtn.hidden=!details.trim();noteBtn.textContent=n.expanded?'▥':'▤';noteBtn.title=n.expanded?'Ocultar detalles':'Mostrar detalles';noteBtn.setAttribute('aria-label',noteBtn.title);el.querySelector('.node-stat').textContent=n.children.length?`${n.children.length} rama${n.children.length!==1?'s':''}`:'Sin ramificaciones';el.querySelector('.add').hidden=!!n.auxiliary;const fold=el.querySelector('.node-fold');fold.hidden=!n.children.length;fold.classList.toggle('folded',n.collapsed);fold.setAttribute('aria-label',n.collapsed?'Desplegar ramas':'Plegar ramas')});
  for(const [nodeId,el] of cards)if(!visible.has(nodeId)){el.remove();cards.delete(nodeId)}
- updatePaths(old);oldLayout=new Map([...layout.entries()].map(([k,p])=>[k,{...p}]));drawAiPreview();refreshFocus();renderColorFilters();updateActions();syncLayoutControls();$('projectName').textContent=doc().name;document.body.dataset.mapKind=doc().kind;$('currentKind').textContent=doc().kind==='knowledge'?'▦':'◇';$('currentKind').title=doc().kind==='knowledge'?'Mapa de conocimientos':'Árbol de decisiones';const count=(()=>{let n=0;nodesAll(doc().root,()=>n++);for(const a of doc().auxNodes||[])nodesAll(a,()=>n++);return n})();renderSidebar();$('statusText').textContent=doc().kind==='knowledge'?(isCompact()?`${count} conceptos · Clic para abrir bloques · Rueda para desplazarte`:`${count} conceptos · Clic para abrir bloques`):`${count} ${count===1?'idea':'ideas'} · Pulsa para editar · + para ramificar`;persist()}
+ updatePaths(old);oldLayout=new Map([...layout.entries()].map(([k,p])=>[k,{...p}]));drawAiPreview();refreshFocus();renderColorFilters();updateActions();syncLayoutControls();$('projectName').textContent=doc().name;document.body.dataset.mapKind=doc().kind;$('currentKind').textContent=doc().kind==='knowledge'?'▦':'◇';$('currentKind').title=doc().kind==='knowledge'?'Mapa de conocimientos':'Árbol de decisiones';const count=(()=>{let n=0;nodesAll(doc().root,()=>n++);for(const a of doc().auxNodes||[])nodesAll(a,()=>n++);return n})();renderSidebar();$('mapHeadingName').textContent=doc().name;$('mapHeadingCount').textContent=`${count} ${count===1?'concepto':'conceptos'} · ${visible.size} visibles`;$('statusText').textContent=doc().kind==='knowledge'?(isCompact()?`${count} conceptos · Clic para abrir bloques · Rueda para desplazarte`:`${count} conceptos · Clic para abrir bloques`):`${count} ${count===1?'idea':'ideas'} · Pulsa para editar · + para ramificar`;renderConceptPanel();persist()}
 function updatePaths(old){const primary=new Set(),extra=new Set(),animations=[];
  visibleWalk((n)=>{const p=layout.get(n.id);if(n.collapsed)return;for(const child of n.children){const cp=layout.get(child.id),key=n.id+'::'+child.id;primary.add(key);let path=treePaths.get(key);if(!path){path=document.createElementNS('http://www.w3.org/2000/svg','path');path.classList.add('connector');treeWires.appendChild(path);treePaths.set(key,path)}const ap=old.get(n.id),bp=old.get(child.id);const newborn=birthEffect?.ids.has(child.id);
  const from=newborn&&birthEffect.origin?{p:birthEffect.origin,c:{x:birthEffect.origin.x,y:birthEffect.origin.y+birthEffect.origin.h+8,h:0}}:ap&&bp?{p:ap,c:bp}:null;
@@ -1771,8 +1821,8 @@ $('exportBtn').addEventListener('click',()=>openDialog('exportDialog'));$('jsonE
 $('importBtn').addEventListener('click',()=>$('fileInput').click());$('fileInput').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{if(file.size>5000000)throw Error('Archivo demasiado grande');const data=validateImport(JSON.parse(await file.text()));if(state.docs.length>=149)throw Error('La biblioteca está llena');const d=newDoc(String(data.name).slice(0,90));d.root=data.root;d.links=data.links;d.auxNodes=data.auxNodes||[];d.legend=normalizeLegend(data.legend);d.kind=data.kind||'decision';state.docs.unshift(d);state.activeId=d.id;selectedId=null;focusMode=false;focusId=null;colorFilter=null;filterPanelOpen=false;linkSource=null;resetScene();persist();closeDialog('libraryDialog');render();frameCurrentTree();if(isMobileSidebar()){sidebarMobileOpen=false;syncSidebar()}toast('Árbol importado')}catch(err){alert('No se pudo importar el análisis. '+err.message)}});
 $('cancelLinkBtn').addEventListener('click',()=>{linkSource=null;$('hintBanner').hidden=true;render()});
 $('layoutBtn').addEventListener('click',()=>{state.settings.treeLayout=isCompact()?'horizontal':'compact';resetScene();persist();render();frameCurrentTree();toast(isCompact()?'Vista escalonada':'Vista horizontal')});$('collapseAllBtn').addEventListener('click',()=>{let any=false;nodesAll(doc().root,(n,p,depth)=>{if(depth>0&&n.children.length&&!n.collapsed)any=true});if(!any){frameCurrentTree();return}commit(d=>nodesAll(d.root,(n,p,depth)=>{if(depth>0&&n.children.length)n.collapsed=true}));frameCurrentTree();sound('fold');toast('Bloques plegados')});$('fitBtn').addEventListener('click',()=>isCompact()?frameCurrentTree():fit(true));$('zoomIn').addEventListener('click',()=>zoom(1.2));$('zoomOut').addEventListener('click',()=>zoom(1/1.2));
-stage.addEventListener('wheel',e=>{if(e.target.closest('.ai-preview-panel'))return;e.preventDefault();const rect=stage.getBoundingClientRect();if(isCompact()&&!e.ctrlKey&&!e.metaKey){if(e.shiftKey)tx-=e.deltaY*.82;else{ty-=e.deltaY*.82;tx-=e.deltaX*.82}move();return}zoom(e.deltaY<0?1.06:1/1.06,e.clientX-rect.left,e.clientY-rect.top)},{passive:false});
-stage.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;if(e.target.closest('.node,.zoom-controls,.hint-banner,.stage-tools,.ai-preview-panel,.color-filter-panel'))return;scene.classList.remove('camera-smooth');drag={id:e.pointerId,x:e.clientX,y:e.clientY,tx,ty};stage.setPointerCapture(e.pointerId);stage.classList.add('dragging')});
+stage.addEventListener('wheel',e=>{if(e.target.closest('.ai-preview-panel,.concept-panel'))return;e.preventDefault();const rect=stage.getBoundingClientRect();if(isCompact()&&!e.ctrlKey&&!e.metaKey){if(e.shiftKey)tx-=e.deltaY*.82;else{ty-=e.deltaY*.82;tx-=e.deltaX*.82}move();return}zoom(e.deltaY<0?1.06:1/1.06,e.clientX-rect.left,e.clientY-rect.top)},{passive:false});
+stage.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;if(e.target.closest('.node,.zoom-controls,.hint-banner,.stage-tools,.ai-preview-panel,.color-filter-panel,.concept-panel,.map-heading'))return;scene.classList.remove('camera-smooth');drag={id:e.pointerId,x:e.clientX,y:e.clientY,tx,ty};stage.setPointerCapture(e.pointerId);stage.classList.add('dragging')});
 stage.addEventListener('pointermove',e=>{
  if(!drag||drag.id!==e.pointerId)return;
  tx=drag.tx+e.clientX-drag.x;ty=drag.ty+e.clientY-drag.y;move();
@@ -1802,6 +1852,13 @@ stage.addEventListener('pointercancel',stopDrag);
 document.addEventListener('pointerdown',e=>{if(filterPanelOpen&&!e.target.closest('#colorFilterPanel,#filterColorsBtn'))setColorFilterPanel(false)});
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSidebar();$('conceptSearch').focus();$('conceptSearch').select();return}if(e.key==='Escape'&&e.target===$('conceptSearch')&&$('conceptSearch').value){$('conceptSearch').value='';renderSearchResults();return}if(e.key==='Escape'&&linkSource){linkSource=null;$('hintBanner').hidden=true;render();return}if(e.key==='Escape'&&filterPanelOpen){setColorFilterPanel(false);return}if(e.target.closest('input,textarea,[contenteditable="true"]')||document.querySelector('dialog[open]'))return;if(e.key==='Escape'&&(focusMode||selectedId)){exitFocusedBlock();return}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();historyMove(e.shiftKey?'redo':'undo')}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();historyMove('redo')}});
 window.addEventListener('resize',()=>{syncSidebar();render();frameCurrentTree()});
+$('conceptPanelClose').addEventListener('click',()=>{selectedId=null;render()});
+$('conceptCenter').addEventListener('click',()=>{if(selectedId)centerOn(selectedId,true)});
+$('conceptEdit').addEventListener('click',()=>{if(selectedId&&locate(selectedId))openEdit(selectedId)});
+$('conceptAdd').addEventListener('click',()=>{if(selectedId&&locate(selectedId))openEdit(null,selectedId)});
+$('guideSearch').addEventListener('click',()=>{openSidebar();$('conceptSearch').focus()});
+document.addEventListener('pointerdown',e=>{if($('moreTools').open&&!e.target.closest('#moreTools'))$('moreTools').open=false});
+$('moreTools').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>$('moreTools').open=false));
 window.BIFURCA_DEBUG={aiPreview:()=>aiPreview?clone(aiPreview):null,search:(q)=>findKnowledgeMatches(q).map(m=>({tree:m.docName,title:m.title,path:m.trail})),presets:()=>BUNDLED_MAPS.map(x=>({key:x.key,label:x.label,root:x.tree.title})),state:()=>clone(state),tree:()=>clone(doc().root),links:()=>clone(doc().links),coords:()=>[...layout.entries()].map(([id,p])=>({id,...p})),view:()=>({scale,tx,ty}),currentDoc:()=>doc().name,audio:()=>({enabled:audioPrefs.enabled,volume:audioPrefs.volume,context:audioCtx?.state||'uninitialized',scheduled:{...soundCounts}})};
 loadSound();readState();installBundledMaps();prepareBundledReadability();themeRender();syncSidebar();render();requestAnimationFrame(()=>frameCurrentTree());
 })();

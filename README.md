@@ -2,6 +2,18 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## Rediseño UX/UI — rama `feature/redesign-ux-ui-2026`
+
+Esta rama reorganiza la interfaz como un espacio de exploración cartográfica: el árbol conserva el protagonismo, la barra superior muestra las acciones frecuentes y «Más herramientas» reúne las opciones de configuración y exportación. La selección de un nodo abre un panel de lectura con su ruta, explicación, ejemplo, notas y acciones rápidas. En móvil, ese panel aparece como una hoja inferior que se puede cerrar.
+
+El encabezado del lienzo muestra el árbol activo y cuántos conceptos están visibles. Una guía breve explica cómo abrir ramas y buscar entre temarios. Se mejoraron los estados de enfoque, la jerarquía de tarjetas, las conexiones, los diálogos y la biblioteca. Las tarjetas admiten ↑/↓, Inicio/Fin, ←/→ para recorrer y plegar/desplegar ramas, y F2 para editar; Enter y Espacio mantienen su acción original.
+
+**Compatibilidad:** no cambian las claves `bifurca_v3_app`, `bifurca_v3_before_visual_v1` ni `bifurca_audio_v1`, el formato `bifurca-v4`, la migración, el importador/exportador ni la estructura de árboles. `redesign.css` y el panel contextual solo afectan a la interfaz. Se conservaron los ocho temarios, sonidos, glosarios, filtros, IA revisable, conexiones y copias de seguridad.
+
+**Pruebas:** `python tests/qa_redesign.py` con Playwright en un perfil nuevo comprueba árbol pequeño y grande, navegación, búsqueda, filtro, edición, deshacer/rehacer, conexión transversal, importación, exportación, backup, persistencia, glosario, sonido, IA, móvil y movimiento reducido. Las capturas comparativas están en [`docs/capturas`](docs/capturas). El análisis y las limitaciones están en [`docs/REDISENO-UX-UI.md`](docs/REDISENO-UX-UI.md).
+
+**Publicación:** la rama no se ha desplegado. Antes de reemplazar la web pública, exporta una copia JSON completa desde el navegador que contiene tus árboles personales y verifica su lectura en una sesión aislada. La prueba automatizada usa exclusivamente datos de prueba.
+
 ## v1.3.0 — filtro por glosario, microsonidos y temas diferenciados
 
 - **Filtrar por color:** nuevo botón **◉ Filtrar** en el lienzo. Muestra los cinco significados definidos en el glosario del árbol y la cantidad de **nodos visibles** de cada color. Al elegir uno, los demás nodos y sus conexiones se vuelven semitransparentes. Puedes volver a **Mostrar todos los colores** o pulsar de nuevo el color seleccionado. El filtro es temporal: no borra ni edita datos, y se reinicia al cambiar de árbol.
