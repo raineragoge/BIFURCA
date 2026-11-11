@@ -2,6 +2,16 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## Biblioteca completa y revisión segura de IA — rama `feature/redesign-ux-ui-2026`
+
+**Biblioteca** abre un espacio a pantalla completa para buscar por nombre, descripción o concepto, filtrar temarios y árboles personales, ordenar, crear, importar, exportar, renombrar, duplicar y eliminar con confirmación. El nombre del árbol en la barra superior es ahora un título no interactivo. La barra lateral conserva el cambio rápido entre árboles.
+
+**Ideas / IA** ofrece revisión compacta y expandida, aceptación individual, colores tomados del glosario activo y navegación de vuelta al panel anterior sin borrar el texto ni las decisiones. **Completar árbol** permite editar y copiar un prompt con IDs reales, pegar una respuesta con `CONCEPTO`, `PADRE`, `RUTA_PADRE`, `ID_PADRE`, `EXPLICACION`, `EJEMPLO` y `NOTAS`, y corregir manualmente la ubicación mediante rutas completas. El sistema resuelve primero ID y luego ruta, permite varios niveles nuevos, bloquea ambigüedades, duplicados y ciclos, y exige una confirmación final. La incorporación se guarda como una sola operación deshacible.
+
+Los formatos antiguos de Ideas / IA siguen admitidos. Si una respuesta antigua no incluye padre al usar **Completar árbol**, el usuario elige la ubicación en revisión. Las propuestas y los borradores son temporales hasta confirmar. Las claves locales y el formato de exportación `bifurca-v4` no cambian.
+
+**Pruebas:** sirve la raíz en `http://127.0.0.1:8012/` y ejecuta `python tests/qa_navigation_ai.py` con Playwright instalado. El test usa un contexto aislado y cubre biblioteca, búsqueda, título, revisión, padres por ID/ruta, nombres repetidos, corrección manual, dependencias, rechazo, duplicados, ciclos, colores, contenido, deshacer/rehacer, recarga y móvil. Las [capturas](tests/captures-navigation-ai) y las [notas de implementación](docs/NAVEGACION-BIBLIOTECA-IA.md) documentan esta iteración. También siguen pasando `tests/qa_redesign.py` y `tests/qa_refinement.py`. Esta rama no se ha desplegado.
+
 ## Refinamiento de biblioteca, orientación y editor
 
 La biblioteca lateral ahora ocupa menos espacio y agrupa con claridad los temarios incluidos, los árboles personales, la búsqueda y las acciones. La ayuda «Explorar el mapa» puede reducirse a un botón discreto; el estado se guarda en la nueva clave de interfaz `bifurca_guide_collapsed_v1` y permanece al cambiar de árbol y recargar. En móvil aparece reducida por defecto.
