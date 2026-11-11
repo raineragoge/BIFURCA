@@ -1,4 +1,7 @@
-# BIFURCA es una aplicación de archivo único.
-# Publicar solo index.html: no exponer README, tests, temarios, respaldos ni configuración.
+# Publicar únicamente la aplicación y sus estilos.
+# No exponer README, tests, temarios, respaldos ni configuración.
 /*
 !/index.html
+!/redesign.css
+!/refinement.css
+!/navigation-ai.css
