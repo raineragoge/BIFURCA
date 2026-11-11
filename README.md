@@ -2,6 +2,16 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## Refinamiento de biblioteca, orientación y editor
+
+La biblioteca lateral ahora ocupa menos espacio y agrupa con claridad los temarios incluidos, los árboles personales, la búsqueda y las acciones. La ayuda «Explorar el mapa» puede reducirse a un botón discreto; el estado se guarda en la nueva clave de interfaz `bifurca_guide_collapsed_v1` y permanece al cambiar de árbol y recargar. En móvil aparece reducida por defecto.
+
+El editor separa identidad, explicación y ejemplo, clasificación, notas, imagen y gestión de rama. Notas e imagen son secciones desplegables que conservan el texto al cerrarse. Las acciones de eliminación están apartadas; el encabezado y «Guardar cambios» permanecen visibles mientras se desplaza el contenido, también en móvil. Se conservaron los cinco colores configurables, imágenes por URL o archivo, conexiones, IA, cancelar y las confirmaciones de borrado.
+
+La [comparación visual y las decisiones de diseño](docs/REFINAMIENTO-BIBLIOTECA-EDITOR.md) incluyen capturas del antes y el después. `python tests/qa_refinement.py`, servido desde la raíz en `127.0.0.1:8012`, prueba biblioteca, ayuda persistente, edición, imágenes, colores, glosario, cancelación, eliminación protegida, teclado y tamaños móviles. La rama `archive/redesign-ux-ui-2026-before-refinement` conserva el estado anterior.
+
+**Datos y despliegue:** las claves existentes, el formato `bifurca-v4` y la lógica de árboles no cambian. Esta iteración no se ha desplegado; la exportación y verificación de una copia real del navegador personal siguen siendo requisitos previos a publicar.
+
 ## Rediseño UX/UI — rama `feature/redesign-ux-ui-2026`
 
 Esta rama reorganiza la interfaz como un espacio de exploración cartográfica: el árbol conserva el protagonismo, la barra superior muestra las acciones frecuentes y «Más herramientas» reúne las opciones de configuración y exportación. La selección de un nodo abre un panel de lectura con su ruta, explicación, ejemplo, notas y acciones rápidas. En móvil, ese panel aparece como una hoja inferior que se puede cerrar.

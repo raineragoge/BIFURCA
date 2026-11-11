@@ -368,6 +368,7 @@ body[data-theme="iris"] .stage{
 
 </style>
 <link rel="stylesheet" href="redesign.css">
+<link rel="stylesheet" href="refinement.css">
 </head>
 <body data-theme="arcilla" data-mode="light" data-version="1.3.0" data-map-kind="decision" data-tree-layout="compact">
 <div class="app">
@@ -402,7 +403,7 @@ body[data-theme="iris"] .stage{
 <div class="workspace" id="workspace">
 <aside class="tree-sidebar" id="treeSidebar" aria-label="Explorador de árboles">
   <div class="sidebar-heading">
-    <div><div class="sidebar-kicker">BIBLIOTECA</div><div class="sidebar-heading-title">Tus árboles</div></div>
+    <div><div class="sidebar-kicker">BIFURCA / EXPLORAR</div><div class="sidebar-heading-title">Biblioteca</div></div>
     <button type="button" class="sidebar-close" id="closeSidebarBtn" title="Ocultar barra lateral" aria-label="Ocultar biblioteca">×</button>
   </div>
   <div class="sidebar-search">
@@ -421,10 +422,10 @@ body[data-theme="iris"] .stage{
     <div class="tree-list" id="personalTreeList" aria-label="Mis árboles personales"></div>
   </div>
   <div class="sidebar-actions">
-    <button type="button" class="sidebar-primary" id="sidebarImportBtn">↑ &nbsp; Importar JSON</button>
-    <button type="button" class="sidebar-secondary" id="sidebarNewBtn">＋ &nbsp; Nuevo árbol</button>
+    <button type="button" class="sidebar-primary" id="sidebarNewBtn">＋ &nbsp; Nuevo árbol</button>
+    <button type="button" class="sidebar-secondary" id="sidebarImportBtn">↑ &nbsp; Importar JSON</button>
     <button type="button" class="sidebar-restore" id="restorePresetsBtn" hidden>↺ Restaurar temarios ocultos</button>
-    <button type="button" class="sidebar-secondary" id="sidebarBackupBtn" title="Descargar una copia JSON completa de todos tus árboles">↓ Copia de seguridad</button><button type="button" class="sidebar-manage" id="sidebarManageBtn">Organizar biblioteca ···</button>
+    <div class="sidebar-utility"><button type="button" class="sidebar-manage" id="sidebarManageBtn">Organizar biblioteca</button><button type="button" class="sidebar-manage" id="sidebarBackupBtn" title="Descargar una copia JSON completa de todos tus árboles">↓ Copia completa</button></div>
   </div>
 </aside>
 <button type="button" id="sidebarScrim" class="sidebar-scrim" aria-label="Cerrar la lista de árboles" hidden></button>
@@ -451,13 +452,9 @@ body[data-theme="iris"] .stage{
     <div id="conceptNotes" class="concept-copy" hidden><span>NOTAS</span><p></p></div>
     <div class="concept-panel-actions"><button type="button" id="conceptCenter">Centrar</button><button type="button" id="conceptEdit">Editar</button><button type="button" id="conceptAdd">＋ Subrama</button></div>
   </aside>
-  <aside class="canvas-guide" aria-label="Cómo explorar el mapa">
-    <span class="canvas-guide-kicker">ORIENTACIÓN</span>
-    <h2>Explorar el mapa</h2>
-    <p><b>01</b> Pulsa un bloque para desplegar sus ramas.</p>
-    <p><b>02</b> Selecciona un concepto para leerlo aquí.</p>
-    <p><b>03</b> Usa la búsqueda para saltar entre temarios.</p>
-    <button type="button" id="guideSearch">Buscar conceptos <span aria-hidden="true">↗</span></button>
+  <aside class="canvas-guide" id="canvasGuide" aria-label="Cómo explorar el mapa">
+    <div class="guide-head"><div><span class="canvas-guide-kicker">ORIENTACIÓN</span><h2>Explorar el mapa</h2></div><button type="button" id="guideToggle" aria-controls="guideContent" aria-expanded="true" aria-label="Minimizar ayuda"><span id="guideToggleLabel">Minimizar</span><span aria-hidden="true" class="guide-toggle-icon">−</span></button></div>
+    <div id="guideContent"><p><b>01</b> Pulsa un bloque para desplegar sus ramas.</p><p><b>02</b> Selecciona un concepto para leerlo aquí.</p><p><b>03</b> Usa la búsqueda para saltar entre temarios.</p><button type="button" id="guideSearch">Buscar conceptos <span aria-hidden="true">↗</span></button></div>
   </aside>
   <div id="scene" class="scene"><svg class="wires" id="wires" aria-hidden="true"><g id="treeWires"></g><g id="crossWires"></g><g id="aiGhostWires"></g></svg><div id="nodeLayer"></div><div id="aiGhostLayer" class="ai-ghost-layer" aria-hidden="true"></div></div>
   <div id="hintBanner" class="hint-banner" hidden><span>Selecciona otra tarjeta para conectar las dos ideas.</span><button type="button" id="cancelLinkBtn">Cancelar</button></div>
@@ -475,16 +472,18 @@ body[data-theme="iris"] .stage{
 </main>
 </div>
 </div>
-<dialog id="editDialog" aria-labelledby="editHeading"><form id="editForm" class="dialog-body"><div class="dialog-head"><h2 id="editHeading">Editar idea</h2><button type="button" class="x" data-close="editDialog" aria-label="Cerrar">×</button></div>
-<label class="field" for="editTitle" id="editTitleLabel">Idea o consecuencia</label><input id="editTitle" class="textbox" maxlength="220" placeholder="Escribe una posibilidad..." required autocomplete="off">
-<label class="field" for="editNote" id="editNoteLabel">Notas y análisis <span class="muted">(opcional)</span></label><textarea id="editNote" class="textbox" maxlength="7000" placeholder="¿Por qué? ¿Qué podría ocurrir después?"></textarea>
-<div id="knowledgeFields" hidden><label class="field" for="editDescription">Explicación sencilla</label><textarea id="editDescription" class="textbox" maxlength="7000" placeholder="¿Qué significa este concepto y cómo funciona?"></textarea><label class="field" for="editExample">Ejemplo práctico</label><textarea id="editExample" class="textbox" maxlength="5000" placeholder="Un ejemplo real para recordarlo..."></textarea></div><div class="field" id="statusLabel">Significado</div><div class="status-choices" id="statusChoices"><button type="button" class="status-option" data-status="neutral" style="--color:var(--neutral)"><span class="tone-dot"></span>Sin marcar</button><button type="button" class="status-option" data-status="positive" style="--color:var(--positive)"><span class="tone-dot"></span>Positivo</button><button type="button" class="status-option" data-status="warning" style="--color:var(--warning)"><span class="tone-dot"></span>Incierto</button><button type="button" class="status-option" data-status="negative" style="--color:var(--negative)"><span class="tone-dot"></span>Negativo</button><button type="button" class="status-option" data-status="info" style="--color:var(--info-node)"><span class="tone-dot"></span>Azul</button></div>
-<label class="field" for="editImageUrl">Imagen del nodo <span class="muted">(opcional)</span></label>
-<div class="image-editor"><input id="editImageUrl" class="textbox" type="url" placeholder="https://... (URL de imagen)" autocomplete="off"><input type="file" id="editImageFile" accept="image/png,image/jpeg,image/webp,image/gif" aria-label="Subir imagen al nodo"><button id="clearImageBtn" type="button" class="action">Quitar</button></div>
-<div class="image-preview-wrap" id="editImagePreview" hidden><img id="editImagePreviewImg" alt="Vista previa de la imagen"></div>
-<p class="muted">Puedes añadir una URL HTTPS o una imagen local comprimida. Haz copias JSON de la biblioteca para conservar tus imágenes y árboles.</p>
-<div id="connectionsBlock" hidden><div class="section-title">Conexiones con otras ramas</div><div class="connections-list" id="connectionsList"></div></div>
-<div class="dialog-actions"><button class="action" id="detachBranch" type="button" title="Separar esta rama de su padre sin borrar sus contenidos">Desvincular</button><button class="action danger" id="deleteNode" type="button">Eliminar rama</button><button class="action" type="button" id="nodeAIBtn">✧ Ideas</button><button class="action" data-close="editDialog" type="button">Cancelar</button><button class="action primary" type="submit">Guardar cambios</button></div></form></dialog>
+<dialog id="editDialog" class="editor-dialog" aria-labelledby="editHeading"><form id="editForm" class="editor-form">
+  <div class="editor-header"><div><span class="editor-kicker">BIFURCA / EDITOR</span><h2 id="editHeading">Editar idea</h2></div><button type="button" class="x" data-close="editDialog" aria-label="Cerrar editor">×</button></div>
+  <div class="editor-scroll">
+    <section class="editor-section editor-identity"><span class="editor-section-kicker">01 · IDENTIDAD</span><label class="field" for="editTitle" id="editTitleLabel">Idea o consecuencia</label><input id="editTitle" class="textbox" maxlength="220" placeholder="Escribe una posibilidad..." required autocomplete="off"></section>
+    <section id="knowledgeFields" class="editor-section" hidden><span class="editor-section-kicker">02 · CONTENIDO</span><div class="editor-knowledge-grid"><div><label class="field" for="editDescription">Explicación sencilla</label><textarea id="editDescription" class="textbox" maxlength="7000" placeholder="¿Qué significa este concepto y cómo funciona?"></textarea></div><div><label class="field" for="editExample">Ejemplo práctico</label><textarea id="editExample" class="textbox" maxlength="5000" placeholder="Un ejemplo real para recordarlo..."></textarea></div></div></section>
+    <section class="editor-section editor-colors"><span class="editor-section-kicker">03 · CLASIFICACIÓN</span><div class="field" id="statusLabel">Significado en el glosario</div><div class="status-choices" id="statusChoices" role="group" aria-label="Color y significado del concepto"><button type="button" class="status-option" data-status="neutral" style="--color:var(--neutral)"><span class="tone-dot"></span>Sin marcar</button><button type="button" class="status-option" data-status="positive" style="--color:var(--positive)"><span class="tone-dot"></span>Positivo</button><button type="button" class="status-option" data-status="warning" style="--color:var(--warning)"><span class="tone-dot"></span>Incierto</button><button type="button" class="status-option" data-status="negative" style="--color:var(--negative)"><span class="tone-dot"></span>Negativo</button><button type="button" class="status-option" data-status="info" style="--color:var(--info-node)"><span class="tone-dot"></span>Azul</button></div></section>
+    <details class="editor-disclosure" id="notesDisclosure"><summary>Notas personales <span>Apuntes y dudas</span></summary><div class="editor-disclosure-body"><label class="field" for="editNote" id="editNoteLabel">Notas y análisis</label><textarea id="editNote" class="textbox" maxlength="7000" placeholder="¿Por qué? ¿Qué podría ocurrir después?"></textarea></div></details>
+    <details class="editor-disclosure" id="mediaDisclosure"><summary>Imagen del concepto <span>URL o archivo · opcional</span></summary><div class="editor-disclosure-body"><label class="field" for="editImageUrl">Dirección de imagen HTTPS</label><div class="image-editor"><input id="editImageUrl" class="textbox" type="url" placeholder="https://..." autocomplete="off"><input type="file" id="editImageFile" accept="image/png,image/jpeg,image/webp,image/gif" aria-label="Subir imagen al nodo"><button id="clearImageBtn" type="button" class="action">Quitar imagen</button></div><div class="image-preview-wrap" id="editImagePreview" hidden><img id="editImagePreviewImg" alt="Vista previa de la imagen"></div><p class="muted">Las imágenes locales se incluyen en el JSON. Guarda una copia de seguridad de tu biblioteca.</p></div></details>
+    <details class="editor-disclosure editor-advanced" id="editAdvanced"><summary>Conexiones y gestión de rama <span>Acciones adicionales</span></summary><div class="editor-disclosure-body"><div id="connectionsBlock" hidden><div class="section-title">Conexiones con otras ramas</div><div class="connections-list" id="connectionsList"></div></div><div class="editor-danger-actions"><button class="action" id="detachBranch" type="button" title="Separar esta rama de su padre sin borrar sus contenidos">Desvincular rama</button><button class="action danger" id="deleteNode" type="button">Eliminar rama</button></div></div></details>
+  </div>
+  <div class="editor-footer"><button class="action editor-ai" type="button" id="nodeAIBtn">✧ Ideas / IA</button><div><button class="action" data-close="editDialog" type="button">Cancelar</button><button class="action primary" type="submit">Guardar cambios</button></div></div>
+</form></dialog>
 <dialog id="legendDialog" class="wide" aria-labelledby="legendHeading"><div class="dialog-body">
 <div class="dialog-head"><h2 id="legendHeading">Glosario de colores</h2><button type="button" class="x" data-close="legendDialog" aria-label="Cerrar">×</button></div>
 <p class="muted">Cinco colores para clasificar conceptos. Puedes modificar sus significados por árbol, sin alterar tus notas ni los árboles existentes.</p><div id="legendEntries" class="legend-entries"></div>
@@ -1175,11 +1174,13 @@ function openEdit(nodeId=null,parentId=null,aux=false){
  $('editNote').placeholder=learning?'Tus apuntes o dudas sobre el concepto...':'¿Por qué? ¿Qué podría ocurrir después?';
  $('editNote').value=f?.n.notes||'';
  $('knowledgeFields').hidden=!learning;$('editDescription').value=f?.n.description||'';$('editExample').value=f?.n.example||'';
+  $('notesDisclosure').open=!learning||!!$('editNote').value.trim();
  $('statusLabel').hidden=false;$('statusChoices').hidden=false;
  $('editImageUrl').value=editImage?.startsWith('https://')?editImage:'';
+  $('mediaDisclosure').open=!!editImage;
  $('editImageFile').value='';setImagePreview();
  $('deleteNode').hidden=!(f?.parent||f?.n.auxiliary);$('detachBranch').hidden=!f?.parent;$('connectionsBlock').hidden=!nodeId;
- updateStatusChoices();refreshConnections();openDialog('editDialog');setTimeout(()=>$('editTitle').focus(),30);
+  updateStatusChoices();refreshConnections();$('editAdvanced').hidden=!nodeId||($('deleteNode').hidden&&$('detachBranch').hidden&&$('connectionsBlock').hidden);$('editAdvanced').open=false;openDialog('editDialog');setTimeout(()=>$('editTitle').focus(),30);
 }
 function updateStatusChoices(){document.querySelectorAll('[data-status]').forEach(btn=>{
  btn.setAttribute('aria-pressed',String(btn.dataset.status===editStatus));
@@ -1821,8 +1822,8 @@ $('exportBtn').addEventListener('click',()=>openDialog('exportDialog'));$('jsonE
 $('importBtn').addEventListener('click',()=>$('fileInput').click());$('fileInput').addEventListener('change',async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{if(file.size>5000000)throw Error('Archivo demasiado grande');const data=validateImport(JSON.parse(await file.text()));if(state.docs.length>=149)throw Error('La biblioteca está llena');const d=newDoc(String(data.name).slice(0,90));d.root=data.root;d.links=data.links;d.auxNodes=data.auxNodes||[];d.legend=normalizeLegend(data.legend);d.kind=data.kind||'decision';state.docs.unshift(d);state.activeId=d.id;selectedId=null;focusMode=false;focusId=null;colorFilter=null;filterPanelOpen=false;linkSource=null;resetScene();persist();closeDialog('libraryDialog');render();frameCurrentTree();if(isMobileSidebar()){sidebarMobileOpen=false;syncSidebar()}toast('Árbol importado')}catch(err){alert('No se pudo importar el análisis. '+err.message)}});
 $('cancelLinkBtn').addEventListener('click',()=>{linkSource=null;$('hintBanner').hidden=true;render()});
 $('layoutBtn').addEventListener('click',()=>{state.settings.treeLayout=isCompact()?'horizontal':'compact';resetScene();persist();render();frameCurrentTree();toast(isCompact()?'Vista escalonada':'Vista horizontal')});$('collapseAllBtn').addEventListener('click',()=>{let any=false;nodesAll(doc().root,(n,p,depth)=>{if(depth>0&&n.children.length&&!n.collapsed)any=true});if(!any){frameCurrentTree();return}commit(d=>nodesAll(d.root,(n,p,depth)=>{if(depth>0&&n.children.length)n.collapsed=true}));frameCurrentTree();sound('fold');toast('Bloques plegados')});$('fitBtn').addEventListener('click',()=>isCompact()?frameCurrentTree():fit(true));$('zoomIn').addEventListener('click',()=>zoom(1.2));$('zoomOut').addEventListener('click',()=>zoom(1/1.2));
-stage.addEventListener('wheel',e=>{if(e.target.closest('.ai-preview-panel,.concept-panel'))return;e.preventDefault();const rect=stage.getBoundingClientRect();if(isCompact()&&!e.ctrlKey&&!e.metaKey){if(e.shiftKey)tx-=e.deltaY*.82;else{ty-=e.deltaY*.82;tx-=e.deltaX*.82}move();return}zoom(e.deltaY<0?1.06:1/1.06,e.clientX-rect.left,e.clientY-rect.top)},{passive:false});
-stage.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;if(e.target.closest('.node,.zoom-controls,.hint-banner,.stage-tools,.ai-preview-panel,.color-filter-panel,.concept-panel,.map-heading'))return;scene.classList.remove('camera-smooth');drag={id:e.pointerId,x:e.clientX,y:e.clientY,tx,ty};stage.setPointerCapture(e.pointerId);stage.classList.add('dragging')});
+stage.addEventListener('wheel',e=>{if(e.target.closest('.ai-preview-panel,.concept-panel,.canvas-guide'))return;e.preventDefault();const rect=stage.getBoundingClientRect();if(isCompact()&&!e.ctrlKey&&!e.metaKey){if(e.shiftKey)tx-=e.deltaY*.82;else{ty-=e.deltaY*.82;tx-=e.deltaX*.82}move();return}zoom(e.deltaY<0?1.06:1/1.06,e.clientX-rect.left,e.clientY-rect.top)},{passive:false});
+stage.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;if(e.target.closest('.node,.zoom-controls,.hint-banner,.stage-tools,.ai-preview-panel,.color-filter-panel,.concept-panel,.map-heading,.canvas-guide'))return;scene.classList.remove('camera-smooth');drag={id:e.pointerId,x:e.clientX,y:e.clientY,tx,ty};stage.setPointerCapture(e.pointerId);stage.classList.add('dragging')});
 stage.addEventListener('pointermove',e=>{
  if(!drag||drag.id!==e.pointerId)return;
  tx=drag.tx+e.clientX-drag.x;ty=drag.ty+e.clientY-drag.y;move();
@@ -1857,6 +1858,20 @@ $('conceptCenter').addEventListener('click',()=>{if(selectedId)centerOn(selected
 $('conceptEdit').addEventListener('click',()=>{if(selectedId&&locate(selectedId))openEdit(selectedId)});
 $('conceptAdd').addEventListener('click',()=>{if(selectedId&&locate(selectedId))openEdit(null,selectedId)});
 $('guideSearch').addEventListener('click',()=>{openSidebar();$('conceptSearch').focus()});
+const GUIDE_KEY='bifurca_guide_collapsed_v1';
+let guideStored=null;try{guideStored=localStorage.getItem(GUIDE_KEY)}catch(e){}
+let guidePreferenceSet=guideStored!==null,guideCollapsed=guidePreferenceSet?guideStored==='1':window.matchMedia('(max-width: 850px)').matches;
+function paintGuide(){
+ $('canvasGuide').classList.toggle('is-collapsed',guideCollapsed);
+ $('guideContent').hidden=guideCollapsed;
+ $('guideToggle').setAttribute('aria-expanded',String(!guideCollapsed));
+ $('guideToggle').setAttribute('aria-label',guideCollapsed?'Mostrar ayuda para explorar el mapa':'Minimizar ayuda');
+ $('guideToggleLabel').textContent=guideCollapsed?'Ayuda':'Minimizar';
+ $('guideToggle').querySelector('.guide-toggle-icon').textContent=guideCollapsed?'?':'−';
+}
+$('guideToggle').addEventListener('click',()=>{guideCollapsed=!guideCollapsed;guidePreferenceSet=true;try{localStorage.setItem(GUIDE_KEY,guideCollapsed?'1':'0')}catch(e){}paintGuide()});
+window.addEventListener('resize',()=>{if(!guidePreferenceSet){guideCollapsed=window.matchMedia('(max-width: 850px)').matches;paintGuide()}});
+paintGuide();
 document.addEventListener('pointerdown',e=>{if($('moreTools').open&&!e.target.closest('#moreTools'))$('moreTools').open=false});
 $('moreTools').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>$('moreTools').open=false));
 window.BIFURCA_DEBUG={aiPreview:()=>aiPreview?clone(aiPreview):null,search:(q)=>findKnowledgeMatches(q).map(m=>({tree:m.docName,title:m.title,path:m.trail})),presets:()=>BUNDLED_MAPS.map(x=>({key:x.key,label:x.label,root:x.tree.title})),state:()=>clone(state),tree:()=>clone(doc().root),links:()=>clone(doc().links),coords:()=>[...layout.entries()].map(([id,p])=>({id,...p})),view:()=>({scale,tx,ty}),currentDoc:()=>doc().name,audio:()=>({enabled:audioPrefs.enabled,volume:audioPrefs.volume,context:audioCtx?.state||'uninitialized',scheduled:{...soundCounts}})};
