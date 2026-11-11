@@ -370,6 +370,7 @@ body[data-theme="iris"] .stage{
 <link rel="stylesheet" href="redesign.css">
 <link rel="stylesheet" href="refinement.css">
 <link rel="stylesheet" href="navigation-ai.css">
+<link rel="stylesheet" href="node-actions.css">
 </head>
 <body data-theme="arcilla" data-mode="light" data-version="1.3.0" data-map-kind="decision" data-tree-layout="compact">
 <div class="app">
@@ -452,7 +453,7 @@ body[data-theme="iris"] .stage{
     <div id="conceptDescription" class="concept-copy" hidden><span>EXPLICACIÓN</span><p></p></div>
     <div id="conceptExample" class="concept-copy" hidden><span>EJEMPLO</span><p></p></div>
     <div id="conceptNotes" class="concept-copy" hidden><span>NOTAS</span><p></p></div>
-    <div class="concept-panel-actions"><button type="button" id="conceptCenter">Centrar</button><button type="button" id="conceptEdit">Editar</button><button type="button" id="conceptAdd">＋ Subrama</button></div>
+    <div class="concept-panel-actions"><button type="button" id="conceptRead">⤢ Leer en grande</button><button type="button" id="conceptCenter">Centrar</button><button type="button" id="conceptEdit">Editar</button><button type="button" id="conceptAdd">＋ Subrama</button></div>
   </aside>
   <aside class="canvas-guide" id="canvasGuide" aria-label="Cómo explorar el mapa">
     <div class="guide-head"><div><span class="canvas-guide-kicker">ORIENTACIÓN</span><h2>Explorar el mapa</h2></div><button type="button" id="guideToggle" aria-controls="guideContent" aria-expanded="true" aria-label="Minimizar ayuda"><span id="guideToggleLabel">Minimizar</span><span aria-hidden="true" class="guide-toggle-icon">−</span></button></div>
@@ -476,10 +477,19 @@ body[data-theme="iris"] .stage{
     <section class="editor-section editor-colors"><span class="editor-section-kicker">03 · CLASIFICACIÓN</span><div class="field" id="statusLabel">Significado en el glosario</div><div class="status-choices" id="statusChoices" role="group" aria-label="Color y significado del concepto"><button type="button" class="status-option" data-status="neutral" style="--color:var(--neutral)"><span class="tone-dot"></span>Sin marcar</button><button type="button" class="status-option" data-status="positive" style="--color:var(--positive)"><span class="tone-dot"></span>Positivo</button><button type="button" class="status-option" data-status="warning" style="--color:var(--warning)"><span class="tone-dot"></span>Incierto</button><button type="button" class="status-option" data-status="negative" style="--color:var(--negative)"><span class="tone-dot"></span>Negativo</button><button type="button" class="status-option" data-status="info" style="--color:var(--info-node)"><span class="tone-dot"></span>Azul</button></div></section>
     <details class="editor-disclosure" id="notesDisclosure"><summary>Notas personales <span>Apuntes y dudas</span></summary><div class="editor-disclosure-body"><label class="field" for="editNote" id="editNoteLabel">Notas y análisis</label><textarea id="editNote" class="textbox" maxlength="7000" placeholder="¿Por qué? ¿Qué podría ocurrir después?"></textarea></div></details>
     <details class="editor-disclosure" id="mediaDisclosure"><summary>Imagen del concepto <span>URL o archivo · opcional</span></summary><div class="editor-disclosure-body"><label class="field" for="editImageUrl">Dirección de imagen HTTPS</label><div class="image-editor"><input id="editImageUrl" class="textbox" type="url" placeholder="https://..." autocomplete="off"><input type="file" id="editImageFile" accept="image/png,image/jpeg,image/webp,image/gif" aria-label="Subir imagen al nodo"><button id="clearImageBtn" type="button" class="action">Quitar imagen</button></div><div class="image-preview-wrap" id="editImagePreview" hidden><img id="editImagePreviewImg" alt="Vista previa de la imagen"></div><p class="muted">Las imágenes locales se incluyen en el JSON. Guarda una copia de seguridad de tu biblioteca.</p></div></details>
-    <details class="editor-disclosure editor-advanced" id="editAdvanced"><summary>Conexiones y gestión de rama <span>Acciones adicionales</span></summary><div class="editor-disclosure-body"><div id="connectionsBlock" hidden><div class="section-title">Conexiones con otras ramas</div><div class="connections-list" id="connectionsList"></div></div><div class="editor-danger-actions"><button class="action" id="detachBranch" type="button" title="Separar esta rama de su padre sin borrar sus contenidos">Desvincular rama</button><button class="action danger" id="deleteNode" type="button">Eliminar rama</button></div></div></details>
+    <details class="editor-disclosure editor-advanced" id="editAdvanced"><summary>Conexiones y gestión de rama <span>Acciones adicionales</span></summary><div class="editor-disclosure-body"><div id="connectionsBlock" hidden><div class="section-title">Conexiones con otras ramas</div><div class="connections-list" id="connectionsList"></div></div><div class="editor-danger-actions"><button class="action" id="detachBranch" type="button" title="Separar esta rama de su padre sin borrar sus contenidos">Desvincular rama</button><button class="action danger" id="deleteNode" type="button">Eliminar nodo o rama…</button></div></div></details>
   </div>
   <div class="editor-footer"><button class="action editor-ai" type="button" id="nodeAIBtn">✧ Ideas / IA</button><div><button class="action" data-close="editDialog" type="button">Cancelar</button><button class="action primary" type="submit">Guardar cambios</button></div></div>
 </form></dialog>
+
+<dialog id="nodeReadDialog" class="node-read-dialog" aria-labelledby="nodeReadTitle">
+<div class="node-read-header"><div><span class="node-read-kicker">BIFURCA / LECTURA</span><div id="nodeReadPath" class="node-read-path"></div><h2 id="nodeReadTitle"></h2><div class="node-read-meta"><span id="nodeReadStatus"></span><span id="nodeReadCount"></span></div></div><button type="button" class="x" data-close="nodeReadDialog" aria-label="Cerrar lectura ampliada">×</button></div>
+<div class="node-read-body"><section id="nodeReadDescription" class="node-read-field"><h3>Explicación</h3><p class="node-read-value"></p></section><section id="nodeReadExample" class="node-read-field"><h3>Ejemplo</h3><p class="node-read-value"></p></section><section id="nodeReadNotes" class="node-read-field"><h3>Notas</h3><p class="node-read-value"></p></section><figure id="nodeReadImageWrap" class="node-read-image" hidden><img id="nodeReadImage" alt="Imagen del concepto"></figure><section id="nodeReadChildrenBlock" class="node-read-field"><h3>Subramas directas</h3><ul id="nodeReadChildren" class="node-read-children"></ul></section><p id="nodeReadEmpty" class="node-read-empty" hidden>Aún no hay contenido para leer. Puedes añadirlo desde Editar.</p></div>
+<div class="node-read-footer"><button type="button" class="action danger" id="nodeReadDelete">Eliminar nodo…</button><button type="button" class="action" data-close="nodeReadDialog">Volver al mapa</button><button type="button" class="action primary" id="nodeReadEdit">Editar concepto</button></div>
+</dialog>
+<dialog id="deleteNodeDialog" class="node-delete-dialog" aria-labelledby="deleteNodeHeading"><div class="node-delete-layout"><span class="node-delete-kicker">GESTIÓN DEL ÁRBOL</span><h2 id="deleteNodeHeading">Eliminar nodo</h2><p id="deleteNodeDescription"></p>
+<fieldset id="deleteNodeModes" class="node-delete-modes"><legend>¿Qué deseas eliminar?</legend><label class="node-delete-option"><input type="radio" name="deleteMode" value="node" checked><span><strong>Solo este nodo</strong><small>Conservar sus subramas y unirlas al padre.</small></span></label><label class="node-delete-option"><input type="radio" name="deleteMode" value="branch"><span><strong>Nodo y todas sus subramas</strong><small>Eliminar también todos sus descendientes.</small></span></label></fieldset>
+<p id="deleteNodeHint" class="node-delete-hint"></p><div class="node-delete-footer"><button type="button" class="action" data-close="deleteNodeDialog">Cancelar</button><button type="button" class="action node-delete-confirm" id="confirmNodeDeletion">Eliminar definitivamente</button></div></div></dialog>
 <dialog id="legendDialog" class="wide" aria-labelledby="legendHeading"><div class="dialog-body">
 <div class="dialog-head"><h2 id="legendHeading">Glosario de colores</h2><button type="button" class="x" data-close="legendDialog" aria-label="Cerrar">×</button></div>
 <p class="muted">Cinco colores para clasificar conceptos. Puedes modificar sus significados por árbol, sin alterar tus notas ni los árboles existentes.</p><div id="legendEntries" class="legend-entries"></div>
@@ -1036,7 +1046,7 @@ function pth(a,b){
  const y1=a.y+a.h,y2=b.y,curve=Math.max(28,(y2-y1)*.48);return `M ${a.x} ${y1} C ${a.x} ${y1+curve} ${b.x} ${y2-curve} ${b.x} ${y2}`;
 }
 function crossPth(a,b){const right=b.x>=a.x,sign=right?1:-1,sx=a.x+sign*W/2,ex=b.x-sign*W/2,sy=a.y+a.h/2,ey=b.y+b.h/2;if(Math.abs(ex-sx)<110){let bend=sx+sign*105;return `M ${sx} ${sy} C ${bend} ${sy} ${bend} ${ey} ${ex} ${ey}`}const cx=(sx+ex)/2;return `M ${sx} ${sy} C ${cx} ${sy} ${cx} ${ey} ${ex} ${ey}`}
-function makeStaticCard(n){const el=document.createElement('article');el.className='node';el.tabIndex=0;el.dataset.id=n.id;el.setAttribute('role','group');el.innerHTML=`<div class="node-top"><span class="node-ball"></span><span class="node-meta"></span></div><div class="node-main"><div class="node-title"></div><img class="node-thumb" alt="" loading="lazy" hidden><div class="node-note" hidden></div></div><div class="node-footer"><span class="node-stat"></span><div class="node-buttons"><button type="button" class="node-button node-note-toggle" title="Mostrar u ocultar análisis" aria-label="Mostrar notas">▤</button><button type="button" class="node-button node-fold" title="Plegar o desplegar ramas" aria-label="Plegar ramas">${icon.fold}</button><button type="button" class="node-button node-chain" title="Conectar con otra rama" aria-label="Conectar con otra rama">${icon.chain}</button><button type="button" class="node-button node-edit" title="Editar esta idea" aria-label="Editar esta idea">${icon.edit}</button><button type="button" class="node-button add" title="Crear una subrama" aria-label="Crear una subrama">+</button></div></div>`;
+function makeStaticCard(n){const el=document.createElement('article');el.className='node';el.tabIndex=0;el.dataset.id=n.id;el.setAttribute('role','group');el.innerHTML=`<div class="node-top"><span class="node-ball"></span><span class="node-meta"></span></div><div class="node-main"><div class="node-title"></div><img class="node-thumb" alt="" loading="lazy" hidden><div class="node-note" hidden></div></div><div class="node-footer"><span class="node-stat"></span><div class="node-buttons"><button type="button" class="node-button node-note-toggle" title="Mostrar u ocultar análisis" aria-label="Mostrar notas">▤</button><button type="button" class="node-button node-fold" title="Plegar o desplegar ramas" aria-label="Plegar ramas">${icon.fold}</button><button type="button" class="node-button node-chain" title="Conectar con otra rama" aria-label="Conectar con otra rama">${icon.chain}</button><button type="button" class="node-button node-read" title="Leer en grande" aria-label="Leer en grande">⤢</button><button type="button" class="node-button node-edit" title="Editar esta idea" aria-label="Editar esta idea">${icon.edit}</button><button type="button" class="node-button add" title="Crear una subrama" aria-label="Crear una subrama">+</button></div></div><button type="button" class="node-button node-delete" title="Eliminar nodo" aria-label="Eliminar nodo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg></button>`;
   el.addEventListener('click',e=>{if(e.target.closest('button'))return;if(el.dataset.justDragged==='yes'){el.dataset.justDragged='no';return}nodeClick(n.id)});el.addEventListener('keydown',e=>{
    if(e.target!==el)return;
    if(e.key==='Enter'||e.key===' '){e.preventDefault();nodeClick(n.id);return}
@@ -1054,6 +1064,8 @@ function makeStaticCard(n){const el=document.createElement('article');el.classNa
   });
  el.querySelector('.add').addEventListener('click',e=>{e.stopPropagation();openEdit(null,n.id)});
  el.querySelector('.node-edit').addEventListener('click',e=>{e.stopPropagation();openEdit(n.id)});
+  el.querySelector('.node-read').addEventListener('click',e=>{e.stopPropagation();openNodeReading(n.id)});
+  el.querySelector('.node-delete').addEventListener('click',e=>{e.stopPropagation();openNodeDeletion(n.id)});
  el.querySelector('.node-note-toggle').addEventListener('click',e=>{e.stopPropagation();const expanded=!!locate(n.id)?.n.expanded;commit(d=>{const found=locate(n.id);if(found)found.n.expanded=!found.n.expanded});sound(expanded?'fold':'unfold')});
  el.querySelector('.node-fold').addEventListener('click',e=>{e.stopPropagation();const collapsed=!!locate(n.id)?.n.collapsed;selectedId=n.id;commit(d=>{const found=locate(n.id);if(found)found.n.collapsed=!found.n.collapsed},{fitView:true});sound(collapsed?'unfold':'fold')});
  el.querySelector('.node-chain').addEventListener('click',e=>{e.stopPropagation();startLink(n.id)});
@@ -1089,7 +1101,7 @@ function linkExists(a,b){return doc().links.some(l=>(l.from===a&&l.to===b)||(l.f
 function startLink(source){linkSource=source;$('hintBanner').hidden=false;render();toast('Selecciona el nodo de destino')}
 function finishLink(target){const source=linkSource;linkSource=null;$('hintBanner').hidden=true;if(source===target){toast('Selecciona una idea diferente');render();return}const direct=locate(source)?.n.children.some(n=>n.id===target)||locate(target)?.n.children.some(n=>n.id===source);if(direct||linkExists(source,target)){toast('Estas ideas ya están conectadas');render();return}commit(d=>d.links.push({from:source,to:target}));sound('connect');toast('Conexión creada')}
 function render(freshId=null){const old=oldLayout;compute();scene.style.width=sceneW+'px';scene.style.height=sceneH+'px';wires.setAttribute('width',sceneW);wires.setAttribute('height',sceneH);wires.setAttribute('viewBox',`0 0 ${sceneW} ${sceneH}`);
- const visible=new Set();let i=0;visibleWalk((n,depth)=>{visible.add(n.id);const p=layout.get(n.id);let el=cards.get(n.id);if(!el){el=makeStaticCard(n);cards.set(n.id,el);if(n.id===freshId){el.classList.add('fresh');el.addEventListener('animationend',()=>el.classList.remove('fresh'),{once:true})}}el.style.left=(p.x-W/2)+'px';el.style.top=p.y+'px';el.style.height=p.h+'px';el.style.setProperty('--nodeColor',NODE_COLORS[n.status]||'var(--neutral)');el.classList.toggle('root',!depth&&!n.auxiliary);el.classList.toggle('aux-node',!!n.auxiliary);el.dataset.status=n.status;el.classList.toggle('selected',selectedId===n.id);el.classList.toggle('link-target',!!linkSource&&linkSource!==n.id);el.querySelector('.node-meta').textContent=n.auxiliary?'NOTA AUXILIAR':depth===0?(doc().kind==='knowledge'?'TEMA PRINCIPAL':'PUNTO DE PARTIDA'):(doc().kind==='knowledge'?(depth===1?'BLOQUE':depth===2?'SUBTEMA':'CONCEPTO'):`POSIBILIDAD ${++i}`);el.title=doc().kind==='knowledge'?(n.children.length?(n.collapsed?'Clic para abrir este bloque':'Clic para plegar este bloque'):'Clic para leer detalles; el lápiz permite editar'):'Clic para editar esta idea';el.title+=' · Color: '+(doc().legend?.[n.status]||DEFAULT_LEGEND[n.status]);el.querySelector('.node-title').textContent=n.title||'Sin título';const thumbnail=el.querySelector('.node-thumb');thumbnail.hidden=!n.image;if(n.image&&thumbnail.getAttribute('src')!==n.image)thumbnail.src=n.image;else if(!n.image)thumbnail.removeAttribute('src');const note=el.querySelector('.node-note');const details=detailText(n);note.textContent=details;note.hidden=!(n.expanded&&details.trim());const noteBtn=el.querySelector('.node-note-toggle');noteBtn.hidden=!details.trim();noteBtn.textContent=n.expanded?'▥':'▤';noteBtn.title=n.expanded?'Ocultar detalles':'Mostrar detalles';noteBtn.setAttribute('aria-label',noteBtn.title);el.querySelector('.node-stat').textContent=n.children.length?`${n.children.length} rama${n.children.length!==1?'s':''}`:'Sin ramificaciones';el.querySelector('.add').hidden=!!n.auxiliary;const fold=el.querySelector('.node-fold');fold.hidden=!n.children.length;fold.classList.toggle('folded',n.collapsed);fold.setAttribute('aria-label',n.collapsed?'Desplegar ramas':'Plegar ramas')});
+ const visible=new Set();let i=0;visibleWalk((n,depth)=>{visible.add(n.id);const p=layout.get(n.id);let el=cards.get(n.id);if(!el){el=makeStaticCard(n);cards.set(n.id,el);if(n.id===freshId){el.classList.add('fresh');el.addEventListener('animationend',()=>el.classList.remove('fresh'),{once:true})}}el.style.left=(p.x-W/2)+'px';el.style.top=p.y+'px';el.style.height=p.h+'px';el.style.setProperty('--nodeColor',NODE_COLORS[n.status]||'var(--neutral)');el.classList.toggle('root',!depth&&!n.auxiliary);el.classList.toggle('aux-node',!!n.auxiliary);el.dataset.status=n.status;el.classList.toggle('selected',selectedId===n.id);el.classList.toggle('link-target',!!linkSource&&linkSource!==n.id);el.querySelector('.node-meta').textContent=n.auxiliary?'NOTA AUXILIAR':depth===0?(doc().kind==='knowledge'?'TEMA PRINCIPAL':'PUNTO DE PARTIDA'):(doc().kind==='knowledge'?(depth===1?'BLOQUE':depth===2?'SUBTEMA':'CONCEPTO'):`POSIBILIDAD ${++i}`);el.title=doc().kind==='knowledge'?(n.children.length?(n.collapsed?'Clic para abrir este bloque':'Clic para plegar este bloque'):'Clic para leer detalles; el lápiz permite editar'):'Clic para editar esta idea';el.title+=' · Color: '+(doc().legend?.[n.status]||DEFAULT_LEGEND[n.status]);el.querySelector('.node-title').textContent=n.title||'Sin título';const thumbnail=el.querySelector('.node-thumb');thumbnail.hidden=!n.image;if(n.image&&thumbnail.getAttribute('src')!==n.image)thumbnail.src=n.image;else if(!n.image)thumbnail.removeAttribute('src');const note=el.querySelector('.node-note');const details=detailText(n);note.textContent=details;note.hidden=!(n.expanded&&details.trim());const noteBtn=el.querySelector('.node-note-toggle');noteBtn.hidden=!details.trim();noteBtn.textContent=n.expanded?'▥':'▤';noteBtn.title=n.expanded?'Ocultar detalles':'Mostrar detalles';noteBtn.setAttribute('aria-label',noteBtn.title);el.querySelector('.node-stat').textContent=n.children.length?`${n.children.length} rama${n.children.length!==1?'s':''}`:'Sin ramificaciones';el.querySelector('.add').hidden=!!n.auxiliary;el.querySelector('.node-delete').hidden=n.id===doc().root.id;const fold=el.querySelector('.node-fold');fold.hidden=!n.children.length;fold.classList.toggle('folded',n.collapsed);fold.setAttribute('aria-label',n.collapsed?'Desplegar ramas':'Plegar ramas')});
  for(const [nodeId,el] of cards)if(!visible.has(nodeId)){el.remove();cards.delete(nodeId)}
  updatePaths(old);oldLayout=new Map([...layout.entries()].map(([k,p])=>[k,{...p}]));drawAiPreview();refreshFocus();renderColorFilters();updateActions();syncLayoutControls();$('projectName').textContent=doc().name;document.body.dataset.mapKind=doc().kind;$('currentKind').textContent=doc().kind==='knowledge'?'▦':'◇';$('currentKind').title=doc().kind==='knowledge'?'Mapa de conocimientos':'Árbol de decisiones';const count=(()=>{let n=0;nodesAll(doc().root,()=>n++);for(const a of doc().auxNodes||[])nodesAll(a,()=>n++);return n})();renderSidebar();$('mapHeadingName').textContent=doc().name;$('mapHeadingCount').textContent=`${count} ${count===1?'concepto':'conceptos'} · ${visible.size} visibles`;$('statusText').textContent=doc().kind==='knowledge'?(isCompact()?`${count} conceptos · Clic para abrir bloques · Rueda para desplazarte`:`${count} conceptos · Clic para abrir bloques`):`${count} ${count===1?'idea':'ideas'} · Pulsa para editar · + para ramificar`;renderConceptPanel();persist()}
 function updatePaths(old){const primary=new Set(),extra=new Set(),animations=[];
@@ -1255,6 +1267,68 @@ function deleteBranch(){
   toast('Rama eliminada · puedes deshacer');
  };
  if(reduced)remove();else setTimeout(remove,300);
+}
+
+let readingNodeId=null,deletionTargetId=null;
+function openNodeReading(id){
+ const f=locate(id);if(!f)return;
+ const n=f.n;readingNodeId=id;
+ const trail=ancestors(id).map(i=>locate(i)?.n?.title).filter(Boolean);
+ $('nodeReadPath').textContent=trail.length>1?trail.slice(0,-1).join(' / '):n.auxiliary?'Nota independiente':'Tema principal';
+ $('nodeReadTitle').textContent=n.title||'Sin título';
+ $('nodeReadStatus').textContent=doc().legend?.[n.status]||DEFAULT_LEGEND[n.status];
+ $('nodeReadCount').textContent=n.children.length+' '+(n.children.length===1?'subrama':'subramas');
+ let hasContent=false;
+ for(const [section,value] of [['nodeReadDescription',n.description],['nodeReadExample',n.example],['nodeReadNotes',n.notes]]){
+  const content=String(value||'').trim(),el=$(section);el.hidden=!content;el.querySelector('.node-read-value').textContent=content;if(content)hasContent=true;
+ }
+ const image=isNodeImage(n.image);$('nodeReadImageWrap').hidden=!image;
+ if(image)$('nodeReadImage').src=n.image;else $('nodeReadImage').removeAttribute('src');
+ $('nodeReadChildrenBlock').hidden=!n.children.length;$('nodeReadChildren').replaceChildren();
+ for(const child of n.children){const li=document.createElement('li');li.textContent=child.title||'Sin título';$('nodeReadChildren').appendChild(li)}
+ $('nodeReadEmpty').hidden=hasContent||image||!!n.children.length;
+ $('nodeReadDelete').hidden=id===doc().root.id;
+ openDialog('nodeReadDialog');
+}
+function openNodeDeletion(id){
+ const f=locate(id);if(!f||id===doc().root.id)return;
+ deletionTargetId=id;let descendants=0;nodesAll(f.n,()=>descendants++);descendants--;
+ $('deleteNodeHeading').textContent='Eliminar «'+(f.n.title||'Sin título')+'»';
+ $('deleteNodeDescription').textContent='Esta acción modificará el árbol «'+doc().name+'».';
+ $('deleteNodeModes').hidden=!descendants;
+ $('deleteNodeModes').querySelector('[value="node"]').checked=true;
+ $('deleteNodeHint').textContent=descendants?'Hay '+descendants+' descendientes. Al conservarlos, pasarán al padre actual; si este nodo es auxiliar, sus hijos seguirán como auxiliares independientes.':'Este nodo no tiene descendientes. Se eliminarán también sus conexiones.';
+ openDialog('deleteNodeDialog');
+}
+function deleteNodeInTree(d,id,mode,pos){
+ if(d.root.id===id)return;
+ const find=(n,parent)=>{if(n.id===id)return {n,parent};for(const child of n.children){const f=find(child,n);if(f)return f}return null};
+ let f=find(d.root,null);if(!f)for(const a of d.auxNodes||[]){f=find(a,null);if(f)break}
+ if(!f)return;
+ const gone=new Set();if(mode==='branch')nodesAll(f.n,n=>gone.add(n.id));else gone.add(id);
+ if(f.parent){const i=f.parent.children.findIndex(n=>n.id===id);f.parent.children.splice(i,1,...(mode==='branch'?[]:f.n.children))}
+ else{
+  const i=d.auxNodes.findIndex(n=>n.id===id);if(i<0)return;
+  const kids=mode==='branch'?[]:f.n.children.map((n,k)=>{
+   n.auxiliary=true;n.auxX=Math.max(160,Math.round((pos?.x||550)+80*k));n.auxY=Math.max(80,Math.round((pos?.y||150)+170*k));return n;
+  });
+  d.auxNodes.splice(i,1,...kids);
+ }
+ d.links=d.links.filter(l=>!gone.has(l.from)&&!gone.has(l.to));
+}
+function applyNodeDeletion(){
+ const id=deletionTargetId,f=id?locate(id):null;if(!f||id===doc().root.id)return;
+ const mode=$('deleteNodeModes').hidden?'node':document.querySelector('input[name="deleteMode"]:checked')?.value||'node';
+ const removed=new Set();if(mode==='branch')nodesAll(f.n,n=>removed.add(n.id));else removed.add(id);
+ const prev={selectedId,focusMode,focusId,linkSource};
+ if(removed.has(selectedId))selectedId=null;
+ if(removed.has(focusId)){focusId=null;focusMode=false}
+ if(removed.has(linkSource)){linkSource=null;$('hintBanner').hidden=true}
+ const ok=commit(d=>deleteNodeInTree(d,id,mode,layout.get(id)),{fitView:true});
+ if(!ok){selectedId=prev.selectedId;focusMode=prev.focusMode;focusId=prev.focusId;linkSource=prev.linkSource;$('hintBanner').hidden=!linkSource;render();return}
+ deletionTargetId=null;readingNodeId=null;editDraft=null;
+ closeDialog('deleteNodeDialog');closeDialog('nodeReadDialog');closeDialog('editDialog');
+ sound('delete');toast(mode==='branch'?'Rama eliminada · Deshacer disponible':'Nodo eliminado · Hijos conservados · Deshacer disponible');
 }
 function createNewDoc(){$('newDocName').value='';$('newDocKind').value='decision';$('outlineInput').value='';updateNewDocMode();closeDialog('libraryDialog');openDialog('newDocDialog');$('newDocName').focus()}
 function updateNewDocMode(){const learning=$('newDocKind').value==='knowledge';$('outlineBlock').hidden=!learning;$('newDocHint').textContent=learning?'Organiza conceptos, explicaciones y ejemplos en un mapa ampliable.':'Explora alternativas, consecuencias y posibilidades mediante ramas.'}
@@ -1809,7 +1883,10 @@ $('editImageFile').addEventListener('change',async e=>{
  catch(err){alert('No se pudo adjuntar la imagen: '+err.message)}
 });
 $('clearImageBtn').addEventListener('click',()=>{editImage='';$('editImageUrl').value='';$('editImageFile').value='';setImagePreview()});
-$('deleteNode').addEventListener('click',deleteBranch);$('detachBranch').addEventListener('click',detachBranch);
+$('deleteNode').addEventListener('click',()=>{if(editDraft?.id)openNodeDeletion(editDraft.id)});$('detachBranch').addEventListener('click',detachBranch);
+$('confirmNodeDeletion').addEventListener('click',applyNodeDeletion);
+$('nodeReadEdit').addEventListener('click',()=>{const id=readingNodeId;closeDialog('nodeReadDialog');if(id&&locate(id))openEdit(id)});
+$('nodeReadDelete').addEventListener('click',()=>{if(readingNodeId)openNodeDeletion(readingNodeId)});
 $('nodeAIBtn').addEventListener('click',()=>{aiNodeId=editDraft?.id||editDraft?.parentId||doc().root.id;selectedId=aiNodeId;editDraft=null;closeDialog('editDialog');render();aiRender();ensureAiNavigation();openDialog('aiDialog')});
 document.querySelectorAll('[data-status]').forEach(b=>b.addEventListener('click',()=>{editStatus=b.dataset.status;updateStatusChoices()}));
 document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>{const name=btn.dataset.close;closeDialog(name);if(name==='editDialog'){selectedId=editDraft?.id||editDraft?.parentId||null;editDraft=null;render()}}));
@@ -1930,6 +2007,7 @@ document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLower
 window.addEventListener('resize',()=>{syncSidebar();render();frameCurrentTree()});
 $('conceptPanelClose').addEventListener('click',()=>{selectedId=null;render()});
 $('conceptCenter').addEventListener('click',()=>{if(selectedId)centerOn(selectedId,true)});
+$('conceptRead').addEventListener('click',()=>{if(selectedId)openNodeReading(selectedId)});
 $('conceptEdit').addEventListener('click',()=>{if(selectedId&&locate(selectedId))openEdit(selectedId)});
 $('conceptAdd').addEventListener('click',()=>{if(selectedId&&locate(selectedId))openEdit(null,selectedId)});
 $('guideSearch').addEventListener('click',()=>{openSidebar();$('conceptSearch').focus()});
