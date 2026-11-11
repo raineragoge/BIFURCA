@@ -98,28 +98,74 @@ ID_PADRE:
 EXPLICACION: Requiere elección manual.
 EJEMPLO:
 NOTAS:
+---
+CONCEPTO: Cabeza
+PADRE: Anatomía
+RUTA_PADRE: Anatomía
+ID_PADRE: r
+EXPLICACION: Concepto duplicado para corregir.
+EJEMPLO:
+NOTAS:
+---
+CONCEPTO: Detalle descartado
+PADRE: Encéfalo
+RUTA_PADRE: Anatomía → Cuerpo → Encéfalo
+ID_PADRE: y
+EXPLICACION: No se incorporará.
+EJEMPLO:
+NOTAS:
 ---'''
     page.locator('#completeResponse').fill(response)
     original=tree(page)
     page.locator('#completeReviewBtn').click()
-    expect(page.locator('#aiPreviewPanel')).to_be_visible()
-    assert tree(page)==original
-    page.locator('#aiPreviewExpand').click()
     expect(page.locator('#aiReviewDialog')).to_be_visible()
+    expect(page.locator('.review-rail-item')).to_have_count(6)
+    expect(page.locator('#aiGhostLayer .ai-ghost-card')).to_have_count(0)
+    assert tree(page)==original
     page.wait_for_timeout(350)
     page.screenshot(path=str(OUT/'02-revision-expandida.png'))
-    cards=page.locator('.review-card')
-    expect(cards).to_have_count(4)
-    assert 'Elige un nodo padre' in cards.nth(3).inner_text()
-    cards.nth(2).locator('select[aria-label^="Nodo padre"]').select_option('proposal:p0')
-    cards.nth(3).locator('select[aria-label^="Nodo padre"]').select_option('y')
-    cards.nth(0).locator('select[aria-label^="Color"]').select_option('positive')
-    cards.nth(1).locator('select[aria-label^="Color"]').select_option('warning')
-    cards.nth(3).get_by_role('button',name='Rechazar Concepto ambiguo').click()
-    page.locator('#aiReviewBack').click()
+    page.locator('#reviewDescription').fill('Coordina con precisión el movimiento y el equilibrio.')
+    page.locator('#reviewExample').fill('Caminar por una línea manteniendo el equilibrio.')
+    page.locator('#reviewNotes').fill('Dos hemisferios y vermis.')
+    page.locator('#reviewColor').select_option('positive')
+    page.locator('#reviewNext').click()
+    page.locator('#reviewParentSearch').fill('Cabeza → Encéfalo')
+    page.locator('#reviewParent').select_option('x')
+    page.locator('#reviewColor').select_option('warning')
+    page.locator('.review-rail-item').nth(2).click()
+    page.locator('#reviewParent').select_option('proposal:p0')
+    page.locator('.review-rail-item').nth(3).click()
+    assert 'Elige un nodo padre' in page.locator('#reviewError').inner_text()
+    page.locator('#reviewToggle').click()
+    page.locator('.review-rail-item').nth(4).click()
+    assert 'Ya existe un concepto' in page.locator('#reviewError').inner_text()
+    page.locator('#reviewTitle').fill('Huesos craneales')
+    page.locator('#reviewParent').select_option('a')
+    expect(page.locator('#reviewError')).to_be_hidden()
+    page.locator('.review-rail-item').nth(5).click();page.locator('#reviewToggle').click()
+    expect(page.locator('#aiReviewCount')).to_have_text('4 seleccionadas de 6')
+    page.locator('.review-rail-item').first.click()
+    assert page.locator('#reviewDescription').input_value()=='Coordina con precisión el movimiento y el equilibrio.'
+    assert page.locator('#reviewColor').input_value()=='positive'
+    page.locator('#aiReviewClose').click()
     expect(page.locator('#aiReviewDialog')).to_be_hidden()
-    page.locator('#aiPreviewExpand').click()
-    assert page.locator('.review-card').nth(0).locator('select[aria-label^="Color"]').input_value()=='positive'
+    assert tree(page)==original and page.locator('#aiResumeFloating').is_visible()
+    page.locator('#aiResumeFloating').click()
+    assert page.locator('#reviewDescription').input_value()=='Coordina con precisión el movimiento y el equilibrio.'
+    page.locator('#aiReviewTreePreview').click()
+    expect(page.locator('#aiReviewDialog')).to_be_hidden()
+    expect(page.locator('#aiGhostLayer .ai-ghost-card')).to_have_count(1)
+    assert page.locator('#aiTreePreviewBar').is_visible()
+    page.wait_for_timeout(550)
+    page.screenshot(path=str(OUT/'03-ubicacion-en-arbol.png'))
+    page.locator('#aiTreePreviewReturn').click()
+    expect(page.locator('#aiReviewDialog')).to_be_visible()
+    page.locator('.review-rail-item').nth(2).click();page.locator('#aiReviewTreePreview').click()
+    ghosts=page.locator('#aiGhostLayer .ai-ghost-card')
+    expect(ghosts).to_have_count(2)
+    boxes=[ghosts.nth(i).bounding_box() for i in range(2)]
+    assert boxes[0]['x']+boxes[0]['width']<=boxes[1]['x']
+    page.locator('#aiTreePreviewReturn').click()
     page.locator('#aiReviewSource').click()
     expect(page.locator('#completeDialog')).to_be_visible()
     assert page.locator('#completeResponse').input_value()==response
@@ -129,16 +175,22 @@ NOTAS:
     page.screenshot(path=str(OUT/'03-ubicaciones-corregidas.png'))
     page.locator('#aiReviewContinue').click()
     expect(page.locator('#aiConfirmDialog')).to_be_visible()
+    expect(page.locator('.confirm-row')).to_have_count(4)
     assert tree(page)==original
+    page.locator('#aiConfirmBack').click()
+    page.locator('.review-rail-item').first.click();page.locator('#reviewNotes').fill('Dos hemisferios, vermis y núcleos profundos.')
+    page.locator('#aiReviewContinue').click()
     page.wait_for_timeout(350)
     page.screenshot(path=str(OUT/'04-confirmacion.png'))
     page.locator('#aiConfirmApply').click()
     root=tree(page);head=child(root,'Cabeza');body=child(root,'Cuerpo')
     cerebellum=child(child(head,'Encéfalo'),'Cerebelo')
-    assert cerebellum['status']=='positive' and cerebellum['description']=='Coordina el movimiento.'
+    assert cerebellum['status']=='positive' and cerebellum['description']=='Coordina con precisión el movimiento y el equilibrio.'
+    assert cerebellum['example']=='Caminar por una línea manteniendo el equilibrio.' and cerebellum['notes']=='Dos hemisferios, vermis y núcleos profundos.'
     assert child(cerebellum,'Circuitos cerebelosos')['example']=='Aprendizaje motor.'
-    assert child(child(body,'Encéfalo'),'Tronco encefálico')['status']=='warning'
-    assert 'Concepto ambiguo' not in str(root)
+    assert child(child(head,'Encéfalo'),'Tronco encefálico')['status']=='warning'
+    assert child(head,'Huesos craneales')['description']=='Concepto duplicado para corregir.'
+    assert 'Concepto ambiguo' not in str(root) and 'Detalle descartado' not in str(root)
     page.locator('#undoBtn').click();assert tree(page)==original
     page.locator('#redoBtn').click();assert 'Cerebelo' in str(tree(page))
     page.reload(wait_until='domcontentloaded');assert 'Cerebelo' in str(tree(page))
@@ -163,15 +215,17 @@ ID_PADRE:
 EXPLICACION: Segundo.
 ---''')
     before_invalid=tree(page)
-    page.locator('#completeReviewBtn').click();page.locator('#aiPreviewExpand').click()
+    page.locator('#completeReviewBtn').click()
     expect(page.locator('#aiReviewContinue')).to_be_disabled()
-    assert 'Ya existe un concepto' in page.locator('.review-card').nth(0).inner_text()
-    cards=page.locator('.review-card')
-    cards.nth(1).locator('select[aria-label^="Nodo padre"]').select_option('proposal:p2')
-    cards.nth(2).locator('select[aria-label^="Nodo padre"]').select_option('proposal:p1')
-    assert any('circular' in x.lower() for x in page.locator('.review-error').all_inner_texts())
-    cards.nth(1).get_by_role('button',name='Rechazar Ciclo A').click()
-    assert 'padre está rechazada' in page.locator('.review-card').nth(2).inner_text()
+    assert 'Ya existe un concepto' in page.locator('#reviewError').inner_text()
+    page.locator('.review-rail-item').nth(1).click()
+    page.locator('#reviewParent').select_option('proposal:p2')
+    page.locator('.review-rail-item').nth(2).click()
+    page.locator('#reviewParent').select_option('proposal:p1')
+    assert 'circular' in page.locator('#reviewError').inner_text().lower()
+    page.locator('.review-rail-item').nth(1).click();page.locator('#reviewToggle').click()
+    page.locator('.review-rail-item').nth(2).click()
+    assert 'padre está rechazada' in page.locator('#reviewError').inner_text()
     assert tree(page)==before_invalid
     page.locator('#aiReviewDiscard').click()
     assert tree(page)==before_invalid
@@ -179,7 +233,7 @@ EXPLICACION: Segundo.
     expect(page.locator('#aiDialog')).to_be_visible()
     page.locator('#aiResponse').fill('CONCEPTO: Nueva prueba\nEXPLICACION: Campo\nEJEMPLO: Caso\nNOTAS: Nota\n---')
     page.locator('#addSuggestions').click()
-    page.locator('#aiPreviewExpand').click()
+    expect(page.locator('#aiReviewDialog')).to_be_visible()
     page.wait_for_timeout(350)
     page.screenshot(path=str(OUT/'05-ideas-ia.png'))
     page.locator('#aiReviewSource').click()
@@ -187,10 +241,28 @@ EXPLICACION: Segundo.
     page.locator('#aiResumeBtn').click()
     page.locator('#aiReviewDiscard').click()
     assert 'Nueva prueba' not in str(tree(page))
+    page.locator('#aiBtn').click()
+    page.locator('#aiProposalFileInput').set_input_files({'name':'propuestas.json','mimeType':'application/json','buffer':json.dumps({'propuestas':[{'concepto':'Importado externo','explicacion':'Conserva el parser anterior.'}]}).encode('utf-8')})
+    expect(page.locator('#aiReviewDialog')).to_be_visible()
+    expect(page.locator('#reviewTitle')).to_have_value('Importado externo')
+    page.locator('#aiReviewDiscard').click()
+    page.locator('#aiBtn').click()
+    many='\n'.join(f'CONCEPTO: Idea {i:02d}\nEXPLICACION: Una explicación editable.\n---' for i in range(1,31))
+    page.locator('#aiResponse').fill(many);page.locator('#addSuggestions').click()
+    expect(page.locator('.review-rail-item')).to_have_count(30)
+    page.locator('.review-rail-item').last.click()
+    expect(page.locator('#reviewPosition')).to_have_text('PROPUESTA 30 / 30')
+    page.locator('#reviewExample').fill('Caso treinta.')
+    page.locator('.review-rail-item').first.click();page.locator('.review-rail-item').last.click()
+    assert page.locator('#reviewExample').input_value()=='Caso treinta.'
+    assert page.locator('#aiReviewList').evaluate('(x)=>x.scrollHeight>x.clientHeight')
+    assert page.locator('#aiReviewDialog').bounding_box()['width']<=1440
+    page.wait_for_timeout(350);page.screenshot(path=str(OUT/'10-treinta-propuestas.png'))
+    page.locator('#aiReviewDiscard').click()
     assert not errors,errors
     ctx.close()
     mobile=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
-    mp=mobile.new_page();mp.goto(BASE,wait_until='domcontentloaded');seed(mp)
+    mp=mobile.new_page();mobile_errors=[];mp.on('pageerror',lambda e:mobile_errors.append(str(e)));mp.goto(BASE,wait_until='domcontentloaded');seed(mp)
     mp.locator('#libraryOpenBtn').click();expect(mp.locator('#libraryDialog')).to_be_visible()
     assert mp.evaluate('document.documentElement.scrollWidth <= innerWidth+2')
     mp.wait_for_timeout(350)
@@ -199,9 +271,28 @@ EXPLICACION: Segundo.
     mp.screenshot(path=str(OUT/'07-arbol-movil.png'))
     mp.locator('#aiBtn').click()
     mp.locator('#aiResponse').fill('CONCEPTO: Prueba móvil\nEXPLICACION: Texto legible.\nEJEMPLO: Un ejemplo.\nNOTAS: Una nota.\n---')
-    mp.locator('#addSuggestions').click();mp.locator('#aiPreviewExpand').click()
+    mp.locator('#addSuggestions').click()
     expect(mp.locator('#aiReviewDialog')).to_be_visible()
     assert mp.evaluate('document.documentElement.scrollWidth <= innerWidth+2')
     mp.wait_for_timeout(350);mp.screenshot(path=str(OUT/'08-revision-movil.png'))
+    mp.locator('#aiReviewDiscard').click()
+    mp.locator('#moreTools summary').click();mp.locator('#completeTreeBtn').click()
+    mp.locator('#completeResponse').fill(response);mobile_original=tree(mp)
+    mp.locator('#completeReviewBtn').click();expect(mp.locator('.review-rail-item')).to_have_count(6)
+    mp.locator('#reviewDescription').fill('Explicación revisada desde móvil.')
+    mp.locator('#reviewColor').select_option('positive')
+    mp.locator('.review-rail-item').nth(2).click();mp.locator('#reviewParent').select_option('proposal:p0')
+    mp.locator('.review-rail-item').nth(3).click();mp.locator('#reviewToggle').click()
+    mp.locator('.review-rail-item').nth(4).click();mp.locator('#reviewTitle').fill('Huesos móviles');mp.locator('#reviewParent').select_option('a')
+    mp.locator('.review-rail-item').nth(5).click();mp.locator('#reviewToggle').click()
+    expect(mp.locator('#aiReviewCount')).to_have_text('4 seleccionadas de 6')
+    assert mp.evaluate('document.documentElement.scrollWidth <= innerWidth+2')
+    mp.wait_for_timeout(350);mp.screenshot(path=str(OUT/'09-seis-propuestas-movil.png'))
+    mp.locator('#aiReviewContinue').click();expect(mp.locator('.confirm-row')).to_have_count(4)
+    assert tree(mp)==mobile_original
+    mp.locator('#aiConfirmApply').click();assert child(child(child(tree(mp),'Cabeza'),'Encéfalo'),'Cerebelo')['status']=='positive'
+    assert child(tree(mp),'Cabeza')['children'][-1]['title']=='Huesos móviles'
+    mp.locator('#undoBtn').click();assert tree(mp)==mobile_original
+    assert not mobile_errors,mobile_errors
     mobile.close();browser.close()
 print('PASS: biblioteca, título, IA, padres por ID/ruta, dependencias, colores, confirmación, deshacer, persistencia y móvil')

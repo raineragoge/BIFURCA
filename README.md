@@ -2,11 +2,19 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## Revisión editable de propuestas de IA
+
+Al pegar o importar propuestas, BIFURCA abre directamente una ventana centrada de revisión. Una lista compacta muestra el estado de cada concepto; el editor permite cambiar nombre, explicación, ejemplo, notas, color del glosario y ubicación. Se puede buscar un padre por nombre o ruta completa, avanzar y retroceder sin perder los cambios, seleccionar propuestas individualmente o seleccionar las válidas. La vista del árbol muestra solo la ubicación provisional solicitada y permite regresar al editor.
+
+El resumen final exige confirmación explícita y guarda todas las seleccionadas en una sola operación deshacible. Cerrar la ventana conserva el borrador para reanudarlo; **Descartar todo** lo elimina sin modificar el árbol. La misma revisión sirve para **Ideas / IA**, **Completar árbol** y archivos de propuestas externas. El almacenamiento, las imágenes, conexiones, glosarios y formatos de importación no cambian. No se ha desplegado esta iteración.
+
+`python tests/qa_navigation_ai.py` prueba seis propuestas en escritorio y móvil, edición de campos, colores y padres, navegación, duplicados, ciclos, vista espacial, confirmación de cuatro conceptos, deshacer, archivo externo y una lista de treinta propuestas. Capturas en [`tests/captures-navigation-ai`](tests/captures-navigation-ai).
+
 ## Biblioteca completa y revisión segura de IA — rama `feature/redesign-ux-ui-2026`
 
 **Biblioteca** abre un espacio a pantalla completa para buscar por nombre, descripción o concepto, filtrar temarios y árboles personales, ordenar, crear, importar, exportar, renombrar, duplicar y eliminar con confirmación. El nombre del árbol en la barra superior es ahora un título no interactivo. La barra lateral conserva el cambio rápido entre árboles.
 
-**Ideas / IA** ofrece revisión compacta y expandida, aceptación individual, colores tomados del glosario activo y navegación de vuelta al panel anterior sin borrar el texto ni las decisiones. **Completar árbol** permite editar y copiar un prompt con IDs reales, pegar una respuesta con `CONCEPTO`, `PADRE`, `RUTA_PADRE`, `ID_PADRE`, `EXPLICACION`, `EJEMPLO` y `NOTAS`, y corregir manualmente la ubicación mediante rutas completas. El sistema resuelve primero ID y luego ruta, permite varios niveles nuevos, bloquea ambigüedades, duplicados y ciclos, y exige una confirmación final. La incorporación se guarda como una sola operación deshacible.
+**Ideas / IA** y **Completar árbol** comparten la revisión editable descrita arriba. Completar árbol permite editar y copiar un prompt con IDs reales, pegar una respuesta con `CONCEPTO`, `PADRE`, `RUTA_PADRE`, `ID_PADRE`, `EXPLICACION`, `EJEMPLO` y `NOTAS`, y corregir manualmente la ubicación mediante rutas completas. El sistema resuelve primero ID y luego ruta, permite varios niveles nuevos, bloquea ambigüedades, duplicados y ciclos, y exige una confirmación final. La incorporación se guarda como una sola operación deshacible.
 
 Los formatos antiguos de Ideas / IA siguen admitidos. Si una respuesta antigua no incluye padre al usar **Completar árbol**, el usuario elige la ubicación en revisión. Las propuestas y los borradores son temporales hasta confirmar. Las claves locales y el formato de exportación `bifurca-v4` no cambian.
 
