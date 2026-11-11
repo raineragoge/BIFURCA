@@ -2,6 +2,12 @@
 
 **Un árbol para pensar y aprender.** Aplicación web estática de exploración visual que crece de arriba hacia abajo. Permite árboles de **decisiones e ideas** y mapas de **conocimientos y temarios**, usando el mismo lienzo y las mismas conexiones.
 
+## Publicación actual
+
+La versión de `feature/redesign-ux-ui-2026` se publicó en el Worker existente [bifurca.rainer-agoge.workers.dev](https://bifurca.rainer-agoge.workers.dev/) mediante la rama `main`. El despliegue sirve `index.html`, `redesign.css`, `refinement.css` y `navigation-ai.css`; `.assetsignore` mantiene fuera los documentos y las pruebas. La URL, el origen, las claves de `localStorage` y los formatos JSON permanecen iguales.
+
+Antes del despliegue se descargó una copia completa de la biblioteca del navegador de producción y se verificó su carga sin cambios en un contexto aislado. Las tres suites Playwright y las comprobaciones de escritorio y móvil en producción pasaron. Las notas antiguas que indican «pendiente de despliegue» describen el estado de cada iteración cuando se escribió.
+
 ## Revisión editable de propuestas de IA
 
 Al pegar o importar propuestas, BIFURCA abre directamente una ventana centrada de revisión. Una lista compacta muestra el estado de cada concepto; el editor permite cambiar nombre, explicación, ejemplo, notas, color del glosario y ubicación. Se puede buscar un padre por nombre o ruta completa, avanzar y retroceder sin perder los cambios, seleccionar propuestas individualmente o seleccionar las válidas. La vista del árbol muestra solo la ubicación provisional solicitada y permite regresar al editor.
