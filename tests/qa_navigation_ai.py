@@ -163,7 +163,7 @@ NOTAS:
     page.locator('.review-rail-item').nth(2).click();page.locator('#aiReviewTreePreview').click()
     ghosts=page.locator('#aiGhostLayer .ai-ghost-card')
     expect(ghosts).to_have_count(2)
-    boxes=[ghosts.nth(i).bounding_box() for i in range(2)]
+    boxes=ghosts.evaluate_all('cards=>cards.map(card=>card.getBoundingClientRect().toJSON())')
     assert boxes[0]['x']+boxes[0]['width']<=boxes[1]['x']
     page.locator('#aiTreePreviewReturn').click()
     page.locator('#aiReviewSource').click()

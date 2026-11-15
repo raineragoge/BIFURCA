@@ -194,3 +194,8 @@ dialog::backdrop { background:#12271b81; }
   .tools .btn.icononly { width:29px; }
 }
 @media(prefers-reduced-motion:reduce){ .concept-panel { animation:none; } }
+
+@media (prefers-reduced-motion:no-preference) {
+  .node.selected .node-ball { animation: selected-mark 180ms ease-out; }
+  @keyframes selected-mark { from { transform:scale(.78); } to { transform:scale(1); } }
+}
