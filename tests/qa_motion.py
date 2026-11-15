@@ -28,7 +28,7 @@ def seeded_tree(page):
           ]),
           n('motion-b', 'Segunda rama', [n('motion-e', 'Concepto E')])
         ]),
-        links: [], auxNodes: [], updatedAt: Date.now()
+        links: [], auxNodes: [], legend: {neutral:'Sin clasificar', positive:'Importante', warning:'Pendiente', negative:'Problema', info:'Referencia'}, updatedAt: Date.now()
       });
       state.activeId = 'motion-qa-map';
       localStorage.setItem(key, JSON.stringify(state));
@@ -50,18 +50,18 @@ def run_check(browser, reduced=False, mobile=False):
     seeded_tree(page)
     assert page.evaluate("typeof window.BIFURCA_MOTION?.enterNode") == "function"
     before = page.evaluate("window.BIFURCA_DEBUG.tree()")
-    assert page.locator(".node").count() == 6
+    assert page.locator(".node:not([aria-hidden=\"true\"])").count() == 6
     assert page.locator(".connector").count() == 5
 
     page.locator(".node[data-id='motion-a'] .node-fold").click()
     assert page.evaluate("window.BIFURCA_DEBUG.tree().children[0].collapsed") is True
-    assert page.locator(".node").count() == 4
+    assert page.locator(".node:not([aria-hidden=\"true\"])").count() == 4
     page.wait_for_timeout(350)
     assert page.locator(".connector").count() == 3
 
     page.locator(".node[data-id='motion-a'] .node-fold").click()
     assert page.evaluate("window.BIFURCA_DEBUG.tree().children[0].collapsed") is False
-    assert page.locator(".node").count() == 6
+    assert page.locator(".node:not([aria-hidden=\"true\"])").count() == 6
     page.wait_for_timeout(700)
     after = page.evaluate("window.BIFURCA_DEBUG.tree()")
     assert before == after, 'Los datos no deben cambiar tras plegar y desplegar'
