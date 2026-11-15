@@ -1,6 +1,7 @@
 {
   "name": "bifurca",
   "compatibility_date": "2026-11-11",
+  "previews": {},
   "assets": {
     "directory": "."
   }
