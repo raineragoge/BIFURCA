@@ -1,57 +1,114 @@
-/* BIFURCA Motion: choreografía ligera para ramas y conexiones. */
+/* Transient scene coordinates, in the same space as the SVG paths. */
 (() => {
   'use strict';
-  const MAX_GHOSTS = 12;
-  let ghosts = 0;
-  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
-  const reduceMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+  const flights = new Map();
+  const exits = new Map();
+  const ease = 'cubic-bezier(.2,0,.18,1)';
 
-  function enterNode(element, point, parent, order = 0) {
-    if (!element?.animate || !parent || reduceMotion()) return;
-    const dx = clamp((parent.x - point.x) * .34, -105, 105);
-    const dy = clamp((parent.y + parent.h * .6 - point.y) * .34, -75, 75);
-    element.animate([
-      { opacity: 0, transform: `translate(${dx}px, ${dy}px) scale(.92)` },
-      { opacity: 1, transform: 'translate(0, 0) scale(1)' }
-    ], { duration: 490, delay: Math.min(order * 25, 150), easing: 'cubic-bezier(.22,.88,.28,1)', fill: 'backwards' });
+  function point(id, fallback) {
+    const flight = flights.get(id) || exits.get(id);
+    if (!flight) return fallback;
+    const t = flight.animation.effect.getComputedTiming().progress ?? 0;
+    const {from, to} = flight;
+    return {x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t, h: to.h};
   }
 
-  function exitNode(element, oldPoint, parentPoint, layer) {
-    if (!element?.animate || !oldPoint || !parentPoint || !layer || reduceMotion() || ghosts >= MAX_GHOSTS) return;
-    const ghost = element.cloneNode(true);
-    ghost.classList.remove('selected', 'fresh', 'link-target', 'mitosis-parent', 'mitosis-sibling');
-    ghost.setAttribute('aria-hidden', 'true');
-    ghost.tabIndex = -1;
+  function snapshot(layout) {
+    const previous = new Map(layout);
+    for (const [id, flight] of flights) {
+      previous.set(id, point(id, flight.to));
+    }
+    for (const [id, flight] of exits) previous.set(id, point(id, flight.to));
+    return previous;
+  }
+
+  function stopNode(id) {
+    flights.get(id)?.animation.cancel();
+    flights.delete(id);
+  }
+
+  function moveNode(element, from, to, delay = 0, entering = false) {
+    const id = element.dataset.id;
+    const active = flights.get(id);
+    if (active && active.to.x === to.x && active.to.y === to.y && active.to.h === to.h) return;
+    stopNode(id);
+    exits.get(id)?.dispose();
+    const dx = from.x - to.x, dy = from.y - to.y;
+    if (!entering && !dx && !dy) return;
+    const start = {translate: `${dx}px ${dy}px`}, end = {translate: '0px 0px'};
+    if (entering) { start.opacity = 0; end.opacity = 1; }
+    const animation = element.animate([start, end], {
+      duration: entering ? 320 : 340, delay, easing: ease, fill: 'both'
+    });
+    flights.set(id, {from, to, animation});
+    animation.onfinish = () => {
+      if (flights.get(id)?.animation !== animation) return;
+      flights.delete(id);
+      animation.cancel();
+    };
+  }
+
+  function enterNode(element, to, parent, order) {
+    const from = {x: parent.x, y: parent.y + (parent.h - to.h) / 2};
+    moveNode(element, from, to, Math.min(order * 22, 110), true);
+  }
+
+  function exitNode(element, from, parent, layer) {
+    if (!from || !parent || exits.size >= 12) return;
+    const id = element.dataset.id, ghost = element.cloneNode(true);
+    const to = {x: parent.x, y: parent.y + (parent.h - from.h) / 2, h: from.h};
+    ghost.removeAttribute('data-id');
     ghost.inert = true;
-    ghost.style.pointerEvents = 'none';
-    ghost.style.transition = 'none';
-    ghost.style.zIndex = '2';
-    // El clon es visual: no tiene escuchas ni participa en el mapa o el almacenamiento.
-    layer.appendChild(ghost);
-    ghosts += 1;
-    const dx = clamp((parentPoint.x - oldPoint.x) * .24, -75, 75);
-    const dy = clamp((parentPoint.y - oldPoint.y) * .24, -65, 65);
-    const anim = ghost.animate([
-      { opacity: 1, transform: 'translate(0, 0) scale(1)' },
-      { opacity: 0, transform: `translate(${dx}px, ${dy}px) scale(.88)` }
-    ], { duration: 230, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
-    let cleaned = false;
-    const clean = () => { if (cleaned) return; cleaned = true; ghost.remove(); ghosts -= 1; };
-    anim.addEventListener('finish', clean, { once: true });
-    anim.addEventListener('cancel', clean, { once: true });
+    ghost.setAttribute('aria-hidden', 'true');
+    ghost.style.cssText += ';pointer-events:none;transition:none;animation:none;transform:none';
+    ghost.style.left = (from.x - element.offsetWidth / 2) + 'px';
+    ghost.style.top = from.y + 'px';
+    layer.append(ghost);
+    const animation = ghost.animate([
+      {translate: '0px 0px', opacity: .85},
+      {translate: `${to.x-from.x}px ${to.y-from.y}px`, opacity: 0}
+    ], {duration: 200, easing: 'cubic-bezier(.35,0,.85,.5)', fill: 'both'});
+    function dispose() {
+      exits.delete(id);
+      flight.path?.remove();
+      ghost.remove();
+      animation.cancel();
+    }
+    const flight = {from, to, animation, dispose};
+    exits.set(id, flight);
+    animation.onfinish = dispose;
+  }
+
+  function retireConnector(path, parentId, childId, layout, geometry) {
+    const exit = exits.get(childId);
+    if (!exit || (!layout.has(parentId) && !exits.has(parentId))) return false;
+    exit.path = path;
+    path.removeAttribute('data-child');
+    path.animate([{opacity: .65}, {opacity: 0}], {duration: 200, fill: 'both'});
+    function follow() {
+      const parent = point(parentId, layout.get(parentId));
+      if (exits.get(childId) !== exit || !parent) { path.remove(); return; }
+      path.setAttribute('d', geometry(parent, point(childId, exit.to)));
+      requestAnimationFrame(follow);
+    }
+    follow();
+    return true;
   }
 
   function drawConnector(path) {
-    if (!path?.animate || reduceMotion()) return;
-    try {
-      const length = path.getTotalLength();
-      if (!Number.isFinite(length) || length < 2) return;
-      path.animate([
-        { opacity: .16, strokeDasharray: `${length}`, strokeDashoffset: `${length}` },
-        { opacity: 1, strokeDasharray: `${length}`, strokeDashoffset: '0' }
-      ], { duration: 520, easing: 'cubic-bezier(.22,.88,.28,1)' });
-    } catch (_) { /* SVG no disponible: mantener la línea estática. */ }
+    path.setAttribute('pathLength', '1');
+    path.animate([{strokeDasharray: '1', strokeDashoffset: '1'},
+                  {strokeDasharray: '1', strokeDashoffset: '0'}],
+                 {duration: 320, easing: ease});
   }
 
-  window.BIFURCA_MOTION = Object.freeze({ enterNode, exitNode, drawConnector });
+  function reset() {
+    for (const flight of flights.values()) flight.animation.cancel();
+    flights.clear();
+    for (const exit of exits.values()) exit.dispose();
+  }
+
+  window.BIFURCA_MOTION = Object.freeze({
+    point, moving: id => flights.has(id), snapshot, stopNode, moveNode, enterNode, exitNode, retireConnector, drawConnector, reset
+  });
 })();

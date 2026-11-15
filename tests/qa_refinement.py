@@ -14,7 +14,7 @@ with sync_playwright() as p:
     page = context.new_page()
     errors=[]
     page.on('pageerror',lambda error:errors.append(str(error)))
-    assert page.goto(BASE,wait_until='domcontentloaded').status==200
+    assert page.goto(BASE,wait_until='load').status==200
     assert 'bifurca_v3_app' in page.evaluate('Object.keys(localStorage)')
     assert page.locator('#treeSidebar').bounding_box()['width'] <= 260
     expect(page.locator('#courseTreeList .tree-choice')).to_have_count(8)
